@@ -16,13 +16,25 @@
     --ink:      #422427;
     --white:    #ffffff;
 
+    --ink-06:   rgba(66, 36, 39, .06);
     --ink-08:   rgba(66, 36, 39, .08);
     --ink-12:   rgba(66, 36, 39, .12);
+    --ink-25:   rgba(66, 36, 39, .25);
     --ink-45:   rgba(66, 36, 39, .45);
     --ink-60:   rgba(66, 36, 39, .60);
 
-    --r-lg: 34px;
-    --r-md: 22px;
+    /* one spacing scale, used everywhere */
+    --s-1: 4px;
+    --s-2: 8px;
+    --s-3: 12px;
+    --s-4: 16px;
+    --s-5: 24px;
+    --s-6: 32px;
+    --s-7: 48px;
+
+    --r-md:   22px;
+    --r-lg:   34px;
+    --r-full: 999px;
   }
 
   *, *::before, *::after{ box-sizing: border-box; }
@@ -41,9 +53,12 @@
     line-height: 1.4;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  /* ============ AMBIENT BLOBS (feed the glass effect) ============ */
+  button, input{ font: inherit; color: inherit; }
+
+  /* ============ AMBIENT BLOBS ============ */
   .blob{
     position: fixed;
     border-radius: 50%;
@@ -62,7 +77,10 @@
     display: none;
     flex-direction: column;
     min-height: 100dvh;
-    padding: calc(28px + env(safe-area-inset-top)) 22px calc(28px + env(safe-area-inset-bottom));
+    padding:
+      calc(var(--s-5) + env(safe-area-inset-top))
+      var(--s-5)
+      calc(var(--s-5) + env(safe-area-inset-bottom));
   }
   .screen.active{
     display: flex;
@@ -73,6 +91,11 @@
     to  { opacity: 1; transform: none; }
   }
 
+  /* screens with the fixed tab bar need clearance */
+  #screenHome, #screenForecast{
+    padding-bottom: calc(88px + env(safe-area-inset-bottom));
+  }
+
   .wrap{
     display: flex;
     flex-direction: column;
@@ -80,28 +103,36 @@
     width: 100%;
     max-width: 460px;
     margin: 0 auto;
+    gap: var(--s-5);
+  }
+
+  .stack{
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
   }
 
   /* ============ SCREEN 1 — ONBOARDING ============ */
   #screenOnboard .wrap{
-    justify-content: space-between;
-    gap: 40px;
-    padding-top: 5vh;
+    justify-content: center;
+    justify-content: safe center;
+    gap: var(--s-6);
   }
 
   .avatar-block{
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 18px;
+    gap: var(--s-3);
+    width: 100%;
   }
 
   .avatar-picker{
     position: relative;
     display: grid;
     place-items: center;
-    width: 112px;
-    height: 112px;
+    width: 104px;
+    height: 104px;
     border-radius: 50%;
     background-color: var(--ink-08);
     background-size: cover;
@@ -125,20 +156,20 @@
     border: 0;
     outline: 0;
     font-family: inherit;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 500;
     color: var(--ink);
     background: var(--ink-08);
     border-radius: var(--r-md);
-    padding: 18px 22px;
-    min-height: 58px;
+    padding: var(--s-4) var(--s-5);
+    min-height: 56px;
     transition: background-color .2s ease;
   }
   .field::placeholder{ color: var(--ink-45); font-weight: 400; }
   .field:focus{ background: var(--ink-12); }
 
   #nameInput{
-    max-width: 300px;
+    max-width: 320px;
     text-align: center;
   }
 
@@ -149,88 +180,100 @@
   input[type="date"]::-webkit-calendar-picker-indicator{
     opacity: .45;
     cursor: pointer;
-    margin-left: 4px;
+    margin-left: var(--s-1);
   }
   input[type="date"]:invalid::-webkit-datetime-edit{ color: var(--ink-45); }
 
   .onboard-bottom{
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: var(--s-5);
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .form-group{
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
   }
 
   .question{
-    margin: 0 0 6px;
-    font-size: 23px;
+    margin: 0;
+    font-size: 22px;
     font-weight: 600;
     letter-spacing: -.02em;
-    line-height: 1.28;
+    line-height: 1.3;
   }
 
   .btn{
     border: 0;
     font-family: inherit;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 600;
     color: var(--white);
     background: var(--ink);
     border-radius: var(--r-md);
-    padding: 19px 24px;
-    min-height: 58px;
+    padding: var(--s-4) var(--s-5);
+    min-height: 56px;
     cursor: pointer;
-    transition: opacity .2s ease, transform .2s ease;
+    transition: opacity .2s ease, transform .2s ease, background-color .2s ease;
   }
   .btn:disabled{ opacity: .3; cursor: default; }
   .btn:not(:disabled):active{ transform: scale(.985); }
+  .btn.ghost{
+    background: var(--ink-08);
+    color: var(--ink);
+  }
 
-  /* ============ SCREEN 2 — HOME ============ */
-  #screenHome .wrap{ gap: 22px; }
-
+  /* ============ PROFILE ============ */
   .profile{
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 6px 2px 0;
+    gap: var(--s-3);
+    padding-top: var(--s-2);
   }
 
   .avatar{
     display: grid;
     place-items: center;
     flex: 0 0 auto;
-    width: 62px;
-    height: 62px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     background: var(--ink-08) center / cover no-repeat;
     color: var(--ink);
     overflow: hidden;
   }
-  .avatar svg{ width: 30px; height: 30px; opacity: .35; }
+  .avatar svg{ width: 26px; height: 26px; opacity: .35; }
 
   .user-name{
     margin: 0;
     font-family: 'Chewy', cursive;
     font-weight: 400;
-    font-size: clamp(26px, 8vw, 38px);
+    font-size: clamp(26px, 7.5vw, 34px);
     line-height: 1.05;
     letter-spacing: .4px;
     word-break: break-word;
   }
 
-  /* ---- glass calendar ---- */
-  .calendar{
+  /* ============ GLASS PANELS ============ */
+  .panel{
     border-radius: var(--r-lg);
-    padding: 20px 16px 16px;
+    padding: var(--s-4);
     background: rgba(255, 255, 255, .55);
     -webkit-backdrop-filter: blur(26px) saturate(180%);
     backdrop-filter: blur(26px) saturate(180%);
-    box-shadow: 0 24px 60px -28px rgba(66, 36, 39, .35);
+    box-shadow: 0 24px 60px -28px var(--ink-25);
   }
 
+  /* ============ CALENDAR ============ */
   .cal-head{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 2px 6px 14px;
+    padding: 0 0 var(--s-3);
   }
   .month-label{
     font-size: 15px;
@@ -240,13 +283,12 @@
   .nav{
     display: grid;
     place-items: center;
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
     border: 0;
     border-radius: 50%;
     background: var(--ink-08);
     color: var(--ink);
-    font-family: inherit;
     font-size: 16px;
     line-height: 1;
     cursor: pointer;
@@ -257,7 +299,7 @@
   .weekdays{
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    padding-bottom: 8px;
+    padding-bottom: var(--s-2);
   }
   .weekdays span{
     text-align: center;
@@ -282,54 +324,447 @@
     font-weight: 500;
     color: var(--ink);
   }
-  .cell .num{ position: relative; z-index: 2; }
+  .cell .num{ position: relative; z-index: 2; transition: opacity .15s ease; }
 
-  /* contiguous pill spanning the marked days */
-  .cell.inrange{ color: var(--white); }
-  .cell.inrange::before{
+  .cell::before{
     content: '';
     position: absolute;
     z-index: 1;
-    top: 3px;
-    bottom: 3px;
+    top: 4px;
+    bottom: 4px;
     left: 0;
     right: 0;
-    background: var(--ink);
+    background: transparent;
   }
+
+  .cell[data-state="actual"]{ color: var(--white); }
+  .cell[data-state="actual"]::before{ background: var(--ink); }
+
+  .cell[data-state="predicted"]{ color: var(--ink); }
+  .cell[data-state="predicted"]::before{ background: var(--ink-12); }
+
   .cell.seg-start::before{
     left: 3px;
-    border-radius: 999px 0 0 999px;
+    border-top-left-radius: var(--r-full);
+    border-bottom-left-radius: var(--r-full);
   }
   .cell.seg-end::before{
     right: 3px;
-    border-radius: 0 999px 999px 0;
+    border-top-right-radius: var(--r-full);
+    border-bottom-right-radius: var(--r-full);
   }
   .cell.seg-start.seg-end::before{
-    border-radius: 999px;
+    border-radius: var(--r-full);
   }
 
-  /* today dot */
   .cell.today .num::after{
     content: '';
     position: absolute;
     left: 50%;
-    bottom: -7px;
-    width: 4px;
-    height: 4px;
-    margin-left: -2px;
+    bottom: -6px;
+    width: 3px;
+    height: 3px;
+    margin-left: -1.5px;
     border-radius: 50%;
     background: currentColor;
-    opacity: .55;
+    opacity: .7;
   }
 
+  .cell.is-tappable{ cursor: pointer; }
+  .cell.is-tappable:active .num{ opacity: .55; }
+  .cell:focus-visible{
+    outline: 0;
+    border-radius: var(--r-full);
+    box-shadow: inset 0 0 0 2px var(--ink-25);
+  }
+
+  /* ============ CAPTION / LEGEND ============ */
+  .caption-row{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-3);
+    flex-wrap: wrap;
+    padding: 0 var(--s-2);
+  }
   .caption{
     margin: 0;
-    padding: 0 12px;
-    text-align: center;
     font-size: 13px;
-    line-height: 1.6;
+    line-height: 1.5;
+    color: var(--ink-60);
+    text-align: center;
+  }
+
+  .text-btn{
+    border: 0;
+    background: var(--ink-08);
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    padding: var(--s-2) var(--s-3);
+    border-radius: var(--r-full);
+    cursor: pointer;
+    transition: background-color .2s ease;
+  }
+  .text-btn:active{ background: var(--ink-12); }
+
+  .legend-row{
+    display: flex;
+    justify-content: center;
+    gap: var(--s-4);
+  }
+  .legend{
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    font-size: 12px;
+    font-weight: 500;
     color: var(--ink-60);
   }
+  .dot{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  .dot.solid{ background: var(--ink); }
+  .dot.light{ background: var(--ink-12); }
+
+  /* ============ FORECAST ============ */
+  .cycle-panel{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-4);
+  }
+  .cycle-label{
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink-60);
+  }
+  .stepper{
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+  }
+  .step-btn{
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--ink-08);
+    color: var(--ink);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color .2s ease, transform .2s ease;
+  }
+  .step-btn:active{ transform: scale(.92); background: var(--ink-12); }
+  .step-value{
+    min-width: 76px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .forecast-panel{
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-1);
+  }
+  .forecast-head{
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: var(--ink-45);
+    padding: 0 var(--s-2) var(--s-1);
+  }
+  .forecast-list{
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-1);
+  }
+  .forecast-row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-3);
+    width: 100%;
+    border: 0;
+    background: transparent;
+    padding: var(--s-3) var(--s-2);
+    border-radius: var(--r-md);
+    text-align: left;
+    cursor: pointer;
+    transition: background-color .2s ease;
+  }
+  .forecast-row:active{ background: var(--ink-06); }
+  .forecast-main{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .forecast-month{
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .forecast-range{
+    font-size: 13px;
+    color: var(--ink-60);
+  }
+  .forecast-badge{
+    flex: 0 0 auto;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink);
+    background: var(--ink-08);
+    padding: var(--s-1) var(--s-2);
+    border-radius: var(--r-full);
+    white-space: nowrap;
+  }
+
+  /* ============ SCREEN 4 — DAY INSIGHT ============ */
+  .day-top{
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    padding-top: var(--s-2);
+  }
+  .back-btn{
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--ink-08);
+    color: var(--ink);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color .2s ease, transform .2s ease;
+  }
+  .back-btn:active{ transform: scale(.92); background: var(--ink-12); }
+
+  .day-meta{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .day-date{
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -.01em;
+  }
+  .day-phase{
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-60);
+  }
+
+  /* the big gif card */
+  .gif-card{
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    padding: 0;
+    border: 0;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    background: var(--ink);
+    cursor: pointer;
+    isolation: isolate;
+    transition: transform .25s ease;
+  }
+  .gif-card:active{ transform: scale(.988); }
+
+  .gif-img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .gif-img[hidden]{ display: none; }
+
+  .gif-fallback{
+    position: absolute;
+    inset: 0;
+    background: var(--ink);
+  }
+  .gif-fallback[hidden]{ display: none; }
+
+  .gif-blob{
+    position: absolute;
+    border-radius: 50%;
+    background: var(--white);
+    filter: blur(26px);
+    will-change: transform;
+  }
+  .g1{ width: 62%; aspect-ratio: 1; left: -12%; top: -22%; opacity: .50; animation: floatA 9s ease-in-out infinite; }
+  .g2{ width: 48%; aspect-ratio: 1; right: -10%; bottom: -20%; opacity: .30; animation: floatB 11s ease-in-out infinite; }
+  .g3{ width: 30%; aspect-ratio: 1; left: 42%; top: 44%; opacity: .22; animation: floatC 7s ease-in-out infinite; }
+
+  @keyframes floatA{
+    0%, 100%{ transform: translate3d(0, 0, 0) scale(1); }
+    50%     { transform: translate3d(14%, 10%, 0) scale(1.14); }
+  }
+  @keyframes floatB{
+    0%, 100%{ transform: translate3d(0, 0, 0) scale(1); }
+    50%     { transform: translate3d(-12%, -14%, 0) scale(1.10); }
+  }
+  @keyframes floatC{
+    0%, 100%{ transform: translate3d(0, 0, 0) scale(1); opacity: .18; }
+    50%     { transform: translate3d(-16%, 12%, 0) scale(1.22); opacity: .30; }
+  }
+
+  .gif-hint{
+    position: absolute;
+    right: var(--s-3);
+    bottom: var(--s-3);
+    z-index: 3;
+    background: rgba(255, 255, 255, .92);
+    color: var(--ink);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .02em;
+    padding: var(--s-1) var(--s-3);
+    border-radius: var(--r-full);
+    pointer-events: none;
+  }
+
+  /* advice */
+  .advice-panel{
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+  }
+  .advice-label{
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-1);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: var(--ink-45);
+  }
+  .advice-text{
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .advice-meta{
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-45);
+  }
+
+  /* staggered entry for the day screen */
+  @keyframes riseIn{
+    from{ opacity: 0; transform: translateY(14px); }
+    to  { opacity: 1; transform: none; }
+  }
+  .screen.active .day-anim{
+    animation: riseIn .5s cubic-bezier(.2, .7, .3, 1) both;
+  }
+  .screen.active .day-anim:nth-child(1){ animation-delay: .02s; }
+  .screen.active .day-anim:nth-child(2){ animation-delay: .10s; }
+  .screen.active .day-anim:nth-child(3){ animation-delay: .18s; }
+
+  /* ============ TAB BAR ============ */
+  .tabbar{
+    position: fixed;
+    left: 50%;
+    bottom: calc(var(--s-4) + env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    width: min(412px, calc(100% - 2 * var(--s-5)));
+    display: flex;
+    gap: var(--s-1);
+    padding: var(--s-1);
+    border-radius: var(--r-full);
+    background: rgba(255, 255, 255, .72);
+    -webkit-backdrop-filter: blur(26px) saturate(180%);
+    backdrop-filter: blur(26px) saturate(180%);
+    box-shadow: 0 20px 50px -20px var(--ink-25);
+    z-index: 40;
+  }
+  .tab{
+    flex: 1;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    padding: var(--s-3) var(--s-4);
+    border-radius: var(--r-full);
+    cursor: pointer;
+    transition: background-color .2s ease, color .2s ease;
+  }
+  .tab.active{
+    background: var(--ink);
+    color: var(--white);
+  }
+
+  /* ============ EDIT SHEET ============ */
+  .sheet-overlay{
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: grid;
+    align-items: end;
+    justify-items: center;
+    background: var(--ink-25);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .25s ease, visibility .25s;
+  }
+  .sheet-overlay.is-open{
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  .sheet{
+    width: 100%;
+    max-width: 460px;
+    background: var(--white);
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
+    padding:
+      var(--s-5)
+      var(--s-5)
+      calc(var(--s-5) + env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+    transform: translateY(12px);
+    transition: transform .3s cubic-bezier(.2, .7, .3, 1);
+    box-shadow: 0 -20px 60px -20px var(--ink-25);
+  }
+  .sheet-overlay.is-open .sheet{ transform: none; }
+  .sheet-title{
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -.01em;
+  }
+  .sheet-actions{
+    display: flex;
+    gap: var(--s-3);
+  }
+  .sheet-actions .btn{ flex: 1; }
 
   @media (prefers-reduced-motion: reduce){
     *{ animation: none !important; transition: none !important; }
@@ -342,82 +777,192 @@
   <div class="blob b2"></div>
 
   <main>
-    <!-- ============ SCREEN 1 ============ -->
+    <!-- ============ SCREEN 1 — ONBOARDING ============ -->
     <section class="screen active" id="screenOnboard">
       <div class="wrap">
 
         <div class="avatar-block">
           <label class="avatar-picker" id="avatarPicker" for="avatarInput" aria-label="Choose a profile photo">
-            <span class="plus" id="avatarPlus">+</span>
+            <span class="plus">+</span>
             <input id="avatarInput" type="file" accept="image/*" hidden />
           </label>
-
           <input id="nameInput" class="field" type="text" placeholder="Your name"
                  maxlength="24" autocomplete="off" spellcheck="false" />
         </div>
 
         <div class="onboard-bottom">
-          <h1 class="question">When did your period start?</h1>
-          <input id="startInput" class="field" type="date" required />
+          <div class="form-group">
+            <h1 class="question">When did your period start?</h1>
+            <input id="startInput" class="field" type="date" required />
+          </div>
           <button id="startBtn" class="btn" type="button" disabled>Continue</button>
         </div>
 
       </div>
     </section>
 
-    <!-- ============ SCREEN 2 ============ -->
+    <!-- ============ SCREEN 2 — CALENDAR ============ -->
     <section class="screen" id="screenHome">
       <div class="wrap">
 
         <header class="profile">
-          <div class="avatar" id="profilePic">
-            <svg id="profileFallback" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          <div class="avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
                  stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
               <circle cx="12" cy="8.5" r="3.5" />
               <path d="M5 19.5c0-3.2 3.1-5.3 7-5.3s7 2.1 7 5.3" />
             </svg>
           </div>
-          <h2 class="user-name" id="profileName"></h2>
+          <h2 class="user-name"></h2>
         </header>
 
-        <div class="calendar">
-          <div class="cal-head">
-            <button class="nav" id="prevBtn" type="button" aria-label="Previous month">&#8249;</button>
-            <span class="month-label" id="monthLabel"></span>
-            <button class="nav" id="nextBtn" type="button" aria-label="Next month">&#8250;</button>
+        <div class="stack">
+          <div class="panel calendar">
+            <div class="cal-head">
+              <button class="nav" id="prevBtn" type="button" aria-label="Previous month">&#8249;</button>
+              <span class="month-label" id="monthLabel"></span>
+              <button class="nav" id="nextBtn" type="button" aria-label="Next month">&#8250;</button>
+            </div>
+
+            <div class="weekdays">
+              <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span>
+              <span>Thu</span><span>Fri</span><span>Sat</span>
+            </div>
+
+            <div class="grid" id="calGrid"></div>
           </div>
 
-          <div class="weekdays">
-            <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span>
-            <span>Thu</span><span>Fri</span><span>Sat</span>
+          <div class="caption-row">
+            <p class="caption" id="rangeCaption"></p>
+            <button class="text-btn" id="editBtn" type="button">Edit date</button>
           </div>
 
-          <div class="grid" id="calGrid"></div>
+          <div class="legend-row">
+            <span class="legend"><i class="dot solid"></i>Logged</span>
+            <span class="legend"><i class="dot light"></i>Predicted</span>
+          </div>
         </div>
 
-        <p class="caption" id="rangeCaption"></p>
+        <nav class="tabbar" aria-label="Main navigation">
+          <button class="tab active" type="button" data-tab="home">Calendar</button>
+          <button class="tab" type="button" data-tab="forecast">Forecast</button>
+        </nav>
+
+      </div>
+    </section>
+
+    <!-- ============ SCREEN 3 — FORECAST ============ -->
+    <section class="screen" id="screenForecast">
+      <div class="wrap">
+
+        <header class="profile">
+          <div class="avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+              <circle cx="12" cy="8.5" r="3.5" />
+              <path d="M5 19.5c0-3.2 3.1-5.3 7-5.3s7 2.1 7 5.3" />
+            </svg>
+          </div>
+          <h2 class="user-name"></h2>
+        </header>
+
+        <div class="stack">
+          <div class="panel cycle-panel">
+            <span class="cycle-label">Cycle length</span>
+            <div class="stepper">
+              <button class="step-btn" id="cycleMinus" type="button" aria-label="Decrease cycle length">&#8722;</button>
+              <span class="step-value" id="cycleValue">28 days</span>
+              <button class="step-btn" id="cyclePlus" type="button" aria-label="Increase cycle length">+</button>
+            </div>
+          </div>
+
+          <div class="panel forecast-panel">
+            <div class="forecast-head">Upcoming cycles</div>
+            <div class="forecast-list" id="forecastList"></div>
+          </div>
+        </div>
+
+        <nav class="tabbar" aria-label="Main navigation">
+          <button class="tab" type="button" data-tab="home">Calendar</button>
+          <button class="tab active" type="button" data-tab="forecast">Forecast</button>
+        </nav>
+
+      </div>
+    </section>
+
+    <!-- ============ SCREEN 4 — DAY INSIGHT ============ -->
+    <section class="screen" id="screenDay">
+      <div class="wrap">
+
+        <header class="day-top day-anim">
+          <button class="back-btn" id="backBtn" type="button" aria-label="Back to calendar">&#8249;</button>
+          <div class="day-meta">
+            <span class="day-date" id="dayDate"></span>
+            <span class="day-phase" id="dayPhase"></span>
+          </div>
+        </header>
+
+        <button class="gif-card day-anim" id="gifCard" type="button" aria-label="Change cover image">
+          <div class="gif-fallback" id="gifFallback" aria-hidden="true">
+            <span class="gif-blob g1"></span>
+            <span class="gif-blob g2"></span>
+            <span class="gif-blob g3"></span>
+          </div>
+          <img class="gif-img" id="gifImg" alt="" hidden />
+          <span class="gif-hint">Tap to change</span>
+          <input id="gifInput" type="file" accept="image/gif,image/webp,image/*" hidden />
+        </button>
+
+        <div class="panel advice-panel day-anim">
+          <span class="advice-label">&#10022; AI insight</span>
+          <p class="advice-text" id="adviceText"></p>
+          <span class="advice-meta" id="adviceMeta"></span>
+        </div>
 
       </div>
     </section>
   </main>
+
+  <!-- ============ EDIT DATE SHEET ============ -->
+  <div class="sheet-overlay" id="sheetOverlay" aria-hidden="true">
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+      <h3 class="sheet-title" id="sheetTitle">Edit start date</h3>
+      <input id="editDate" class="field" type="date" />
+      <div class="sheet-actions">
+        <button class="btn ghost" id="cancelEdit" type="button">Cancel</button>
+        <button class="btn" id="saveEdit" type="button">Save</button>
+      </div>
+    </div>
+  </div>
 
 <script>
 (function () {
   'use strict';
 
   /* ---------- config ---------- */
-  const PERIOD_DAYS = 5;                      // assumed bleeding length
+  const PERIOD_DAYS      = 5;
+  const FORECAST_VISIBLE = 6;
+  const FORECAST_TOTAL   = 24;
+  const CYCLE_MIN        = 21;
+  const CYCLE_MAX        = 40;
+  const MS               = 86400000;
+  const GIF_MAX_BYTES    = 2 * 1024 * 1024;
+
   const KEY = {
     name:   'cycle.name',
     avatar: 'cycle.avatar',
-    start:  'cycle.start'
+    start:  'cycle.start',
+    cycle:  'cycle.length',
+    dayGif: 'cycle.dayGif'
   };
 
   /* ---------- state ---------- */
   const state = {
     name:   localStorage.getItem(KEY.name)   || '',
     avatar: localStorage.getItem(KEY.avatar) || '',
-    start:  localStorage.getItem(KEY.start)  || ''
+    start:  localStorage.getItem(KEY.start)  || '',
+    cycle:  clamp(parseInt(localStorage.getItem(KEY.cycle), 10) || 28, CYCLE_MIN, CYCLE_MAX),
+    dayGif: localStorage.getItem(KEY.dayGif) || ''
   };
 
   let viewYear  = new Date().getFullYear();
@@ -427,54 +972,139 @@
   const $ = (id) => document.getElementById(id);
 
   const screens = {
-    onboard: $('screenOnboard'),
-    home:    $('screenHome')
+    onboard:  $('screenOnboard'),
+    home:     $('screenHome'),
+    forecast: $('screenForecast'),
+    day:      $('screenDay')
   };
-
-  const avatarPicker = $('avatarPicker');
-  const avatarInput  = $('avatarInput');
-  const nameInput    = $('nameInput');
-  const startInput   = $('startInput');
-  const startBtn     = $('startBtn');
-
-  const profilePic      = $('profilePic');
-  const profileFallback = $('profileFallback');
-  const profileName     = $('profileName');
-
-  const monthLabel   = $('monthLabel');
-  const prevBtn      = $('prevBtn');
-  const nextBtn      = $('nextBtn');
-  const calGrid      = $('calGrid');
-  const rangeCaption = $('rangeCaption');
 
   /* ---------- date helpers ---------- */
-  const parseISO = (str) => {
+  function clamp(n, min, max){ return Math.min(max, Math.max(min, n)); }
+
+  function parseISO(str){
     const [y, m, d] = str.split('-').map(Number);
     return new Date(y, m - 1, d);
-  };
+  }
 
-  const addDays = (date, n) => {
+  function toISO(d){
+    const m   = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${d.getFullYear()}-${m}-${day}`;
+  }
+
+  function addDays(date, n){
     const d = new Date(date);
     d.setDate(d.getDate() + n);
     return d;
+  }
+
+  function startOfDay(d){
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  }
+
+  function sameDay(a, b){
+    return a.getFullYear() === b.getFullYear() &&
+           a.getMonth()    === b.getMonth()    &&
+           a.getDate()     === b.getDate();
+  }
+
+  function daysUntil(target){
+    return Math.round((startOfDay(target) - startOfDay(new Date())) / MS);
+  }
+
+  function prettyDate(d){
+    return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  }
+
+  function prettyMonth(d){
+    return d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+  }
+
+  /* ---------- prediction ---------- */
+  function getPredictions(count){
+    const start = parseISO(state.start);
+    const out   = [];
+    for (let i = 1; i <= count; i++){
+      const s = addDays(start, i * state.cycle);
+      out.push({ start: s, end: addDays(s, PERIOD_DAYS - 1) });
+    }
+    return out;
+  }
+
+  /* every cycle span we know about: the logged one, then predicted ones */
+  function cycleSpans(){
+    if (!state.start) return [];
+
+    const spans = [];
+    const first = parseISO(state.start);
+    spans.push({ start: first, end: addDays(first, state.cycle - 1) });
+
+    getPredictions(FORECAST_TOTAL).forEach(p => {
+      spans.push({ start: p.start, end: addDays(p.start, state.cycle - 1) });
+    });
+
+    return spans;
+  }
+
+  function findCycle(date){
+    const spans = cycleSpans();
+    for (let i = 0; i < spans.length; i++){
+      if (date >= spans[i].start && date <= spans[i].end){
+        return { start: spans[i].start, index: i };
+      }
+    }
+    return null;
+  }
+
+  /* ---------- phases ---------- */
+  const PHASE_LABEL = {
+    menstrual:  'Menstrual',
+    follicular: 'Follicular',
+    ovulation:  'Ovulation',
+    luteal:     'Luteal'
   };
 
-  const sameDay = (a, b) =>
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth()    === b.getMonth()    &&
-    a.getDate()     === b.getDate();
+  function phaseFor(day, cycleLen){
+    if (day <= PERIOD_DAYS) return 'menstrual';
 
-  const toISO = (d) => {
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${d.getFullYear()}-${m}-${day}`;
+    const ovuStart = cycleLen - 15;
+    const ovuEnd   = cycleLen - 13;
+
+    if (day >= ovuStart && day <= ovuEnd) return 'ovulation';
+    if (day < ovuStart) return 'follicular';
+    return 'luteal';
+  }
+
+  /* ---------- advice ---------- */
+  const ADVICE = {
+    menstrual: [
+      'Energy often runs low at the start of a cycle — warm drinks, gentle movement and an earlier night can soften it.',
+      'Iron-rich food and a little extra rest tend to land well today. Keep the schedule light where you can.',
+      'Cramps are common on these days; a heat pack and slow breathing are small, reliable comforts.',
+      'Your body is doing quiet work right now. Fewer plans and more water usually make the day easier.'
+    ],
+    follicular: [
+      'Energy usually climbs in this stretch — a good window for a harder workout or starting something new.',
+      'Focus tends to feel sharper now. Try to place your most demanding task in the morning.',
+      'Mood often lifts here; use it to reconnect with people you have been meaning to see.',
+      'This is a steady stretch. Build a little momentum rather than spending all of it at once.'
+    ],
+    ovulation: [
+      'Confidence and energy often peak around now — good days for presentations or difficult conversations.',
+      'Hydration and steady meals help keep the peak comfortable. Sleep is worth protecting tonight.',
+      'Sociability often rises here. Notice what feels good, and pace yourself anyway.',
+      'You may feel at your most outward today. Save a quiet hour for yourself in the evening.'
+    ],
+    luteal: [
+      'Energy usually eases off. Fewer commitments and more protein can keep the afternoon steadier.',
+      'Sleep can get lighter in this phase — screens down earlier tends to help.',
+      'Mood can swing here; naming it out loud usually takes some of the edge off.',
+      'Cravings are normal in this stretch. Regular meals tend to steady both mood and appetite.'
+    ]
   };
 
-  const prettyDate = (d) =>
-    d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-
-  /* ---------- avatar helpers ---------- */
-  function resizeToSquare(file, size) {
+  /* ---------- avatar ---------- */
+  function resizeToSquare(file, size){
     return new Promise((resolve, reject) => {
       const url = URL.createObjectURL(file);
       const img = new Image();
@@ -484,7 +1114,7 @@
         canvas.width = canvas.height = size;
 
         const ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#ffffff';                       // only white / ink allowed
+        ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, size, size);
 
         const s = Math.min(img.width, img.height);
@@ -503,79 +1133,60 @@
     });
   }
 
-  function paintAvatar(url) {
-    if (url) {
-      avatarPicker.style.backgroundImage = `url("${url}")`;
-      avatarPicker.classList.add('has-photo');
-
-      profilePic.style.backgroundImage = `url("${url}")`;
-      profileFallback.style.display = 'none';
+  function paintAvatarPicker(){
+    const picker = $('avatarPicker');
+    if (state.avatar){
+      picker.style.backgroundImage = `url("${state.avatar}")`;
+      picker.classList.add('has-photo');
     } else {
-      avatarPicker.style.backgroundImage = '';
-      avatarPicker.classList.remove('has-photo');
-
-      profilePic.style.backgroundImage = '';
-      profileFallback.style.display = '';
+      picker.style.backgroundImage = '';
+      picker.classList.remove('has-photo');
     }
   }
 
-  /* ---------- onboarding ---------- */
-  function validate() {
-    startBtn.disabled = !(nameInput.value.trim().length > 0 && startInput.value);
+  function paintProfile(){
+    document.querySelectorAll('.user-name').forEach(el => { el.textContent = state.name; });
+
+    document.querySelectorAll('.avatar').forEach(el => {
+      const svg = el.querySelector('svg');
+      if (state.avatar){
+        el.style.backgroundImage = `url("${state.avatar}")`;
+        if (svg) svg.style.display = 'none';
+      } else {
+        el.style.backgroundImage = '';
+        if (svg) svg.style.display = '';
+      }
+    });
   }
-
-  avatarInput.addEventListener('change', async (e) => {
-    const file = e.target.files && e.target.files[0];
-    if (!file || !file.type.startsWith('image/')) return;
-
-    try {
-      const dataUrl = await resizeToSquare(file, 320);
-      state.avatar = dataUrl;
-      localStorage.setItem(KEY.avatar, dataUrl);
-      paintAvatar(dataUrl);
-    } catch (err) {
-      console.warn(err);
-    }
-  });
-
-  nameInput.addEventListener('input', validate);
-  startInput.addEventListener('input', validate);
-  startInput.addEventListener('change', validate);
-
-  startBtn.addEventListener('click', () => {
-    state.name  = nameInput.value.trim();
-    state.start = startInput.value;
-
-    localStorage.setItem(KEY.name,  state.name);
-    localStorage.setItem(KEY.start, state.start);
-
-    goHome();
-  });
 
   /* ---------- calendar ---------- */
-  function renderCalendar() {
-    const startDate = parseISO(state.start);
-    const endDate   = addDays(startDate, PERIOD_DAYS - 1);
+  function renderCalendar(){
+    if (!state.start) return;
 
-    monthLabel.textContent = new Date(viewYear, viewMonth, 1)
-      .toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+    const actualStart = parseISO(state.start);
+    const actualEnd   = addDays(actualStart, PERIOD_DAYS - 1);
+    const preds       = getPredictions(FORECAST_TOTAL);
+    const spans       = cycleSpans();
+    const today       = startOfDay(new Date());
 
-    calGrid.innerHTML = '';
+    $('monthLabel').textContent = prettyMonth(new Date(viewYear, viewMonth, 1));
+
+    const grid = $('calGrid');
+    grid.innerHTML = '';
 
     const firstWeekday = new Date(viewYear, viewMonth, 1).getDay();
     const daysInMonth  = new Date(viewYear, viewMonth + 1, 0).getDate();
-    const cellsCount   = Math.ceil((firstWeekday + daysInMonth) / 7) * 7;
+    const totalCells   = Math.ceil((firstWeekday + daysInMonth) / 7) * 7;
 
     const cells = [];
 
-    for (let i = 0; i < cellsCount; i++) {
+    for (let i = 0; i < totalCells; i++){
       const dayNum = i - firstWeekday + 1;
       const cell   = document.createElement('div');
       cell.className = 'cell';
+      cell.dataset.state = 'none';
 
-      let inRange = false;
-
-      if (dayNum >= 1 && dayNum <= daysInMonth) {
+      if (dayNum >= 1 && dayNum <= daysInMonth){
         const date = new Date(viewYear, viewMonth, dayNum);
 
         const num = document.createElement('span');
@@ -583,84 +1194,319 @@
         num.textContent = dayNum;
         cell.appendChild(num);
 
-        if (date >= startDate && date <= endDate) {
-          inRange = true;
-          cell.classList.add('inrange');
+        if (date >= actualStart && date <= actualEnd){
+          cell.dataset.state = 'actual';
+        } else {
+          for (const p of preds){
+            if (date >= p.start && date <= p.end){
+              cell.dataset.state = 'predicted';
+              break;
+            }
+          }
         }
 
-        if (sameDay(date, new Date())) cell.classList.add('today');
+        /* any date inside a known cycle can open the insight screen */
+        const insideCycle = spans.some(s => date >= s.start && date <= s.end);
+        if (insideCycle){
+          cell.classList.add('is-tappable');
+          cell.dataset.date = toISO(date);
+          cell.setAttribute('role', 'button');
+          cell.setAttribute('tabindex', '0');
+          cell.setAttribute('aria-label', `${prettyDate(date)} — view insight`);
+        }
+
+        if (sameDay(date, today)) cell.classList.add('today');
       }
 
-      cell.dataset.range = inRange ? '1' : '0';
-      calGrid.appendChild(cell);
+      grid.appendChild(cell);
       cells.push(cell);
     }
 
     /* round the ends of every contiguous run, per week row */
-    for (let rowStart = 0; rowStart < cells.length; rowStart += 7) {
+    for (let rowStart = 0; rowStart < cells.length; rowStart += 7){
       const rowEnd = Math.min(rowStart + 7, cells.length);
       let i = rowStart;
 
-      while (i < rowEnd) {
-        if (cells[i].dataset.range === '1') {
-          let j = i;
-          while (j + 1 < rowEnd && cells[j + 1].dataset.range === '1') j++;
+      while (i < rowEnd){
+        const st = cells[i].dataset.state;
+        if (st === 'none'){ i++; continue; }
 
-          cells[i].classList.add('seg-start');
-          cells[j].classList.add('seg-end');
-          i = j + 1;
-        } else {
-          i++;
-        }
+        let j = i;
+        while (j + 1 < rowEnd && cells[j + 1].dataset.state === st) j++;
+
+        cells[i].classList.add('seg-start');
+        cells[j].classList.add('seg-end');
+        i = j + 1;
       }
     }
 
-    rangeCaption.textContent =
-      `Started ${prettyDate(startDate)} · expected to finish ${prettyDate(endDate)}`;
+    $('rangeCaption').textContent =
+      `Started ${prettyDate(actualStart)} · expected to finish ${prettyDate(actualEnd)}`;
   }
 
-  prevBtn.addEventListener('click', () => shiftMonth(-1));
-  nextBtn.addEventListener('click', () => shiftMonth(1));
-
-  function shiftMonth(delta) {
+  function shiftMonth(delta){
     const d = new Date(viewYear, viewMonth + delta, 1);
     viewYear  = d.getFullYear();
     viewMonth = d.getMonth();
     renderCalendar();
   }
 
+  /* ---------- forecast ---------- */
+  function renderForecast(){
+    const list = $('forecastList');
+    list.innerHTML = '';
+
+    $('cycleValue').textContent = `${state.cycle} days`;
+    if (!state.start) return;
+
+    const today = startOfDay(new Date());
+
+    const upcoming = getPredictions(FORECAST_TOTAL)
+      .filter(p => p.end >= today)
+      .slice(0, FORECAST_VISIBLE);
+
+    upcoming.forEach(p => {
+      const d     = daysUntil(p.start);
+      const badge = d <= 0 ? 'now' : `in ${d} days`;
+
+      const row = document.createElement('button');
+      row.type = 'button';
+      row.className = 'forecast-row';
+      row.innerHTML =
+        `<span class="forecast-main">
+           <span class="forecast-month">${prettyMonth(p.start)}</span>
+           <span class="forecast-range">${prettyDate(p.start)} – ${prettyDate(p.end)}</span>
+         </span>
+         <span class="forecast-badge">${badge}</span>`;
+
+      row.addEventListener('click', () => {
+        viewYear  = p.start.getFullYear();
+        viewMonth = p.start.getMonth();
+        renderCalendar();
+        switchTo('home');
+      });
+
+      list.appendChild(row);
+    });
+  }
+
+  /* ---------- day insight screen ---------- */
+  function renderDayGif(){
+    const img = $('gifImg');
+    const fb  = $('gifFallback');
+
+    if (state.dayGif){
+      img.src = state.dayGif;
+      img.hidden = false;
+      fb.hidden = true;
+    } else {
+      img.hidden = true;
+      img.removeAttribute('src');
+      fb.hidden = false;
+    }
+  }
+
+  function openDay(iso){
+    const date  = parseISO(iso);
+    const cycle = findCycle(date) || { start: parseISO(state.start), index: 0 };
+
+    const cycleDay = Math.round((startOfDay(date) - startOfDay(cycle.start)) / MS) + 1;
+    const phase    = phaseFor(cycleDay, state.cycle);
+
+    $('dayDate').textContent  = date.toLocaleDateString(undefined, {
+      weekday: 'long', month: 'long', day: 'numeric'
+    });
+    $('dayPhase').textContent = `Day ${cycleDay} · ${PHASE_LABEL[phase]} phase`;
+
+    const pool = ADVICE[phase];
+    $('adviceText').textContent = pool[(cycleDay + date.getDate()) % pool.length];
+    $('adviceMeta').textContent = `Based on day ${cycleDay} of a ${state.cycle}-day cycle.`;
+
+    renderDayGif();
+    switchTo('day');
+  }
+
   /* ---------- routing ---------- */
-  function switchTo(which) {
-    Object.keys(screens).forEach((k) => screens[k].classList.remove('active'));
-    screens[which].classList.add('active');
+  function switchTo(which){
+    Object.entries(screens).forEach(([k, el]) => el.classList.toggle('active', k === which));
+    document.querySelectorAll('.tab').forEach(t => {
+      t.classList.toggle('active', t.dataset.tab === which);
+    });
     window.scrollTo(0, 0);
   }
 
-  function goHome() {
-    profileName.textContent = state.name;
-    paintAvatar(state.avatar);
+  function goHome(){
+    paintProfile();
 
     const start = parseISO(state.start);
     viewYear  = start.getFullYear();
     viewMonth = start.getMonth();
 
     renderCalendar();
+    renderForecast();
     switchTo('home');
   }
 
-  /* ---------- init ---------- */
-  function init() {
-    startInput.max = toISO(new Date());   // no future start dates
+  /* ---------- onboarding ---------- */
+  function validateOnboard(){
+    const nameOk = $('nameInput').value.trim().length > 0;
+    const dateOk = !!$('startInput').value;
+    $('startBtn').disabled = !(nameOk && dateOk);
+  }
 
-    if (state.name && state.start) {
+  $('avatarInput').addEventListener('change', async (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file || !file.type.startsWith('image/')) return;
+
+    try {
+      const dataUrl = await resizeToSquare(file, 320);
+      state.avatar = dataUrl;
+      localStorage.setItem(KEY.avatar, dataUrl);
+      paintAvatarPicker();
+    } catch (err) {
+      console.warn(err);
+    }
+  });
+
+  $('nameInput').addEventListener('input', validateOnboard);
+  $('startInput').addEventListener('input', validateOnboard);
+  $('startInput').addEventListener('change', validateOnboard);
+
+  $('startBtn').addEventListener('click', () => {
+    state.name  = $('nameInput').value.trim();
+    state.start = $('startInput').value;
+
+    localStorage.setItem(KEY.name,  state.name);
+    localStorage.setItem(KEY.start, state.start);
+
+    goHome();
+  });
+
+  /* ---------- calendar nav & taps ---------- */
+  $('prevBtn').addEventListener('click', () => shiftMonth(-1));
+  $('nextBtn').addEventListener('click', () => shiftMonth(1));
+
+  $('calGrid').addEventListener('click', (e) => {
+    const cell = e.target.closest('.cell.is-tappable');
+    if (cell && cell.dataset.date) openDay(cell.dataset.date);
+  });
+
+  $('calGrid').addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+    const cell = e.target.closest('.cell.is-tappable');
+    if (!cell || !cell.dataset.date) return;
+    e.preventDefault();
+    openDay(cell.dataset.date);
+  });
+
+  $('backBtn').addEventListener('click', () => switchTo('home'));
+
+  /* ---------- gif card ---------- */
+  $('gifCard').addEventListener('click', () => $('gifInput').click());
+
+  $('gifInput').addEventListener('change', (e) => {
+    const file = e.target.files && e.target.files[0];
+    e.target.value = '';
+    if (!file || !file.type.startsWith('image/')) return;
+    if (file.size > GIF_MAX_BYTES) return;   // keeps local storage healthy
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      state.dayGif = String(reader.result);
+      try {
+        localStorage.setItem(KEY.dayGif, state.dayGif);
+      } catch (err) {
+        /* quota exceeded — keep it for this session only */
+      }
+      renderDayGif();
+    };
+    reader.readAsDataURL(file);
+  });
+
+  /* ---------- edit sheet ---------- */
+  const overlay = $('sheetOverlay');
+
+  function openSheet(){
+    $('editDate').value = state.start;
+    overlay.classList.add('is-open');
+    overlay.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeSheet(){
+    overlay.classList.remove('is-open');
+    overlay.setAttribute('aria-hidden', 'true');
+  }
+
+  $('editBtn').addEventListener('click', openSheet);
+  $('cancelEdit').addEventListener('click', closeSheet);
+
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeSheet();
+  });
+
+  $('saveEdit').addEventListener('click', () => {
+    const val = $('editDate').value;
+    if (!val) return;
+
+    const parsed = parseISO(val);
+    if (parsed > startOfDay(new Date())) return;   // no future dates
+
+    state.start = val;
+    localStorage.setItem(KEY.start, val);
+
+    viewYear  = parsed.getFullYear();
+    viewMonth = parsed.getMonth();
+
+    closeSheet();
+    renderCalendar();
+    renderForecast();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeSheet();
+  });
+
+  /* ---------- cycle length ---------- */
+  function changeCycle(delta){
+    const next = clamp(state.cycle + delta, CYCLE_MIN, CYCLE_MAX);
+    if (next === state.cycle) return;
+
+    state.cycle = next;
+    localStorage.setItem(KEY.cycle, String(next));
+
+    renderCalendar();
+    renderForecast();
+  }
+
+  $('cycleMinus').addEventListener('click', () => changeCycle(-1));
+  $('cyclePlus').addEventListener('click',  () => changeCycle(1));
+
+  /* ---------- tabs ---------- */
+  document.querySelectorAll('.tab').forEach(t => {
+    t.addEventListener('click', () => {
+      const target = t.dataset.tab;
+      if (target === 'home')     renderCalendar();
+      if (target === 'forecast') renderForecast();
+      switchTo(target);
+    });
+  });
+
+  /* ---------- init ---------- */
+  function init(){
+    $('startInput').max = toISO(new Date());
+    $('editDate').max   = toISO(new Date());
+
+    const validStart = /^\d{4}-\d{2}-\d{2}$/.test(state.start);
+
+    if (state.name && validStart){
       goHome();
       return;
     }
 
-    nameInput.value  = state.name;
-    startInput.value = state.start;
-    paintAvatar(state.avatar);
-    validate();
+    $('nameInput').value  = state.name;
+    $('startInput').value = validStart ? state.start : '';
+    paintAvatarPicker();
+    validateOnboard();
     switchTo('onboard');
   }
 
