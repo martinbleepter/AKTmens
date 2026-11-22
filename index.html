@@ -37,7 +37,6 @@
   }
 
   *, *::before, *::after{ box-sizing: border-box; }
-
   html{ -webkit-text-size-adjust: 100%; color-scheme: light; }
 
   body{
@@ -61,8 +60,7 @@
     position: absolute;
     width: 1px; height: 1px;
     padding: 0; margin: -1px;
-    overflow: hidden;
-    clip: rect(0,0,0,0);
+    overflow: hidden; clip: rect(0,0,0,0);
     white-space: nowrap; border: 0;
   }
 
@@ -118,8 +116,162 @@
     gap: var(--s-3);
   }
 
-  /* ============ ONBOARDING ============ */
-  #screenOnboard .wrap{
+  /* ============ QUESTIONS SCREEN ============ */
+  #screenQuestions .wrap{
+    justify-content: center;
+    justify-content: safe center;
+    gap: var(--s-5);
+  }
+
+  .q-intro{
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-1);
+    text-align: center;
+  }
+  .q-title{
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -.02em;
+    line-height: 1.2;
+  }
+  .q-sub{
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink-60);
+  }
+
+  .q-card{
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-5);
+    padding: var(--s-5) var(--s-4);
+    will-change: transform, opacity;
+  }
+
+  .q-item{
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+  }
+  .q-label{
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -.005em;
+    line-height: 1.35;
+    color: var(--ink);
+  }
+
+  .chips{
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+  }
+  .chip{
+    border: 0;
+    background: var(--ink-08);
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    padding: var(--s-2) var(--s-4);
+    border-radius: var(--r-full);
+    cursor: pointer;
+    transition: background-color .18s ease, color .18s ease, transform .18s ease;
+  }
+  .chip:active{ transform: scale(.96); }
+  .chip.selected{
+    background: var(--ink);
+    color: var(--white);
+  }
+
+  /* Card + chip entry animation, restarts on every entry */
+  @keyframes cardRise{
+    from{ opacity: 0; transform: translateY(22px) scale(.985); }
+    to  { opacity: 1; transform: none; }
+  }
+  @keyframes itemRise{
+    from{ opacity: 0; transform: translateY(10px); }
+    to  { opacity: 1; transform: none; }
+  }
+  .screen.animating .q-intro  { animation: itemRise .45s cubic-bezier(.2,.7,.3,1) both; }
+  .screen.animating .q-card   { animation: cardRise .55s cubic-bezier(.2,.7,.3,1) both; animation-delay: .08s; }
+  .screen.animating .q-item:nth-child(1){ animation: itemRise .45s cubic-bezier(.2,.7,.3,1) both; animation-delay: .22s; }
+  .screen.animating .q-item:nth-child(2){ animation: itemRise .45s cubic-bezier(.2,.7,.3,1) both; animation-delay: .30s; }
+  .screen.animating .q-item:nth-child(3){ animation: itemRise .45s cubic-bezier(.2,.7,.3,1) both; animation-delay: .38s; }
+  .screen.animating #questionsContinue  { animation: itemRise .45s cubic-bezier(.2,.7,.3,1) both; animation-delay: .46s; }
+
+  /* ============ PAYWALL ============ */
+  #screenPaywall .wrap{
+    justify-content: center;
+    justify-content: safe center;
+    gap: var(--s-5);
+  }
+
+  .pay-intro{
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-1);
+    text-align: center;
+  }
+  .pay-title{
+    margin: 0;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -.02em;
+    line-height: 1.2;
+  }
+  .pay-sub{
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink-60);
+  }
+
+  .pay-card{
+    padding: var(--s-5);
+  }
+  .pay-benefits{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+  }
+  .pay-benefits li{
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s-3);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .pay-benefits li::before{
+    content: '';
+    flex: 0 0 auto;
+    width: 18px; height: 18px;
+    margin-top: 1px;
+    border-radius: 50%;
+    background: var(--ink-08);
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M2.5 6.5l2.3 2.3L9.5 4' fill='none' stroke='%23422427' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-size: 12px 12px;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .pay-actions{
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+  }
+
+  /* ============ SIGNUP ============ */
+  #screenSignup .wrap{
     justify-content: center;
     justify-content: safe center;
     gap: var(--s-6);
@@ -179,14 +331,9 @@
     text-align: center;
   }
 
-  input[type="date"].field{
-    -webkit-appearance: none;
-    appearance: none;
-  }
+  input[type="date"].field{ -webkit-appearance: none; appearance: none; }
   input[type="date"]::-webkit-calendar-picker-indicator{
-    opacity: .45;
-    cursor: pointer;
-    margin-left: var(--s-1);
+    opacity: .45; cursor: pointer; margin-left: var(--s-1);
   }
   input[type="date"]:invalid::-webkit-datetime-edit{ color: var(--ink-45); }
 
@@ -217,6 +364,7 @@
     margin: 0;
     padding: 0 var(--s-1);
     font-size: 12px;
+    font-weight: 500;
     line-height: 1.45;
     color: var(--ink-45);
   }
@@ -252,7 +400,6 @@
     gap: var(--s-3);
     text-align: center;
   }
-
   .avatar-lg{ width: 96px !important; height: 96px !important; }
   .avatar-lg svg{ width: 44px !important; height: 44px !important; }
 
@@ -262,7 +409,6 @@
     font-weight: 500;
     color: var(--ink-60);
   }
-
   .lock-form{
     display: flex;
     flex-direction: column;
@@ -271,7 +417,6 @@
     max-width: 320px;
     margin: 0 auto;
   }
-
   .lock-error{
     margin: 0;
     font-size: 13px;
@@ -282,7 +427,6 @@
     border-radius: var(--r-md);
   }
   .lock-error[hidden]{ display: none; }
-
   .lock-reset{
     align-self: center;
     border: 0;
@@ -317,6 +461,31 @@
     overflow: hidden;
   }
   .avatar svg{ width: 26px; height: 26px; opacity: .35; }
+
+  .avatar[data-editable]{
+    cursor: pointer;
+    position: relative;
+    transition: transform .2s ease;
+  }
+  .avatar[data-editable]:active{ transform: scale(.94); }
+  .avatar[data-editable]::after{
+    content: '';
+    position: absolute;
+    right: -1px; bottom: -1px;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background-color: var(--white);
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M8.2 1.8l2 2-6.4 6.4H1.8v-2L8.2 1.8z' fill='none' stroke='%23422427' stroke-width='1.2' stroke-linejoin='round'/></svg>");
+    background-size: 10px 10px;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: 0 0 0 2px var(--white);
+    pointer-events: none;
+  }
+  .avatar[data-editable]:focus-visible{
+    outline: 0;
+    box-shadow: 0 0 0 2px var(--ink-25);
+  }
 
   .user-name{
     margin: 0;
@@ -353,8 +522,7 @@
   .nav{
     display: grid;
     place-items: center;
-    width: 34px;
-    height: 34px;
+    width: 34px; height: 34px;
     border: 0;
     border-radius: 50%;
     background: var(--ink-08);
@@ -417,7 +585,6 @@
 
   .cell[data-state="actual"]{ color: var(--white); }
   .cell[data-state="actual"]::before{ background: var(--ink); }
-
   .cell[data-state="predicted"]{ color: var(--ink); }
   .cell[data-state="predicted"]::before{ background: var(--ink-12); }
 
@@ -465,6 +632,7 @@
   .caption{
     margin: 0;
     font-size: 13px;
+    font-weight: 500;
     line-height: 1.5;
     color: var(--ink-60);
     text-align: center;
@@ -517,11 +685,7 @@
     font-weight: 600;
     color: var(--ink-60);
   }
-  .stepper{
-    display: flex;
-    align-items: center;
-    gap: var(--s-2);
-  }
+  .stepper{ display: flex; align-items: center; gap: var(--s-2); }
   .step-btn{
     display: grid;
     place-items: center;
@@ -583,7 +747,7 @@
     min-width: 0;
   }
   .forecast-month{ font-size: 14px; font-weight: 600; }
-  .forecast-range{ font-size: 13px; color: var(--ink-60); }
+  .forecast-range{ font-size: 13px; font-weight: 500; color: var(--ink-60); }
   .forecast-badge{
     flex: 0 0 auto;
     font-size: 12px;
@@ -644,14 +808,8 @@
     transition: transform .25s ease;
   }
   .gif-card:active{ transform: scale(.988); }
-
-  .gif-img{
-    display: block;
-    width: 100%; height: 100%;
-    object-fit: cover;
-  }
+  .gif-img{ display: block; width: 100%; height: 100%; object-fit: cover; }
   .gif-img[hidden]{ display: none; }
-
   .gif-fallback{ position: absolute; inset: 0; background: var(--ink); }
   .gif-fallback[hidden]{ display: none; }
 
@@ -681,8 +839,7 @@
 
   .gif-hint{
     position: absolute;
-    right: var(--s-3);
-    bottom: var(--s-3);
+    right: var(--s-3); bottom: var(--s-3);
     z-index: 3;
     background: rgba(255, 255, 255, .92);
     color: var(--ink);
@@ -693,11 +850,9 @@
     border-radius: var(--r-full);
     pointer-events: none;
   }
-
   .gif-remove{
     position: absolute;
-    top: var(--s-3);
-    right: var(--s-3);
+    top: var(--s-3); right: var(--s-3);
     z-index: 4;
     display: grid;
     place-items: center;
@@ -714,11 +869,7 @@
   .gif-remove:active{ transform: scale(.9); }
   .gif-remove[hidden]{ display: none; }
 
-  .advice-panel{
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-3);
-  }
+  .advice-panel{ display: flex; flex-direction: column; gap: var(--s-3); }
   .advice-text{
     margin: 0;
     font-size: 15px;
@@ -728,26 +879,15 @@
   }
   .advice-meta{ font-size: 12px; font-weight: 500; color: var(--ink-45); }
 
-  /* ============ VOICE DIARY ============ */
-  .voice-panel{
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-3);
-  }
-
+  /* ============ VOICE ============ */
+  .voice-panel{ display: flex; flex-direction: column; gap: var(--s-3); }
   .voice-head{
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--s-3);
   }
-
-  .voice-title{
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--ink);
-  }
-
+  .voice-title{ font-size: 14px; font-weight: 600; color: var(--ink); }
   .voice-rec-btn{
     display: inline-flex;
     align-items: center;
@@ -765,12 +905,7 @@
   }
   .voice-rec-btn:active{ transform: scale(.96); }
   .voice-rec-btn[hidden]{ display: none; }
-
-  .voice-rec-dot{
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--white);
-  }
+  .voice-rec-dot{ width: 8px; height: 8px; border-radius: 50%; background: var(--white); }
 
   .voice-active{
     display: flex;
@@ -781,7 +916,6 @@
     border-radius: var(--r-md);
   }
   .voice-active[hidden]{ display: none; }
-
   .voice-pulse{
     width: 10px; height: 10px;
     border-radius: 50%;
@@ -792,7 +926,6 @@
     0%, 100%{ opacity: 1; transform: scale(1); }
     50%     { opacity: .35; transform: scale(.85); }
   }
-
   .voice-timer{
     flex: 1;
     font-size: 14px;
@@ -800,7 +933,6 @@
     font-variant-numeric: tabular-nums;
     color: var(--ink);
   }
-
   .voice-stop{
     border: 0;
     background: var(--ink);
@@ -811,16 +943,8 @@
     padding: var(--s-2) var(--s-4);
     border-radius: var(--r-full);
     cursor: pointer;
-    transition: transform .2s ease;
   }
-  .voice-stop:active{ transform: scale(.96); }
-
-  .voice-list{
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-2);
-  }
-
+  .voice-list{ display: flex; flex-direction: column; gap: var(--s-2); }
   .voice-empty{
     margin: 0;
     padding: var(--s-2);
@@ -829,7 +953,6 @@
     color: var(--ink-45);
     text-align: center;
   }
-
   .voice-row{
     display: flex;
     align-items: center;
@@ -837,7 +960,6 @@
     padding: var(--s-2);
     border-radius: var(--r-md);
   }
-
   .voice-play{
     display: grid;
     place-items: center;
@@ -850,10 +972,7 @@
     font-size: 12px;
     line-height: 1;
     cursor: pointer;
-    transition: transform .2s ease;
   }
-  .voice-play:active{ transform: scale(.92); }
-
   .voice-info{
     flex: 1;
     display: flex;
@@ -861,18 +980,12 @@
     gap: 2px;
     min-width: 0;
   }
-
   .voice-time{
     font-size: 14px;
     font-weight: 600;
     font-variant-numeric: tabular-nums;
   }
-
-  .voice-when{
-    font-size: 12px;
-    color: var(--ink-60);
-  }
-
+  .voice-when{ font-size: 12px; font-weight: 500; color: var(--ink-60); }
   .voice-del{
     flex: 0 0 auto;
     display: grid;
@@ -889,7 +1002,7 @@
   }
   .voice-del:active{ background: var(--ink-08); }
 
-  /* entry animations */
+  /* Day screen entry animations */
   @keyframes riseIn{
     from{ transform: translateY(14px); }
     to  { transform: none; }
@@ -995,9 +1108,77 @@
   <div class="blob b2"></div>
 
   <main>
-    <!-- ONBOARDING -->
-    <section class="screen active" id="screenOnboard">
-      <form id="onboardForm" class="wrap" autocomplete="on" novalidate>
+    <!-- QUESTIONS -->
+    <section class="screen active" id="screenQuestions">
+      <div class="wrap">
+        <div class="q-intro">
+          <h1 class="q-title">A few quick things</h1>
+          <p class="q-sub">So Cycle fits you better.</p>
+        </div>
+
+        <div class="panel q-card">
+          <div class="q-item" data-q="age">
+            <h3 class="q-label">How old are you?</h3>
+            <div class="chips">
+              <button class="chip" type="button" data-value="18-24">18–24</button>
+              <button class="chip" type="button" data-value="25-34">25–34</button>
+              <button class="chip" type="button" data-value="35-44">35–44</button>
+              <button class="chip" type="button" data-value="45+">45+</button>
+            </div>
+          </div>
+
+          <div class="q-item" data-q="regularity">
+            <h3 class="q-label">How regular is your cycle?</h3>
+            <div class="chips">
+              <button class="chip" type="button" data-value="regular">Very regular</button>
+              <button class="chip" type="button" data-value="somewhat">Somewhat</button>
+              <button class="chip" type="button" data-value="irregular">Irregular</button>
+              <button class="chip" type="button" data-value="unsure">Not sure</button>
+            </div>
+          </div>
+
+          <div class="q-item" data-q="focus">
+            <h3 class="q-label">What matters most to you?</h3>
+            <div class="chips">
+              <button class="chip" type="button" data-value="period">Period tracking</button>
+              <button class="chip" type="button" data-value="mood">Mood & energy</button>
+              <button class="chip" type="button" data-value="symptoms">Symptoms</button>
+              <button class="chip" type="button" data-value="all">All of it</button>
+            </div>
+          </div>
+        </div>
+
+        <button id="questionsContinue" class="btn" type="button" disabled>Continue</button>
+      </div>
+    </section>
+
+    <!-- PAYWALL -->
+    <section class="screen" id="screenPaywall">
+      <div class="wrap">
+        <div class="pay-intro">
+          <h1 class="pay-title">Unlock Cycle</h1>
+          <p class="pay-sub">One plan. Everything included.</p>
+        </div>
+
+        <div class="panel pay-card">
+          <ul class="pay-benefits">
+            <li>Cycle & phase predictions for months ahead</li>
+            <li>Voice diary on every day</li>
+            <li>Personal daily insights</li>
+            <li>Private — all data stays on your device</li>
+          </ul>
+        </div>
+
+        <div class="pay-actions">
+          <button id="payCheckout" class="btn" type="button">Continue to secure checkout</button>
+          <button id="payContinue" class="btn ghost" type="button" hidden>I've completed payment — sign up</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIGNUP -->
+    <section class="screen" id="screenSignup">
+      <form id="signupForm" class="wrap" autocomplete="on" novalidate>
         <div class="avatar-block">
           <label class="avatar-picker" id="avatarPicker" for="avatarInput" aria-label="Choose a profile photo">
             <span class="plus">+</span>
@@ -1020,7 +1201,7 @@
             <p class="hint">Your browser can save this for next time.</p>
           </div>
 
-          <button id="startBtn" class="btn" type="submit" disabled>Continue</button>
+          <button id="signupBtn" class="btn" type="submit" disabled>Continue</button>
         </div>
       </form>
     </section>
@@ -1054,11 +1235,11 @@
       </form>
     </section>
 
-    <!-- CALENDAR -->
+    <!-- HOME -->
     <section class="screen" id="screenHome">
       <div class="wrap">
         <header class="profile">
-          <div class="avatar">
+          <div class="avatar" data-editable="1" role="button" tabindex="0" aria-label="Change profile photo">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
                  stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
               <circle cx="12" cy="8.5" r="3.5" />
@@ -1104,7 +1285,7 @@
     <section class="screen" id="screenForecast">
       <div class="wrap">
         <header class="profile">
-          <div class="avatar">
+          <div class="avatar" data-editable="1" role="button" tabindex="0" aria-label="Change profile photo">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
                  stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
               <circle cx="12" cy="8.5" r="3.5" />
@@ -1137,7 +1318,7 @@
       </div>
     </section>
 
-    <!-- DAY INSIGHT -->
+    <!-- DAY -->
     <section class="screen" id="screenDay">
       <div class="wrap">
         <header class="day-top day-anim">
@@ -1175,13 +1356,11 @@
               <span>Record</span>
             </button>
           </div>
-
           <div class="voice-active" id="voiceActive" hidden>
             <span class="voice-pulse"></span>
             <span class="voice-timer" id="voiceTimer">0:00 / 3:00</span>
             <button class="voice-stop" id="voiceStopBtn" type="button">Stop</button>
           </div>
-
           <div class="voice-list" id="voiceList"></div>
         </div>
       </div>
@@ -1200,6 +1379,9 @@
     </div>
   </div>
 
+  <!-- GLOBAL avatar picker for post-signup profile changes -->
+  <input id="profileAvatarInput" type="file" accept="image/*" hidden />
+
 <script>
 (function () {
   'use strict';
@@ -1213,14 +1395,20 @@
   const MS                 = 86400000;
   const GIF_MAX_BYTES      = 3 * 1024 * 1024;
   const VOICE_MAX_SECONDS  = 180;
+  const WHOP_CHECKOUT_URL  = 'https://whop.com/checkout/plan_3H9jEOSwbIuZZ';
 
   const KEY = {
-    name:   'cycle.name',
-    avatar: 'cycle.avatar',
-    start:  'cycle.start',
-    cycle:  'cycle.length',
-    salt:   'cycle.salt',
-    hash:   'cycle.hash'
+    name:            'cycle.name',
+    avatar:          'cycle.avatar',
+    start:           'cycle.start',
+    cycle:           'cycle.length',
+    salt:            'cycle.salt',
+    hash:            'cycle.hash',
+    questionsDone:   'cycle.questionsDone',
+    awaitingSignup:  'cycle.awaitingSignup',
+    qAge:            'cycle.q.age',
+    qReg:            'cycle.q.regularity',
+    qFocus:          'cycle.q.focus'
   };
   const SESSION_KEY = 'cycle.unlocked';
 
@@ -1240,11 +1428,13 @@
   const $ = (id) => document.getElementById(id);
 
   const screens = {
-    onboard:  $('screenOnboard'),
-    lock:     $('screenLock'),
-    home:     $('screenHome'),
-    forecast: $('screenForecast'),
-    day:      $('screenDay')
+    questions: $('screenQuestions'),
+    paywall:   $('screenPaywall'),
+    signup:    $('screenSignup'),
+    lock:      $('screenLock'),
+    home:      $('screenHome'),
+    forecast:  $('screenForecast'),
+    day:       $('screenDay')
   };
 
   /* ---------- crypto ---------- */
@@ -1269,11 +1459,10 @@
     }
     h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
     h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
-    return (h2 >>> 0).toString(16).padStart(8, '0') +
-           (h1 >>> 0).toString(16).padStart(8, '0');
+    return (h2 >>> 0).toString(16).padStart(8, '0') + (h1 >>> 0).toString(16).padStart(8, '0');
   }
 
-  /* ---------- IndexedDB (gifs + voice) ---------- */
+  /* ---------- IndexedDB ---------- */
   const dbPromise = new Promise((resolve, reject) => {
     if (!('indexedDB' in window)) { reject(new Error('no idb')); return; }
     const req = indexedDB.open('cycle-db', 2);
@@ -1288,32 +1477,29 @@
 
   function idbGet(store, key){
     return dbPromise.then(db => new Promise((res, rej) => {
-      const tx  = db.transaction(store, 'readonly');
+      const tx = db.transaction(store, 'readonly');
       const req = tx.objectStore(store).get(key);
       req.onsuccess = () => res(req.result || null);
       req.onerror   = () => rej(req.error);
     }));
   }
-
   function idbPut(store, value, key){
     return dbPromise.then(db => new Promise((res, rej) => {
-      const tx  = db.transaction(store, 'readwrite');
+      const tx = db.transaction(store, 'readwrite');
       const req = tx.objectStore(store).put(value, key);
       req.onsuccess = () => res();
       req.onerror   = () => rej(req.error);
     }));
   }
-
   function idbDel(store, key){
     return dbPromise.then(db => new Promise((res, rej) => {
-      const tx  = db.transaction(store, 'readwrite');
+      const tx = db.transaction(store, 'readwrite');
       const req = tx.objectStore(store).delete(key);
       req.onsuccess = () => res();
       req.onerror   = () => rej(req.error);
     }));
   }
 
-  /* ---------- gif storage ---------- */
   async function getGif(iso){ try { return await idbGet('gifs', iso); } catch { return null; } }
   async function setGif(iso, dataUrl){ try { await idbPut('gifs', dataUrl, iso); return true; } catch { return false; } }
   async function deleteGif(iso){ try { await idbDel('gifs', iso); } catch {} }
@@ -1331,24 +1517,16 @@
     } catch { return ''; }
   }
 
-  /* ---------- voice storage ---------- */
   async function getVoice(iso){
-    try {
-      const arr = await idbGet('voice', iso);
-      return Array.isArray(arr) ? arr : [];
-    } catch { return []; }
+    try { const arr = await idbGet('voice', iso); return Array.isArray(arr) ? arr : []; }
+    catch { return []; }
   }
-
-  async function setVoice(iso, arr){
-    try { await idbPut('voice', arr, iso); } catch {}
-  }
-
+  async function setVoice(iso, arr){ try { await idbPut('voice', arr, iso); } catch {} }
   async function addVoice(iso, rec){
     const arr = await getVoice(iso);
     arr.push(rec);
     await setVoice(iso, arr);
   }
-
   async function deleteVoice(iso, id){
     const arr = await getVoice(iso);
     await setVoice(iso, arr.filter(r => r.id !== id));
@@ -1356,58 +1534,39 @@
 
   /* ---------- date helpers ---------- */
   function clamp(n, min, max){ return Math.min(max, Math.max(min, n)); }
-
   function parseISO(str){
     const [y, m, d] = str.split('-').map(Number);
     return new Date(y, m - 1, d);
   }
-
   function toISO(d){
     const m   = String(d.getMonth() + 1).padStart(2, '0');
     const day = String(d.getDate()).padStart(2, '0');
     return `${d.getFullYear()}-${m}-${day}`;
   }
-
   function addDays(date, n){
     const d = new Date(date);
     d.setDate(d.getDate() + n);
     return d;
   }
-
-  function startOfDay(d){
-    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
-  }
-
+  function startOfDay(d){ return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
   function sameDay(a, b){
     return a.getFullYear() === b.getFullYear() &&
            a.getMonth()    === b.getMonth()    &&
            a.getDate()     === b.getDate();
   }
-
   function daysUntil(target){
     return Math.round((startOfDay(target) - startOfDay(new Date())) / MS);
   }
-
-  function prettyDate(d){
-    return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-  }
-
-  function prettyMonth(d){
-    return d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
-  }
-
+  function prettyDate(d){ return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }); }
+  function prettyMonth(d){ return d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' }); }
   function fmtSec(sec){
     sec = Math.max(0, Math.floor(sec));
-    const m = Math.floor(sec / 60);
-    const s = sec % 60;
-    return `${m}:${String(s).padStart(2, '0')}`;
+    return `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`;
   }
-
   function fmtWhen(ts){
     const d = new Date(ts);
-    const now = new Date();
     const time = d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
-    if (sameDay(d, now)) return `Today · ${time}`;
+    if (sameDay(d, new Date())) return `Today · ${time}`;
     return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) + ' · ' + time;
   }
 
@@ -1421,7 +1580,6 @@
     }
     return out;
   }
-
   function cycleSpans(){
     if (!state.start) return [];
     const spans = [];
@@ -1440,7 +1598,6 @@
     ovulation:  'Ovulation',
     luteal:     'Luteal'
   };
-
   function phaseFor(day, cycleLen){
     if (day <= PERIOD_DAYS) return 'menstrual';
     const ovuStart = cycleLen - 15;
@@ -1477,7 +1634,7 @@
     ]
   };
 
-  /* ---------- avatar ---------- */
+  /* ---------- avatar helpers ---------- */
   function resizeToSquare(file, size){
     return new Promise((resolve, reject) => {
       const url = URL.createObjectURL(file);
@@ -1502,19 +1659,18 @@
     });
   }
 
-  function paintAvatarPicker(){
+  function applyAvatarEverywhere(){
     const picker = $('avatarPicker');
-    if (state.avatar){
-      picker.style.backgroundImage = `url("${state.avatar}")`;
-      picker.classList.add('has-photo');
-    } else {
-      picker.style.backgroundImage = '';
-      picker.classList.remove('has-photo');
+    if (picker){
+      if (state.avatar){
+        picker.style.backgroundImage = `url("${state.avatar}")`;
+        picker.classList.add('has-photo');
+      } else {
+        picker.style.backgroundImage = '';
+        picker.classList.remove('has-photo');
+      }
     }
-  }
 
-  function paintProfile(){
-    document.querySelectorAll('.user-name').forEach(el => { el.textContent = state.name; });
     document.querySelectorAll('.avatar').forEach(el => {
       const svg = el.querySelector('svg');
       if (state.avatar){
@@ -1525,6 +1681,8 @@
         if (svg) svg.style.display = '';
       }
     });
+
+    document.querySelectorAll('.user-name').forEach(el => { el.textContent = state.name; });
   }
 
   /* ---------- calendar ---------- */
@@ -1556,7 +1714,6 @@
 
       if (dayNum >= 1 && dayNum <= daysInMonth){
         const date = new Date(viewYear, viewMonth, dayNum);
-
         const num = document.createElement('span');
         num.className = 'num';
         num.textContent = dayNum;
@@ -1677,10 +1834,8 @@
         rem.hidden = true;
         return;
       }
-
       const blobUrl = dataUrlToBlobUrl(dataUrl);
       if (!blobUrl){ fb.hidden = false; rem.hidden = true; return; }
-
       currentGifUrl = blobUrl;
       img.onload  = () => { img.hidden = false; fb.hidden = true; };
       img.onerror = () => { img.hidden = true;  fb.hidden = false; };
@@ -1690,7 +1845,7 @@
     })();
   }
 
-  /* ---------- voice diary ---------- */
+  /* ---------- voice ---------- */
   const audio = new Audio();
   audio.preload = 'auto';
   audio.setAttribute('playsinline', '');
@@ -1708,7 +1863,7 @@
 
   function pickMime(){
     if (!window.MediaRecorder) return '';
-    const candidates = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg;codecs=opus', 'audio/ogg'];
+    const candidates = ['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg;codecs=opus','audio/ogg'];
     for (const m of candidates){
       try { if (MediaRecorder.isTypeSupported(m)) return m; } catch {}
     }
@@ -1720,13 +1875,11 @@
     const el = $('voiceTimer');
     if (el) el.textContent = `${fmtSec(elapsed)} / 3:00`;
   }
-
   function showRecordingUI(){
     $('voiceRecBtn').hidden = true;
     $('voiceActive').hidden = false;
     updateRecordingTimerUI();
   }
-
   function hideRecordingUI(){
     $('voiceRecBtn').hidden = false;
     $('voiceActive').hidden = true;
@@ -1740,8 +1893,6 @@
       alert('Voice recording is not supported in this browser.');
       return;
     }
-
-    // stop any playback first
     if (!audio.paused){ audio.pause(); playingId = ''; updatePlayButtons(); }
 
     try {
@@ -1763,7 +1914,6 @@
         const savedIso = recordingForIso;
         const duration = (Date.now() - recordingStart) / 1000;
 
-        // cleanup
         if (recordingStream){
           recordingStream.getTracks().forEach(t => t.stop());
           recordingStream = null;
@@ -1781,15 +1931,14 @@
         const blob = new Blob(chunks, { type: chunksMime });
         if (!blob.size) return;
 
-        const rec = {
+        await addVoice(savedIso, {
           id: 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
           blob,
           mime: blob.type || chunksMime,
           duration: Math.min(VOICE_MAX_SECONDS, Math.round(duration)),
           createdAt: Date.now()
-        };
+        });
 
-        await addVoice(savedIso, rec);
         if (savedIso === currentDayIso) renderVoiceList();
       });
 
@@ -1824,21 +1973,12 @@
     document.querySelectorAll('.voice-play').forEach(btn => {
       const row = btn.closest('.voice-row');
       if (!row) return;
-      const id = row.dataset.id;
-      if (id === playingId){
-        btn.textContent = '❚❚';
-        btn.setAttribute('aria-label', 'Pause');
-      } else {
-        btn.textContent = '▶';
-        btn.setAttribute('aria-label', 'Play');
-      }
+      btn.textContent = (row.dataset.id === playingId) ? '❚❚' : '▶';
+      btn.setAttribute('aria-label', (row.dataset.id === playingId) ? 'Pause' : 'Play');
     });
   }
 
-  audio.addEventListener('ended', () => {
-    playingId = '';
-    updatePlayButtons();
-  });
+  audio.addEventListener('ended', () => { playingId = ''; updatePlayButtons(); });
 
   function playRecording(rec){
     if (playingId === rec.id){
@@ -1847,31 +1987,20 @@
       updatePlayButtons();
       return;
     }
-
-    if (playingUrl){
-      URL.revokeObjectURL(playingUrl);
-      playingUrl = '';
-    }
-
+    if (playingUrl){ URL.revokeObjectURL(playingUrl); playingUrl = ''; }
     try {
       playingUrl = URL.createObjectURL(rec.blob);
       audio.src = playingUrl;
       audio.currentTime = 0;
       const p = audio.play();
       if (p && typeof p.then === 'function'){
-        p.then(() => {
-          playingId = rec.id;
-          updatePlayButtons();
-        }).catch(err => {
-          console.warn('play failed:', err);
-        });
+        p.then(() => { playingId = rec.id; updatePlayButtons(); })
+         .catch(err => console.warn('play failed:', err));
       } else {
         playingId = rec.id;
         updatePlayButtons();
       }
-    } catch (err){
-      console.warn(err);
-    }
+    } catch (err){ console.warn(err); }
   }
 
   async function renderVoiceList(){
@@ -1900,15 +2029,12 @@
 
       const info = document.createElement('div');
       info.className = 'voice-info';
-
       const time = document.createElement('span');
       time.className = 'voice-time';
       time.textContent = fmtSec(rec.duration);
-
       const when = document.createElement('span');
       when.className = 'voice-when';
       when.textContent = fmtWhen(rec.createdAt);
-
       info.append(time, when);
 
       const del = document.createElement('button');
@@ -1918,10 +2044,7 @@
       del.textContent = '×';
       del.addEventListener('click', async () => {
         if (!confirm('Delete this recording?')) return;
-        if (playingId === rec.id){
-          audio.pause();
-          playingId = '';
-        }
+        if (playingId === rec.id){ audio.pause(); playingId = ''; }
         await deleteVoice(currentDayIso, rec.id);
         renderVoiceList();
       });
@@ -1934,10 +2057,9 @@
   $('voiceRecBtn').addEventListener('click', startRecording);
   $('voiceStopBtn').addEventListener('click', stopRecording);
 
-  /* ---------- day insight ---------- */
+  /* ---------- day ---------- */
   async function openDay(iso){
     if (mediaRecorder && recordingForIso !== iso) stopRecording();
-
     if (!audio.paused){ audio.pause(); playingId = ''; }
 
     currentDayIso = iso;
@@ -1988,7 +2110,7 @@
   }
 
   function goHome(){
-    paintProfile();
+    applyAvatarEverywhere();
     const start = parseISO(state.start);
     viewYear  = start.getFullYear();
     viewMonth = start.getMonth();
@@ -1997,12 +2119,85 @@
     switchTo('home');
   }
 
-  /* ---------- onboarding ---------- */
-  function validateOnboard(){
+  /* ---------- questions ---------- */
+  const qAnswers = {
+    age:        localStorage.getItem(KEY.qAge)   || '',
+    regularity: localStorage.getItem(KEY.qReg)   || '',
+    focus:      localStorage.getItem(KEY.qFocus) || ''
+  };
+
+  function applyQuestionSelection(){
+    document.querySelectorAll('.q-item').forEach(item => {
+      const key = item.dataset.q;
+      const value = qAnswers[key];
+      item.querySelectorAll('.chip').forEach(chip => {
+        chip.classList.toggle('selected', chip.dataset.value === value);
+        chip.setAttribute('aria-pressed', chip.dataset.value === value ? 'true' : 'false');
+      });
+    });
+    const allAnswered = Object.values(qAnswers).every(v => v);
+    $('questionsContinue').disabled = !allAnswered;
+  }
+
+  document.querySelectorAll('.q-item').forEach(item => {
+    const key = item.dataset.q;
+    item.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        qAnswers[key] = chip.dataset.value;
+        applyQuestionSelection();
+      });
+    });
+  });
+
+  $('questionsContinue').addEventListener('click', () => {
+    localStorage.setItem(KEY.qAge,   qAnswers.age);
+    localStorage.setItem(KEY.qReg,   qAnswers.regularity);
+    localStorage.setItem(KEY.qFocus, qAnswers.focus);
+    localStorage.setItem(KEY.questionsDone, '1');
+    showPaywall();
+  });
+
+  /* ---------- paywall ---------- */
+  function showPaywall(){
+    const awaitingSignup = localStorage.getItem(KEY.awaitingSignup) === '1';
+    $('payContinue').hidden = !awaitingSignup;
+    switchTo('paywall');
+  }
+
+  $('payCheckout').addEventListener('click', () => {
+    localStorage.setItem(KEY.awaitingSignup, '1');
+    $('payContinue').hidden = false;
+    window.open(WHOP_CHECKOUT_URL, '_blank', 'noopener');
+  });
+
+  $('payContinue').addEventListener('click', () => {
+    showSignup();
+  });
+
+  // If the user returns to this tab after opening checkout, surface the continue button.
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible'){
+      if (localStorage.getItem(KEY.awaitingSignup) === '1' && screens.paywall.classList.contains('active')){
+        $('payContinue').hidden = false;
+      }
+    }
+  });
+
+  /* ---------- signup ---------- */
+  function showSignup(){
+    $('nameInput').value     = state.name || '';
+    $('startInput').value    = state.start || '';
+    $('passwordInput').value = '';
+    applyAvatarEverywhere();
+    validateSignup();
+    switchTo('signup');
+  }
+
+  function validateSignup(){
     const nameOk = $('nameInput').value.trim().length > 0;
     const dateOk = !!$('startInput').value;
     const passOk = $('passwordInput').value.length >= 4;
-    $('startBtn').disabled = !(nameOk && dateOk && passOk);
+    $('signupBtn').disabled = !(nameOk && dateOk && passOk);
   }
 
   $('avatarInput').addEventListener('change', async (e) => {
@@ -2012,25 +2207,24 @@
       const dataUrl = await resizeToSquare(file, 320);
       state.avatar = dataUrl;
       localStorage.setItem(KEY.avatar, dataUrl);
-      paintAvatarPicker();
+      applyAvatarEverywhere();
     } catch (err) { console.warn(err); }
   });
 
-  $('nameInput').addEventListener('input', validateOnboard);
-  $('startInput').addEventListener('input', validateOnboard);
-  $('startInput').addEventListener('change', validateOnboard);
-  $('passwordInput').addEventListener('input', validateOnboard);
+  $('nameInput').addEventListener('input', validateSignup);
+  $('startInput').addEventListener('input', validateSignup);
+  $('startInput').addEventListener('change', validateSignup);
+  $('passwordInput').addEventListener('input', validateSignup);
 
-  $('onboardForm').addEventListener('submit', async (e) => {
+  $('signupForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    if ($('startBtn').disabled) return;
+    if ($('signupBtn').disabled) return;
 
     const name  = $('nameInput').value.trim();
     const start = $('startInput').value;
     const pass  = $('passwordInput').value;
 
-    const parsed = parseISO(start);
-    if (parsed > startOfDay(new Date())) return;
+    if (parseISO(start) > startOfDay(new Date())) return;
 
     try {
       const salt = randomSalt();
@@ -2040,13 +2234,14 @@
       localStorage.setItem(KEY.start, start);
       localStorage.setItem(KEY.salt,  salt);
       localStorage.setItem(KEY.hash,  hash);
+      localStorage.removeItem(KEY.awaitingSignup);
       sessionStorage.setItem(SESSION_KEY, '1');
 
       state.name  = name;
       state.start = start;
 
       goHome();
-    } catch (err) { console.warn(err); }
+    } catch (err){ console.warn(err); }
   });
 
   /* ---------- lock ---------- */
@@ -2098,196 +2293,14 @@
     location.reload();
   });
 
-  /* ---------- calendar nav + swipe ---------- */
-  $('prevBtn').addEventListener('click', () => shiftMonth(-1, true));
-  $('nextBtn').addEventListener('click', () => shiftMonth(1, true));
-
-  $('calGrid').addEventListener('click', (e) => {
-    if (Date.now() < suppressClickUntil) return;
-    const cell = e.target.closest('.cell.is-tappable');
-    if (cell && cell.dataset.date) openDay(cell.dataset.date);
-  });
-
-  $('calGrid').addEventListener('keydown', (e) => {
-    if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
-    const cell = e.target.closest('.cell.is-tappable');
-    if (!cell || !cell.dataset.date) return;
-    e.preventDefault();
-    openDay(cell.dataset.date);
-  });
-
-  (function enableSwipe(){
-    const panel = $('calendarPanel');
-    let sx = 0, sy = 0, t0 = 0, axis = null;
-
-    panel.addEventListener('touchstart', (e) => {
-      if (e.touches.length !== 1) { axis = null; return; }
-      const t = e.touches[0];
-      sx = t.clientX; sy = t.clientY; t0 = Date.now();
-      axis = null;
-    }, { passive: true });
-
-    panel.addEventListener('touchmove', (e) => {
-      if (axis || e.touches.length !== 1) return;
-      const t = e.touches[0];
-      const dx = t.clientX - sx;
-      const dy = t.clientY - sy;
-      if (Math.abs(dx) > 10 || Math.abs(dy) > 10){
-        axis = Math.abs(dx) > Math.abs(dy) * 1.2 ? 'h' : 'v';
-      }
-    }, { passive: true });
-
-    panel.addEventListener('touchend', (e) => {
-      if (axis !== 'h') { axis = null; return; }
-      const t = e.changedTouches[0];
-      const dx = t.clientX - sx;
-      const dy = t.clientY - sy;
-      const dt = Date.now() - t0;
-      axis = null;
-      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.2 && dt < 700){
-        shiftMonth(dx > 0 ? -1 : 1, true);
-        suppressClickUntil = Date.now() + 300;
-      }
-    }, { passive: true });
-  })();
-
-  $('backBtn').addEventListener('click', () => {
-    if (mediaRecorder) stopRecording();
-    if (!audio.paused){ audio.pause(); playingId = ''; }
-    switchTo('home');
-  });
-
-  /* ---------- gif per date ---------- */
-  $('gifCard').addEventListener('click', () => $('gifInput').click());
-
-  $('gifInput').addEventListener('change', async (e) => {
-    const file = e.target.files && e.target.files[0];
-    e.target.value = '';
-    if (!file || !file.type.startsWith('image/')) return;
-    if (file.size > GIF_MAX_BYTES) return;
-    if (!currentDayIso) return;
-
-    const dataUrl = await new Promise((res) => {
-      const r = new FileReader();
-      r.onload  = () => res(String(r.result));
-      r.onerror = () => res(null);
-      r.readAsDataURL(file);
-    });
-    if (!dataUrl) return;
-
-    await setGif(currentDayIso, dataUrl);
-    renderDayGif();
-  });
-
-  $('gifRemove').addEventListener('click', async (e) => {
-    e.stopPropagation();
-    if (!currentDayIso) return;
-    await deleteGif(currentDayIso);
-    renderDayGif();
-  });
-
-  /* ---------- edit sheet ---------- */
-  const overlay = $('sheetOverlay');
-
-  function openSheet(){
-    $('editDate').value = state.start;
-    overlay.classList.add('is-open');
-    overlay.setAttribute('aria-hidden', 'false');
+  /* ---------- profile avatar (updatable anywhere) ---------- */
+  function openProfileAvatarPicker(){
+    $('profileAvatarInput').click();
   }
 
-  function closeSheet(){
-    overlay.classList.remove('is-open');
-    overlay.setAttribute('aria-hidden', 'true');
-  }
-
-  $('editBtn').addEventListener('click', openSheet);
-  $('cancelEdit').addEventListener('click', closeSheet);
-
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) closeSheet();
+  document.addEventListener('click', (e) => {
+    const av = e.target.closest('.avatar[data-editable]');
+    if (av) openProfileAvatarPicker();
   });
 
-  $('saveEdit').addEventListener('click', () => {
-    const val = $('editDate').value;
-    if (!val) return;
-    const parsed = parseISO(val);
-    if (parsed > startOfDay(new Date())) return;
-
-    state.start = val;
-    localStorage.setItem(KEY.start, val);
-
-    viewYear  = parsed.getFullYear();
-    viewMonth = parsed.getMonth();
-
-    closeSheet();
-    renderCalendar(0);
-    renderForecast();
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeSheet();
-  });
-
-  /* ---------- cycle length ---------- */
-  function changeCycle(delta){
-    const next = clamp(state.cycle + delta, CYCLE_MIN, CYCLE_MAX);
-    if (next === state.cycle) return;
-    state.cycle = next;
-    localStorage.setItem(KEY.cycle, String(next));
-    renderCalendar(0);
-    renderForecast();
-  }
-
-  $('cycleMinus').addEventListener('click', () => changeCycle(-1));
-  $('cyclePlus').addEventListener('click',  () => changeCycle(1));
-
-  /* ---------- tabs ---------- */
-  document.querySelectorAll('.tab').forEach(t => {
-    t.addEventListener('click', () => {
-      const target = t.dataset.tab;
-      if (target === 'home')     renderCalendar(0);
-      if (target === 'forecast') renderForecast();
-      switchTo(target);
-    });
-  });
-
-  /* ---------- init ---------- */
-  function loadState(){
-    state.name   = localStorage.getItem(KEY.name)   || '';
-    state.avatar = localStorage.getItem(KEY.avatar) || '';
-    state.start  = localStorage.getItem(KEY.start)  || '';
-    state.cycle  = clamp(
-      parseInt(localStorage.getItem(KEY.cycle), 10) || 28,
-      CYCLE_MIN, CYCLE_MAX
-    );
-  }
-
-  function init(){
-    $('startInput').max = toISO(new Date());
-    $('editDate').max   = toISO(new Date());
-
-    const hasPassword = !!(localStorage.getItem(KEY.hash) && localStorage.getItem(KEY.salt));
-    const unlocked    = sessionStorage.getItem(SESSION_KEY) === '1';
-    const validStart  = /^\d{4}-\d{2}-\d{2}$/.test(localStorage.getItem(KEY.start) || '');
-
-    loadState();
-
-    if (hasPassword && state.name && validStart){
-      if (unlocked) goHome();
-      else          showLockScreen();
-      return;
-    }
-
-    $('nameInput').value     = state.name;
-    $('startInput').value    = validStart ? state.start : '';
-    $('passwordInput').value = '';
-    paintAvatarPicker();
-    validateOnboard();
-    switchTo('onboard');
-  }
-
-  init();
-})();
-</script>
-</body>
-</html>
+  document
