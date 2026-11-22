@@ -23,7 +23,6 @@
     --ink-45:   rgba(66, 36, 39, .45);
     --ink-60:   rgba(66, 36, 39, .60);
 
-    /* one spacing scale, used everywhere */
     --s-1: 4px;
     --s-2: 8px;
     --s-3: 12px;
@@ -58,7 +57,15 @@
 
   button, input{ font: inherit; color: inherit; }
 
-  /* ============ AMBIENT BLOBS ============ */
+  .sr-only{
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap; border: 0;
+  }
+
   .blob{
     position: fixed;
     border-radius: 50%;
@@ -91,7 +98,6 @@
     to  { opacity: 1; transform: none; }
   }
 
-  /* screens with the fixed tab bar need clearance */
   #screenHome, #screenForecast{
     padding-bottom: calc(88px + env(safe-area-inset-bottom));
   }
@@ -112,7 +118,7 @@
     gap: var(--s-3);
   }
 
-  /* ============ SCREEN 1 — ONBOARDING ============ */
+  /* ============ ONBOARDING ============ */
   #screenOnboard .wrap{
     justify-content: center;
     justify-content: safe center;
@@ -207,6 +213,14 @@
     line-height: 1.3;
   }
 
+  .hint{
+    margin: 0;
+    padding: 0 var(--s-1);
+    font-size: 12px;
+    line-height: 1.45;
+    color: var(--ink-45);
+  }
+
   .btn{
     border: 0;
     font-family: inherit;
@@ -222,9 +236,65 @@
   }
   .btn:disabled{ opacity: .3; cursor: default; }
   .btn:not(:disabled):active{ transform: scale(.985); }
-  .btn.ghost{
-    background: var(--ink-08);
+  .btn.ghost{ background: var(--ink-08); color: var(--ink); }
+
+  /* ============ LOCK ============ */
+  #screenLock .wrap{
+    justify-content: center;
+    justify-content: safe center;
+    gap: var(--s-6);
+  }
+
+  .lock-head{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--s-3);
+    text-align: center;
+  }
+
+  .avatar-lg{ width: 96px !important; height: 96px !important; }
+  .avatar-lg svg{ width: 44px !important; height: 44px !important; }
+
+  .lock-sub{
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink-60);
+  }
+
+  .lock-form{
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .lock-error{
+    margin: 0;
+    font-size: 13px;
+    font-weight: 500;
     color: var(--ink);
+    background: var(--ink-08);
+    padding: var(--s-2) var(--s-3);
+    border-radius: var(--r-md);
+  }
+  .lock-error[hidden]{ display: none; }
+
+  .lock-reset{
+    align-self: center;
+    border: 0;
+    background: transparent;
+    color: var(--ink-45);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    padding: var(--s-2);
   }
 
   /* ============ PROFILE ============ */
@@ -258,7 +328,7 @@
     word-break: break-word;
   }
 
-  /* ============ GLASS PANELS ============ */
+  /* ============ PANELS ============ */
   .panel{
     border-radius: var(--r-lg);
     padding: var(--s-4);
@@ -313,6 +383,17 @@
   .grid{
     display: grid;
     grid-template-columns: repeat(7, 1fr);
+    will-change: transform, opacity;
+  }
+  .grid.slide-next{ animation: slideNext .3s cubic-bezier(.2,.7,.3,1); }
+  .grid.slide-prev{ animation: slidePrev .3s cubic-bezier(.2,.7,.3,1); }
+  @keyframes slideNext{
+    from{ opacity: 0; transform: translateX(24px); }
+    to  { opacity: 1; transform: none; }
+  }
+  @keyframes slidePrev{
+    from{ opacity: 0; transform: translateX(-24px); }
+    to  { opacity: 1; transform: none; }
   }
 
   .cell{
@@ -330,10 +411,7 @@
     content: '';
     position: absolute;
     z-index: 1;
-    top: 4px;
-    bottom: 4px;
-    left: 0;
-    right: 0;
+    top: 4px; bottom: 4px; left: 0; right: 0;
     background: transparent;
   }
 
@@ -353,17 +431,14 @@
     border-top-right-radius: var(--r-full);
     border-bottom-right-radius: var(--r-full);
   }
-  .cell.seg-start.seg-end::before{
-    border-radius: var(--r-full);
-  }
+  .cell.seg-start.seg-end::before{ border-radius: var(--r-full); }
 
   .cell.today .num::after{
     content: '';
     position: absolute;
     left: 50%;
     bottom: -6px;
-    width: 3px;
-    height: 3px;
+    width: 3px; height: 3px;
     margin-left: -1.5px;
     border-radius: 50%;
     background: currentColor;
@@ -424,8 +499,7 @@
   }
   .dot{
     display: inline-block;
-    width: 10px;
-    height: 10px;
+    width: 10px; height: 10px;
     border-radius: 50%;
   }
   .dot.solid{ background: var(--ink); }
@@ -451,8 +525,7 @@
   .step-btn{
     display: grid;
     place-items: center;
-    width: 34px;
-    height: 34px;
+    width: 34px; height: 34px;
     border: 0;
     border-radius: 50%;
     background: var(--ink-08);
@@ -509,14 +582,8 @@
     gap: 2px;
     min-width: 0;
   }
-  .forecast-month{
-    font-size: 14px;
-    font-weight: 600;
-  }
-  .forecast-range{
-    font-size: 13px;
-    color: var(--ink-60);
-  }
+  .forecast-month{ font-size: 14px; font-weight: 600; }
+  .forecast-range{ font-size: 13px; color: var(--ink-60); }
   .forecast-badge{
     flex: 0 0 auto;
     font-size: 12px;
@@ -528,7 +595,7 @@
     white-space: nowrap;
   }
 
-  /* ============ SCREEN 4 — DAY INSIGHT ============ */
+  /* ============ DAY SCREEN ============ */
   .day-top{
     display: flex;
     align-items: center;
@@ -539,8 +606,7 @@
     display: grid;
     place-items: center;
     flex: 0 0 auto;
-    width: 42px;
-    height: 42px;
+    width: 42px; height: 42px;
     border: 0;
     border-radius: 50%;
     background: var(--ink-08);
@@ -558,18 +624,11 @@
     gap: 2px;
     min-width: 0;
   }
-  .day-date{
-    font-size: 16px;
-    font-weight: 600;
-    letter-spacing: -.01em;
-  }
-  .day-phase{
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--ink-60);
-  }
+  .day-date{ font-size: 16px; font-weight: 600; letter-spacing: -.01em; }
+  .day-phase{ font-size: 13px; font-weight: 500; color: var(--ink-60); }
 
-  /* the big gif card */
+  .gif-wrap{ position: relative; width: 100%; }
+
   .gif-card{
     position: relative;
     display: block;
@@ -588,17 +647,12 @@
 
   .gif-img{
     display: block;
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     object-fit: cover;
   }
   .gif-img[hidden]{ display: none; }
 
-  .gif-fallback{
-    position: absolute;
-    inset: 0;
-    background: var(--ink);
-  }
+  .gif-fallback{ position: absolute; inset: 0; background: var(--ink); }
   .gif-fallback[hidden]{ display: none; }
 
   .gif-blob{
@@ -640,21 +694,30 @@
     pointer-events: none;
   }
 
-  /* advice */
+  .gif-remove{
+    position: absolute;
+    top: var(--s-3);
+    right: var(--s-3);
+    z-index: 4;
+    display: grid;
+    place-items: center;
+    width: 30px; height: 30px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .92);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    transition: transform .2s ease;
+  }
+  .gif-remove:active{ transform: scale(.9); }
+  .gif-remove[hidden]{ display: none; }
+
   .advice-panel{
     display: flex;
     flex-direction: column;
-    gap: var(--s-2);
-  }
-  .advice-label{
-    display: inline-flex;
-    align-items: center;
-    gap: var(--s-1);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .09em;
-    text-transform: uppercase;
-    color: var(--ink-45);
+    gap: var(--s-3);
   }
   .advice-text{
     margin: 0;
@@ -663,23 +726,184 @@
     line-height: 1.6;
     color: var(--ink);
   }
-  .advice-meta{
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--ink-45);
+  .advice-meta{ font-size: 12px; font-weight: 500; color: var(--ink-45); }
+
+  /* ============ VOICE DIARY ============ */
+  .voice-panel{
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
   }
 
-  /* staggered entry for the day screen */
+  .voice-head{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-3);
+  }
+
+  .voice-title{
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .voice-rec-btn{
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    border: 0;
+    background: var(--ink);
+    color: var(--white);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    padding: var(--s-2) var(--s-4);
+    border-radius: var(--r-full);
+    cursor: pointer;
+    transition: transform .2s ease;
+  }
+  .voice-rec-btn:active{ transform: scale(.96); }
+  .voice-rec-btn[hidden]{ display: none; }
+
+  .voice-rec-dot{
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--white);
+  }
+
+  .voice-active{
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    padding: var(--s-3) var(--s-4);
+    background: var(--ink-08);
+    border-radius: var(--r-md);
+  }
+  .voice-active[hidden]{ display: none; }
+
+  .voice-pulse{
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--ink);
+    animation: voicePulse 1.2s ease-in-out infinite;
+  }
+  @keyframes voicePulse{
+    0%, 100%{ opacity: 1; transform: scale(1); }
+    50%     { opacity: .35; transform: scale(.85); }
+  }
+
+  .voice-timer{
+    flex: 1;
+    font-size: 14px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+  }
+
+  .voice-stop{
+    border: 0;
+    background: var(--ink);
+    color: var(--white);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    padding: var(--s-2) var(--s-4);
+    border-radius: var(--r-full);
+    cursor: pointer;
+    transition: transform .2s ease;
+  }
+  .voice-stop:active{ transform: scale(.96); }
+
+  .voice-list{
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+  }
+
+  .voice-empty{
+    margin: 0;
+    padding: var(--s-2);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-45);
+    text-align: center;
+  }
+
+  .voice-row{
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    padding: var(--s-2);
+    border-radius: var(--r-md);
+  }
+
+  .voice-play{
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 36px; height: 36px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--white);
+    font-size: 12px;
+    line-height: 1;
+    cursor: pointer;
+    transition: transform .2s ease;
+  }
+  .voice-play:active{ transform: scale(.92); }
+
+  .voice-info{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .voice-time{
+    font-size: 14px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .voice-when{
+    font-size: 12px;
+    color: var(--ink-60);
+  }
+
+  .voice-del{
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    width: 32px; height: 32px;
+    border: 0;
+    background: transparent;
+    color: var(--ink-45);
+    font-size: 20px;
+    line-height: 1;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color .2s ease;
+  }
+  .voice-del:active{ background: var(--ink-08); }
+
+  /* entry animations */
   @keyframes riseIn{
-    from{ opacity: 0; transform: translateY(14px); }
-    to  { opacity: 1; transform: none; }
+    from{ transform: translateY(14px); }
+    to  { transform: none; }
   }
-  .screen.active .day-anim{
-    animation: riseIn .5s cubic-bezier(.2, .7, .3, 1) both;
+  .screen.animating .day-anim{
+    animation-name: riseIn;
+    animation-duration: .5s;
+    animation-timing-function: cubic-bezier(.2, .7, .3, 1);
+    animation-fill-mode: both;
   }
-  .screen.active .day-anim:nth-child(1){ animation-delay: .02s; }
-  .screen.active .day-anim:nth-child(2){ animation-delay: .10s; }
-  .screen.active .day-anim:nth-child(3){ animation-delay: .18s; }
+  .screen.animating .day-top        { animation-delay: .02s; }
+  .screen.animating .gif-wrap       { animation-delay: .10s; }
+  .screen.animating .advice-panel   { animation-delay: .16s; }
+  .screen.animating .voice-panel    { animation-delay: .22s; }
 
   /* ============ TAB BAR ============ */
   .tabbar{
@@ -711,12 +935,9 @@
     cursor: pointer;
     transition: background-color .2s ease, color .2s ease;
   }
-  .tab.active{
-    background: var(--ink);
-    color: var(--white);
-  }
+  .tab.active{ background: var(--ink); color: var(--white); }
 
-  /* ============ EDIT SHEET ============ */
+  /* ============ SHEET ============ */
   .sheet-overlay{
     position: fixed;
     inset: 0;
@@ -760,10 +981,7 @@
     font-weight: 600;
     letter-spacing: -.01em;
   }
-  .sheet-actions{
-    display: flex;
-    gap: var(--s-3);
-  }
+  .sheet-actions{ display: flex; gap: var(--s-3); }
   .sheet-actions .btn{ flex: 1; }
 
   @media (prefers-reduced-motion: reduce){
@@ -777,34 +995,68 @@
   <div class="blob b2"></div>
 
   <main>
-    <!-- ============ SCREEN 1 — ONBOARDING ============ -->
+    <!-- ONBOARDING -->
     <section class="screen active" id="screenOnboard">
-      <div class="wrap">
-
+      <form id="onboardForm" class="wrap" autocomplete="on" novalidate>
         <div class="avatar-block">
           <label class="avatar-picker" id="avatarPicker" for="avatarInput" aria-label="Choose a profile photo">
             <span class="plus">+</span>
             <input id="avatarInput" type="file" accept="image/*" hidden />
           </label>
           <input id="nameInput" class="field" type="text" placeholder="Your name"
-                 maxlength="24" autocomplete="off" spellcheck="false" />
+                 name="username" autocomplete="username"
+                 maxlength="24" spellcheck="false" />
         </div>
 
         <div class="onboard-bottom">
           <div class="form-group">
             <h1 class="question">When did your period start?</h1>
-            <input id="startInput" class="field" type="date" required />
+            <input id="startInput" class="field" type="date" name="startDate" required />
           </div>
-          <button id="startBtn" class="btn" type="button" disabled>Continue</button>
-        </div>
 
-      </div>
+          <div class="form-group">
+            <input id="passwordInput" class="field" type="password" name="newPassword"
+                   autocomplete="new-password" placeholder="Password" minlength="4" />
+            <p class="hint">Your browser can save this for next time.</p>
+          </div>
+
+          <button id="startBtn" class="btn" type="submit" disabled>Continue</button>
+        </div>
+      </form>
     </section>
 
-    <!-- ============ SCREEN 2 — CALENDAR ============ -->
+    <!-- LOCK -->
+    <section class="screen" id="screenLock">
+      <form id="lockForm" class="wrap" autocomplete="on" novalidate>
+        <div class="lock-head">
+          <div class="avatar avatar-lg" id="lockAvatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+              <circle cx="12" cy="8.5" r="3.5" />
+              <path d="M5 19.5c0-3.2 3.1-5.3 7-5.3s7 2.1 7 5.3" />
+            </svg>
+          </div>
+          <h2 class="user-name" id="lockName"></h2>
+          <p class="lock-sub">Enter your password to continue</p>
+        </div>
+
+        <div class="lock-form">
+          <input class="sr-only" id="lockUsername" type="text"
+                 name="username" autocomplete="username" readonly tabindex="-1" />
+          <input id="lockPassword" class="field" type="password"
+                 name="password" autocomplete="current-password"
+                 placeholder="Password" required />
+          <p class="lock-error" id="lockError" role="alert" hidden></p>
+          <button class="btn" type="submit">Unlock</button>
+        </div>
+
+        <button class="lock-reset" id="resetBtn" type="button">Forgot password? Reset app</button>
+      </form>
+    </section>
+
+    <!-- CALENDAR -->
     <section class="screen" id="screenHome">
       <div class="wrap">
-
         <header class="profile">
           <div class="avatar">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -817,18 +1069,16 @@
         </header>
 
         <div class="stack">
-          <div class="panel calendar">
+          <div class="panel calendar" id="calendarPanel">
             <div class="cal-head">
               <button class="nav" id="prevBtn" type="button" aria-label="Previous month">&#8249;</button>
               <span class="month-label" id="monthLabel"></span>
               <button class="nav" id="nextBtn" type="button" aria-label="Next month">&#8250;</button>
             </div>
-
             <div class="weekdays">
               <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span>
               <span>Thu</span><span>Fri</span><span>Sat</span>
             </div>
-
             <div class="grid" id="calGrid"></div>
           </div>
 
@@ -847,14 +1097,12 @@
           <button class="tab active" type="button" data-tab="home">Calendar</button>
           <button class="tab" type="button" data-tab="forecast">Forecast</button>
         </nav>
-
       </div>
     </section>
 
-    <!-- ============ SCREEN 3 — FORECAST ============ -->
+    <!-- FORECAST -->
     <section class="screen" id="screenForecast">
       <div class="wrap">
-
         <header class="profile">
           <div class="avatar">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -886,14 +1134,12 @@
           <button class="tab" type="button" data-tab="home">Calendar</button>
           <button class="tab active" type="button" data-tab="forecast">Forecast</button>
         </nav>
-
       </div>
     </section>
 
-    <!-- ============ SCREEN 4 — DAY INSIGHT ============ -->
+    <!-- DAY INSIGHT -->
     <section class="screen" id="screenDay">
       <div class="wrap">
-
         <header class="day-top day-anim">
           <button class="back-btn" id="backBtn" type="button" aria-label="Back to calendar">&#8249;</button>
           <div class="day-meta">
@@ -902,28 +1148,47 @@
           </div>
         </header>
 
-        <button class="gif-card day-anim" id="gifCard" type="button" aria-label="Change cover image">
-          <div class="gif-fallback" id="gifFallback" aria-hidden="true">
-            <span class="gif-blob g1"></span>
-            <span class="gif-blob g2"></span>
-            <span class="gif-blob g3"></span>
-          </div>
-          <img class="gif-img" id="gifImg" alt="" hidden />
-          <span class="gif-hint">Tap to change</span>
+        <div class="gif-wrap day-anim">
+          <button class="gif-card" id="gifCard" type="button" aria-label="Change cover image">
+            <div class="gif-fallback" id="gifFallback" aria-hidden="true">
+              <span class="gif-blob g1"></span>
+              <span class="gif-blob g2"></span>
+              <span class="gif-blob g3"></span>
+            </div>
+            <img class="gif-img" id="gifImg" alt="" hidden />
+            <span class="gif-hint">Tap to change</span>
+          </button>
+          <button class="gif-remove" id="gifRemove" type="button" aria-label="Remove cover image" hidden>&times;</button>
           <input id="gifInput" type="file" accept="image/gif,image/webp,image/*" hidden />
-        </button>
+        </div>
 
         <div class="panel advice-panel day-anim">
-          <span class="advice-label">&#10022; AI insight</span>
           <p class="advice-text" id="adviceText"></p>
           <span class="advice-meta" id="adviceMeta"></span>
         </div>
 
+        <div class="panel voice-panel day-anim">
+          <div class="voice-head">
+            <span class="voice-title">Voice diary</span>
+            <button class="voice-rec-btn" id="voiceRecBtn" type="button">
+              <span class="voice-rec-dot"></span>
+              <span>Record</span>
+            </button>
+          </div>
+
+          <div class="voice-active" id="voiceActive" hidden>
+            <span class="voice-pulse"></span>
+            <span class="voice-timer" id="voiceTimer">0:00 / 3:00</span>
+            <button class="voice-stop" id="voiceStopBtn" type="button">Stop</button>
+          </div>
+
+          <div class="voice-list" id="voiceList"></div>
+        </div>
       </div>
     </section>
   </main>
 
-  <!-- ============ EDIT DATE SHEET ============ -->
+  <!-- EDIT SHEET -->
   <div class="sheet-overlay" id="sheetOverlay" aria-hidden="true">
     <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
       <h3 class="sheet-title" id="sheetTitle">Edit start date</h3>
@@ -940,43 +1205,154 @@
   'use strict';
 
   /* ---------- config ---------- */
-  const PERIOD_DAYS      = 5;
-  const FORECAST_VISIBLE = 6;
-  const FORECAST_TOTAL   = 24;
-  const CYCLE_MIN        = 21;
-  const CYCLE_MAX        = 40;
-  const MS               = 86400000;
-  const GIF_MAX_BYTES    = 2 * 1024 * 1024;
+  const PERIOD_DAYS        = 5;
+  const FORECAST_VISIBLE   = 6;
+  const FORECAST_TOTAL     = 24;
+  const CYCLE_MIN          = 21;
+  const CYCLE_MAX          = 40;
+  const MS                 = 86400000;
+  const GIF_MAX_BYTES      = 3 * 1024 * 1024;
+  const VOICE_MAX_SECONDS  = 180;
 
   const KEY = {
     name:   'cycle.name',
     avatar: 'cycle.avatar',
     start:  'cycle.start',
     cycle:  'cycle.length',
-    dayGif: 'cycle.dayGif'
+    salt:   'cycle.salt',
+    hash:   'cycle.hash'
   };
+  const SESSION_KEY = 'cycle.unlocked';
 
   /* ---------- state ---------- */
   const state = {
-    name:   localStorage.getItem(KEY.name)   || '',
-    avatar: localStorage.getItem(KEY.avatar) || '',
-    start:  localStorage.getItem(KEY.start)  || '',
-    cycle:  clamp(parseInt(localStorage.getItem(KEY.cycle), 10) || 28, CYCLE_MIN, CYCLE_MAX),
-    dayGif: localStorage.getItem(KEY.dayGif) || ''
+    name: '', avatar: '', start: '', cycle: 28
   };
 
   let viewYear  = new Date().getFullYear();
   let viewMonth = new Date().getMonth();
+
+  let currentDayIso  = '';
+  let currentGifUrl  = null;
+  let suppressClickUntil = 0;
 
   /* ---------- dom ---------- */
   const $ = (id) => document.getElementById(id);
 
   const screens = {
     onboard:  $('screenOnboard'),
+    lock:     $('screenLock'),
     home:     $('screenHome'),
     forecast: $('screenForecast'),
     day:      $('screenDay')
   };
+
+  /* ---------- crypto ---------- */
+  function randomSalt(){
+    const arr = new Uint8Array(16);
+    crypto.getRandomValues(arr);
+    return Array.from(arr).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  async function sha256(str){
+    if (window.crypto && crypto.subtle && crypto.subtle.digest){
+      const enc = new TextEncoder().encode(str);
+      const buf = await crypto.subtle.digest('SHA-256', enc);
+      return Array.from(new Uint8Array(buf))
+        .map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+    let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+    for (let i = 0; i < str.length; i++){
+      const ch = str.charCodeAt(i);
+      h1 = Math.imul(h1 ^ ch, 2654435761);
+      h2 = Math.imul(h2 ^ ch, 1597334677);
+    }
+    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+    return (h2 >>> 0).toString(16).padStart(8, '0') +
+           (h1 >>> 0).toString(16).padStart(8, '0');
+  }
+
+  /* ---------- IndexedDB (gifs + voice) ---------- */
+  const dbPromise = new Promise((resolve, reject) => {
+    if (!('indexedDB' in window)) { reject(new Error('no idb')); return; }
+    const req = indexedDB.open('cycle-db', 2);
+    req.onupgradeneeded = () => {
+      const db = req.result;
+      if (!db.objectStoreNames.contains('gifs'))  db.createObjectStore('gifs');
+      if (!db.objectStoreNames.contains('voice')) db.createObjectStore('voice');
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror   = () => reject(req.error);
+  });
+
+  function idbGet(store, key){
+    return dbPromise.then(db => new Promise((res, rej) => {
+      const tx  = db.transaction(store, 'readonly');
+      const req = tx.objectStore(store).get(key);
+      req.onsuccess = () => res(req.result || null);
+      req.onerror   = () => rej(req.error);
+    }));
+  }
+
+  function idbPut(store, value, key){
+    return dbPromise.then(db => new Promise((res, rej) => {
+      const tx  = db.transaction(store, 'readwrite');
+      const req = tx.objectStore(store).put(value, key);
+      req.onsuccess = () => res();
+      req.onerror   = () => rej(req.error);
+    }));
+  }
+
+  function idbDel(store, key){
+    return dbPromise.then(db => new Promise((res, rej) => {
+      const tx  = db.transaction(store, 'readwrite');
+      const req = tx.objectStore(store).delete(key);
+      req.onsuccess = () => res();
+      req.onerror   = () => rej(req.error);
+    }));
+  }
+
+  /* ---------- gif storage ---------- */
+  async function getGif(iso){ try { return await idbGet('gifs', iso); } catch { return null; } }
+  async function setGif(iso, dataUrl){ try { await idbPut('gifs', dataUrl, iso); return true; } catch { return false; } }
+  async function deleteGif(iso){ try { await idbDel('gifs', iso); } catch {} }
+
+  function dataUrlToBlobUrl(dataUrl){
+    try {
+      const comma = dataUrl.indexOf(',');
+      const meta  = dataUrl.substring(5, comma);
+      const mime  = meta.split(';')[0] || 'image/gif';
+      const b64   = dataUrl.substring(comma + 1);
+      const bin   = atob(b64);
+      const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      return URL.createObjectURL(new Blob([bytes], { type: mime }));
+    } catch { return ''; }
+  }
+
+  /* ---------- voice storage ---------- */
+  async function getVoice(iso){
+    try {
+      const arr = await idbGet('voice', iso);
+      return Array.isArray(arr) ? arr : [];
+    } catch { return []; }
+  }
+
+  async function setVoice(iso, arr){
+    try { await idbPut('voice', arr, iso); } catch {}
+  }
+
+  async function addVoice(iso, rec){
+    const arr = await getVoice(iso);
+    arr.push(rec);
+    await setVoice(iso, arr);
+  }
+
+  async function deleteVoice(iso, id){
+    const arr = await getVoice(iso);
+    await setVoice(iso, arr.filter(r => r.id !== id));
+  }
 
   /* ---------- date helpers ---------- */
   function clamp(n, min, max){ return Math.min(max, Math.max(min, n)); }
@@ -1020,6 +1396,21 @@
     return d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
   }
 
+  function fmtSec(sec){
+    sec = Math.max(0, Math.floor(sec));
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return `${m}:${String(s).padStart(2, '0')}`;
+  }
+
+  function fmtWhen(ts){
+    const d = new Date(ts);
+    const now = new Date();
+    const time = d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+    if (sameDay(d, now)) return `Today · ${time}`;
+    return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) + ' · ' + time;
+  }
+
   /* ---------- prediction ---------- */
   function getPredictions(count){
     const start = parseISO(state.start);
@@ -1031,32 +1422,18 @@
     return out;
   }
 
-  /* every cycle span we know about: the logged one, then predicted ones */
   function cycleSpans(){
     if (!state.start) return [];
-
     const spans = [];
     const first = parseISO(state.start);
     spans.push({ start: first, end: addDays(first, state.cycle - 1) });
-
     getPredictions(FORECAST_TOTAL).forEach(p => {
       spans.push({ start: p.start, end: addDays(p.start, state.cycle - 1) });
     });
-
     return spans;
   }
 
-  function findCycle(date){
-    const spans = cycleSpans();
-    for (let i = 0; i < spans.length; i++){
-      if (date >= spans[i].start && date <= spans[i].end){
-        return { start: spans[i].start, index: i };
-      }
-    }
-    return null;
-  }
-
-  /* ---------- phases ---------- */
+  /* ---------- phases & advice ---------- */
   const PHASE_LABEL = {
     menstrual:  'Menstrual',
     follicular: 'Follicular',
@@ -1066,40 +1443,37 @@
 
   function phaseFor(day, cycleLen){
     if (day <= PERIOD_DAYS) return 'menstrual';
-
     const ovuStart = cycleLen - 15;
     const ovuEnd   = cycleLen - 13;
-
     if (day >= ovuStart && day <= ovuEnd) return 'ovulation';
     if (day < ovuStart) return 'follicular';
     return 'luteal';
   }
 
-  /* ---------- advice ---------- */
   const ADVICE = {
     menstrual: [
-      'Energy often runs low at the start of a cycle — warm drinks, gentle movement and an earlier night can soften it.',
-      'Iron-rich food and a little extra rest tend to land well today. Keep the schedule light where you can.',
-      'Cramps are common on these days; a heat pack and slow breathing are small, reliable comforts.',
-      'Your body is doing quiet work right now. Fewer plans and more water usually make the day easier.'
+      'Take it slow. Have a warm drink, go for a light walk, and get to bed early.',
+      'Eat iron-rich food — spinach, lentils, beans. Cancel what you can and rest more.',
+      'Use a heat pack on your lower belly. Skip intense workouts today.',
+      'Drink more water. Eat regular meals. Move gently.'
     ],
     follicular: [
-      'Energy usually climbs in this stretch — a good window for a harder workout or starting something new.',
-      'Focus tends to feel sharper now. Try to place your most demanding task in the morning.',
-      'Mood often lifts here; use it to reconnect with people you have been meaning to see.',
-      'This is a steady stretch. Build a little momentum rather than spending all of it at once.'
+      'Your energy is back. Try a harder workout or start something new.',
+      'Do your hardest task in the morning. Focus is good right now.',
+      'Reach out to a friend you have been meaning to see. Mood is usually up.',
+      'Pick one goal and make real progress on it. Do not try to do everything.'
     ],
     ovulation: [
-      'Confidence and energy often peak around now — good days for presentations or difficult conversations.',
-      'Hydration and steady meals help keep the peak comfortable. Sleep is worth protecting tonight.',
-      'Sociability often rises here. Notice what feels good, and pace yourself anyway.',
-      'You may feel at your most outward today. Save a quiet hour for yourself in the evening.'
+      'Good day for a big conversation or presentation. Speak up.',
+      'Drink extra water and eat protein at every meal. Protect your sleep tonight.',
+      'Say yes to social plans. Leave the evening open.',
+      'Take a real break in the afternoon. You are running on a peak and need to refill.'
     ],
     luteal: [
-      'Energy usually eases off. Fewer commitments and more protein can keep the afternoon steadier.',
-      'Sleep can get lighter in this phase — screens down earlier tends to help.',
-      'Mood can swing here; naming it out loud usually takes some of the edge off.',
-      'Cravings are normal in this stretch. Regular meals tend to steady both mood and appetite.'
+      'Slow down. Eat protein at breakfast and lunch to steady your energy.',
+      'Put screens away an hour before bed. Sleep gets lighter in this phase.',
+      'Name your mood out loud when it shifts. It helps.',
+      'Eat regular meals. If cravings hit, have a proper snack instead of skipping.'
     ]
   };
 
@@ -1108,27 +1482,22 @@
     return new Promise((resolve, reject) => {
       const url = URL.createObjectURL(file);
       const img = new Image();
-
       img.onload = () => {
         const canvas = document.createElement('canvas');
         canvas.width = canvas.height = size;
-
         const ctx = canvas.getContext('2d');
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, size, size);
-
         const s = Math.min(img.width, img.height);
         ctx.drawImage(
           img,
           (img.width  - s) / 2, (img.height - s) / 2, s, s,
           0, 0, size, size
         );
-
         URL.revokeObjectURL(url);
         resolve(canvas.toDataURL('image/jpeg', 0.85));
       };
-
-      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Image load failed')); };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('load failed')); };
       img.src = url;
     });
   }
@@ -1146,7 +1515,6 @@
 
   function paintProfile(){
     document.querySelectorAll('.user-name').forEach(el => { el.textContent = state.name; });
-
     document.querySelectorAll('.avatar').forEach(el => {
       const svg = el.querySelector('svg');
       if (state.avatar){
@@ -1160,7 +1528,7 @@
   }
 
   /* ---------- calendar ---------- */
-  function renderCalendar(){
+  function renderCalendar(slideDir){
     if (!state.start) return;
 
     const actualStart = parseISO(state.start);
@@ -1205,14 +1573,13 @@
           }
         }
 
-        /* any date inside a known cycle can open the insight screen */
         const insideCycle = spans.some(s => date >= s.start && date <= s.end);
         if (insideCycle){
           cell.classList.add('is-tappable');
           cell.dataset.date = toISO(date);
           cell.setAttribute('role', 'button');
           cell.setAttribute('tabindex', '0');
-          cell.setAttribute('aria-label', `${prettyDate(date)} — view insight`);
+          cell.setAttribute('aria-label', `${prettyDate(date)} — open diary`);
         }
 
         if (sameDay(date, today)) cell.classList.add('today');
@@ -1222,113 +1589,398 @@
       cells.push(cell);
     }
 
-    /* round the ends of every contiguous run, per week row */
     for (let rowStart = 0; rowStart < cells.length; rowStart += 7){
       const rowEnd = Math.min(rowStart + 7, cells.length);
       let i = rowStart;
-
       while (i < rowEnd){
         const st = cells[i].dataset.state;
         if (st === 'none'){ i++; continue; }
-
         let j = i;
         while (j + 1 < rowEnd && cells[j + 1].dataset.state === st) j++;
-
         cells[i].classList.add('seg-start');
         cells[j].classList.add('seg-end');
         i = j + 1;
       }
     }
 
+    if (slideDir){
+      grid.classList.remove('slide-next', 'slide-prev');
+      void grid.offsetWidth;
+      grid.classList.add(slideDir > 0 ? 'slide-next' : 'slide-prev');
+    }
+
     $('rangeCaption').textContent =
       `Started ${prettyDate(actualStart)} · expected to finish ${prettyDate(actualEnd)}`;
   }
 
-  function shiftMonth(delta){
+  function shiftMonth(delta, animate){
     const d = new Date(viewYear, viewMonth + delta, 1);
     viewYear  = d.getFullYear();
     viewMonth = d.getMonth();
-    renderCalendar();
+    renderCalendar(animate ? delta : 0);
   }
 
   /* ---------- forecast ---------- */
   function renderForecast(){
     const list = $('forecastList');
     list.innerHTML = '';
-
     $('cycleValue').textContent = `${state.cycle} days`;
     if (!state.start) return;
 
     const today = startOfDay(new Date());
 
-    const upcoming = getPredictions(FORECAST_TOTAL)
+    getPredictions(FORECAST_TOTAL)
       .filter(p => p.end >= today)
-      .slice(0, FORECAST_VISIBLE);
+      .slice(0, FORECAST_VISIBLE)
+      .forEach(p => {
+        const d     = daysUntil(p.start);
+        const badge = d <= 0 ? 'now' : `in ${d} days`;
 
-    upcoming.forEach(p => {
-      const d     = daysUntil(p.start);
-      const badge = d <= 0 ? 'now' : `in ${d} days`;
+        const row = document.createElement('button');
+        row.type = 'button';
+        row.className = 'forecast-row';
+        row.innerHTML =
+          `<span class="forecast-main">
+             <span class="forecast-month">${prettyMonth(p.start)}</span>
+             <span class="forecast-range">${prettyDate(p.start)} – ${prettyDate(p.end)}</span>
+           </span>
+           <span class="forecast-badge">${badge}</span>`;
 
-      const row = document.createElement('button');
-      row.type = 'button';
-      row.className = 'forecast-row';
-      row.innerHTML =
-        `<span class="forecast-main">
-           <span class="forecast-month">${prettyMonth(p.start)}</span>
-           <span class="forecast-range">${prettyDate(p.start)} – ${prettyDate(p.end)}</span>
-         </span>
-         <span class="forecast-badge">${badge}</span>`;
+        row.addEventListener('click', () => {
+          viewYear  = p.start.getFullYear();
+          viewMonth = p.start.getMonth();
+          renderCalendar(0);
+          switchTo('home');
+        });
 
-      row.addEventListener('click', () => {
-        viewYear  = p.start.getFullYear();
-        viewMonth = p.start.getMonth();
-        renderCalendar();
-        switchTo('home');
+        list.appendChild(row);
+      });
+  }
+
+  /* ---------- day gif ---------- */
+  function renderDayGif(){
+    const img = $('gifImg');
+    const fb  = $('gifFallback');
+    const rem = $('gifRemove');
+
+    if (currentGifUrl){
+      URL.revokeObjectURL(currentGifUrl);
+      currentGifUrl = null;
+    }
+
+    (async () => {
+      const dataUrl = await getGif(currentDayIso);
+      if (!dataUrl){
+        img.hidden = true;
+        img.removeAttribute('src');
+        fb.hidden = false;
+        rem.hidden = true;
+        return;
+      }
+
+      const blobUrl = dataUrlToBlobUrl(dataUrl);
+      if (!blobUrl){ fb.hidden = false; rem.hidden = true; return; }
+
+      currentGifUrl = blobUrl;
+      img.onload  = () => { img.hidden = false; fb.hidden = true; };
+      img.onerror = () => { img.hidden = true;  fb.hidden = false; };
+      img.hidden = true;
+      img.src = blobUrl;
+      rem.hidden = false;
+    })();
+  }
+
+  /* ---------- voice diary ---------- */
+  const audio = new Audio();
+  audio.preload = 'auto';
+  audio.setAttribute('playsinline', '');
+
+  let mediaRecorder    = null;
+  let recordingStream  = null;
+  let recordingChunks  = [];
+  let recordingStart   = 0;
+  let recordingTimerId = null;
+  let recordingTimeout = null;
+  let recordingForIso  = '';
+
+  let playingId  = '';
+  let playingUrl = '';
+
+  function pickMime(){
+    if (!window.MediaRecorder) return '';
+    const candidates = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg;codecs=opus', 'audio/ogg'];
+    for (const m of candidates){
+      try { if (MediaRecorder.isTypeSupported(m)) return m; } catch {}
+    }
+    return '';
+  }
+
+  function updateRecordingTimerUI(){
+    const elapsed = Math.floor((Date.now() - recordingStart) / 1000);
+    const el = $('voiceTimer');
+    if (el) el.textContent = `${fmtSec(elapsed)} / 3:00`;
+  }
+
+  function showRecordingUI(){
+    $('voiceRecBtn').hidden = true;
+    $('voiceActive').hidden = false;
+    updateRecordingTimerUI();
+  }
+
+  function hideRecordingUI(){
+    $('voiceRecBtn').hidden = false;
+    $('voiceActive').hidden = true;
+    const el = $('voiceTimer');
+    if (el) el.textContent = '0:00 / 3:00';
+  }
+
+  async function startRecording(){
+    if (mediaRecorder) return;
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder){
+      alert('Voice recording is not supported in this browser.');
+      return;
+    }
+
+    // stop any playback first
+    if (!audio.paused){ audio.pause(); playingId = ''; updatePlayButtons(); }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      recordingStream  = stream;
+      recordingForIso  = currentDayIso;
+      recordingChunks  = [];
+
+      const mime = pickMime();
+      mediaRecorder = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream);
+
+      mediaRecorder.addEventListener('dataavailable', (ev) => {
+        if (ev.data && ev.data.size > 0) recordingChunks.push(ev.data);
       });
 
+      mediaRecorder.addEventListener('stop', async () => {
+        const chunks = recordingChunks.slice();
+        const chunksMime = (mediaRecorder && mediaRecorder.mimeType) || 'audio/webm';
+        const savedIso = recordingForIso;
+        const duration = (Date.now() - recordingStart) / 1000;
+
+        // cleanup
+        if (recordingStream){
+          recordingStream.getTracks().forEach(t => t.stop());
+          recordingStream = null;
+        }
+        mediaRecorder = null;
+        recordingChunks = [];
+
+        if (recordingTimerId){ clearInterval(recordingTimerId); recordingTimerId = null; }
+        if (recordingTimeout){ clearTimeout(recordingTimeout); recordingTimeout = null; }
+
+        hideRecordingUI();
+
+        if (chunks.length === 0 || duration < 1 || !savedIso) return;
+
+        const blob = new Blob(chunks, { type: chunksMime });
+        if (!blob.size) return;
+
+        const rec = {
+          id: 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+          blob,
+          mime: blob.type || chunksMime,
+          duration: Math.min(VOICE_MAX_SECONDS, Math.round(duration)),
+          createdAt: Date.now()
+        };
+
+        await addVoice(savedIso, rec);
+        if (savedIso === currentDayIso) renderVoiceList();
+      });
+
+      mediaRecorder.start();
+      recordingStart = Date.now();
+      showRecordingUI();
+
+      recordingTimerId = setInterval(updateRecordingTimerUI, 200);
+      recordingTimeout = setTimeout(stopRecording, VOICE_MAX_SECONDS * 1000);
+
+    } catch (err){
+      console.warn('getUserMedia failed:', err);
+      if (recordingStream){
+        recordingStream.getTracks().forEach(t => t.stop());
+        recordingStream = null;
+      }
+      mediaRecorder = null;
+      hideRecordingUI();
+      alert('Could not access the microphone. Check permissions and try again.');
+    }
+  }
+
+  function stopRecording(){
+    if (recordingTimerId){ clearInterval(recordingTimerId); recordingTimerId = null; }
+    if (recordingTimeout){ clearTimeout(recordingTimeout); recordingTimeout = null; }
+    if (mediaRecorder && mediaRecorder.state !== 'inactive'){
+      try { mediaRecorder.stop(); } catch {}
+    }
+  }
+
+  function updatePlayButtons(){
+    document.querySelectorAll('.voice-play').forEach(btn => {
+      const row = btn.closest('.voice-row');
+      if (!row) return;
+      const id = row.dataset.id;
+      if (id === playingId){
+        btn.textContent = '❚❚';
+        btn.setAttribute('aria-label', 'Pause');
+      } else {
+        btn.textContent = '▶';
+        btn.setAttribute('aria-label', 'Play');
+      }
+    });
+  }
+
+  audio.addEventListener('ended', () => {
+    playingId = '';
+    updatePlayButtons();
+  });
+
+  function playRecording(rec){
+    if (playingId === rec.id){
+      audio.pause();
+      playingId = '';
+      updatePlayButtons();
+      return;
+    }
+
+    if (playingUrl){
+      URL.revokeObjectURL(playingUrl);
+      playingUrl = '';
+    }
+
+    try {
+      playingUrl = URL.createObjectURL(rec.blob);
+      audio.src = playingUrl;
+      audio.currentTime = 0;
+      const p = audio.play();
+      if (p && typeof p.then === 'function'){
+        p.then(() => {
+          playingId = rec.id;
+          updatePlayButtons();
+        }).catch(err => {
+          console.warn('play failed:', err);
+        });
+      } else {
+        playingId = rec.id;
+        updatePlayButtons();
+      }
+    } catch (err){
+      console.warn(err);
+    }
+  }
+
+  async function renderVoiceList(){
+    const list = $('voiceList');
+    const recs = await getVoice(currentDayIso);
+
+    if (!recs.length){
+      list.innerHTML = '<p class="voice-empty">No recordings yet. Tap Record to add one.</p>';
+      return;
+    }
+
+    recs.sort((a, b) => b.createdAt - a.createdAt);
+    list.innerHTML = '';
+
+    recs.forEach(rec => {
+      const row = document.createElement('div');
+      row.className = 'voice-row';
+      row.dataset.id = rec.id;
+
+      const play = document.createElement('button');
+      play.type = 'button';
+      play.className = 'voice-play';
+      play.textContent = (rec.id === playingId) ? '❚❚' : '▶';
+      play.setAttribute('aria-label', (rec.id === playingId) ? 'Pause' : 'Play');
+      play.addEventListener('click', () => playRecording(rec));
+
+      const info = document.createElement('div');
+      info.className = 'voice-info';
+
+      const time = document.createElement('span');
+      time.className = 'voice-time';
+      time.textContent = fmtSec(rec.duration);
+
+      const when = document.createElement('span');
+      when.className = 'voice-when';
+      when.textContent = fmtWhen(rec.createdAt);
+
+      info.append(time, when);
+
+      const del = document.createElement('button');
+      del.type = 'button';
+      del.className = 'voice-del';
+      del.setAttribute('aria-label', 'Delete recording');
+      del.textContent = '×';
+      del.addEventListener('click', async () => {
+        if (!confirm('Delete this recording?')) return;
+        if (playingId === rec.id){
+          audio.pause();
+          playingId = '';
+        }
+        await deleteVoice(currentDayIso, rec.id);
+        renderVoiceList();
+      });
+
+      row.append(play, info, del);
       list.appendChild(row);
     });
   }
 
-  /* ---------- day insight screen ---------- */
-  function renderDayGif(){
-    const img = $('gifImg');
-    const fb  = $('gifFallback');
+  $('voiceRecBtn').addEventListener('click', startRecording);
+  $('voiceStopBtn').addEventListener('click', stopRecording);
 
-    if (state.dayGif){
-      img.src = state.dayGif;
-      img.hidden = false;
-      fb.hidden = true;
-    } else {
-      img.hidden = true;
-      img.removeAttribute('src');
-      fb.hidden = false;
-    }
-  }
+  /* ---------- day insight ---------- */
+  async function openDay(iso){
+    if (mediaRecorder && recordingForIso !== iso) stopRecording();
 
-  function openDay(iso){
+    if (!audio.paused){ audio.pause(); playingId = ''; }
+
+    currentDayIso = iso;
+
     const date  = parseISO(iso);
-    const cycle = findCycle(date) || { start: parseISO(state.start), index: 0 };
+    const spans = cycleSpans();
+    const cycle = spans.find(s => date >= s.start && date <= s.end) ||
+                  { start: parseISO(state.start) };
 
     const cycleDay = Math.round((startOfDay(date) - startOfDay(cycle.start)) / MS) + 1;
     const phase    = phaseFor(cycleDay, state.cycle);
 
-    $('dayDate').textContent  = date.toLocaleDateString(undefined, {
+    $('dayDate').textContent = date.toLocaleDateString(undefined, {
       weekday: 'long', month: 'long', day: 'numeric'
     });
     $('dayPhase').textContent = `Day ${cycleDay} · ${PHASE_LABEL[phase]} phase`;
 
     const pool = ADVICE[phase];
     $('adviceText').textContent = pool[(cycleDay + date.getDate()) % pool.length];
-    $('adviceMeta').textContent = `Based on day ${cycleDay} of a ${state.cycle}-day cycle.`;
+    $('adviceMeta').textContent = `Day ${cycleDay} of your ${state.cycle}-day cycle.`;
 
+    hideRecordingUI();
     renderDayGif();
+    renderVoiceList();
     switchTo('day');
   }
 
   /* ---------- routing ---------- */
   function switchTo(which){
+    if (which !== 'day'){
+      if (mediaRecorder) stopRecording();
+      if (!audio.paused){ audio.pause(); playingId = ''; updatePlayButtons(); }
+    }
+
     Object.entries(screens).forEach(([k, el]) => el.classList.toggle('active', k === which));
+
+    const active = screens[which];
+    if (active){
+      active.classList.remove('animating');
+      void active.offsetWidth;
+      active.classList.add('animating');
+    }
+
     document.querySelectorAll('.tab').forEach(t => {
       t.classList.toggle('active', t.dataset.tab === which);
     });
@@ -1337,12 +1989,10 @@
 
   function goHome(){
     paintProfile();
-
     const start = parseISO(state.start);
     viewYear  = start.getFullYear();
     viewMonth = start.getMonth();
-
-    renderCalendar();
+    renderCalendar(0);
     renderForecast();
     switchTo('home');
   }
@@ -1351,42 +2001,109 @@
   function validateOnboard(){
     const nameOk = $('nameInput').value.trim().length > 0;
     const dateOk = !!$('startInput').value;
-    $('startBtn').disabled = !(nameOk && dateOk);
+    const passOk = $('passwordInput').value.length >= 4;
+    $('startBtn').disabled = !(nameOk && dateOk && passOk);
   }
 
   $('avatarInput').addEventListener('change', async (e) => {
     const file = e.target.files && e.target.files[0];
     if (!file || !file.type.startsWith('image/')) return;
-
     try {
       const dataUrl = await resizeToSquare(file, 320);
       state.avatar = dataUrl;
       localStorage.setItem(KEY.avatar, dataUrl);
       paintAvatarPicker();
-    } catch (err) {
-      console.warn(err);
-    }
+    } catch (err) { console.warn(err); }
   });
 
   $('nameInput').addEventListener('input', validateOnboard);
   $('startInput').addEventListener('input', validateOnboard);
   $('startInput').addEventListener('change', validateOnboard);
+  $('passwordInput').addEventListener('input', validateOnboard);
 
-  $('startBtn').addEventListener('click', () => {
-    state.name  = $('nameInput').value.trim();
-    state.start = $('startInput').value;
+  $('onboardForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if ($('startBtn').disabled) return;
 
-    localStorage.setItem(KEY.name,  state.name);
-    localStorage.setItem(KEY.start, state.start);
+    const name  = $('nameInput').value.trim();
+    const start = $('startInput').value;
+    const pass  = $('passwordInput').value;
 
-    goHome();
+    const parsed = parseISO(start);
+    if (parsed > startOfDay(new Date())) return;
+
+    try {
+      const salt = randomSalt();
+      const hash = await sha256(salt + pass);
+
+      localStorage.setItem(KEY.name,  name);
+      localStorage.setItem(KEY.start, start);
+      localStorage.setItem(KEY.salt,  salt);
+      localStorage.setItem(KEY.hash,  hash);
+      sessionStorage.setItem(SESSION_KEY, '1');
+
+      state.name  = name;
+      state.start = start;
+
+      goHome();
+    } catch (err) { console.warn(err); }
   });
 
-  /* ---------- calendar nav & taps ---------- */
-  $('prevBtn').addEventListener('click', () => shiftMonth(-1));
-  $('nextBtn').addEventListener('click', () => shiftMonth(1));
+  /* ---------- lock ---------- */
+  function showLockScreen(){
+    $('lockName').textContent = state.name || 'Welcome back';
+
+    const avatarEl = $('lockAvatar');
+    const svg = avatarEl.querySelector('svg');
+    if (state.avatar){
+      avatarEl.style.backgroundImage = `url("${state.avatar}")`;
+      if (svg) svg.style.display = 'none';
+    } else {
+      avatarEl.style.backgroundImage = '';
+      if (svg) svg.style.display = '';
+    }
+
+    $('lockUsername').value = state.name;
+    $('lockError').hidden = true;
+    $('lockPassword').value = '';
+    switchTo('lock');
+  }
+
+  $('lockForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const pw = $('lockPassword').value;
+    if (!pw) return;
+
+    const salt = localStorage.getItem(KEY.salt) || '';
+    const hash = localStorage.getItem(KEY.hash) || '';
+    const attempt = await sha256(salt + pw);
+
+    if (attempt === hash){
+      sessionStorage.setItem(SESSION_KEY, '1');
+      $('lockError').hidden = true;
+      goHome();
+    } else {
+      const err = $('lockError');
+      err.textContent = 'Wrong password. Try again.';
+      err.hidden = false;
+      $('lockPassword').select();
+    }
+  });
+
+  $('resetBtn').addEventListener('click', () => {
+    if (!confirm('This erases all saved data on this device. Continue?')) return;
+    try { indexedDB.deleteDatabase('cycle-db'); } catch {}
+    localStorage.clear();
+    sessionStorage.clear();
+    location.reload();
+  });
+
+  /* ---------- calendar nav + swipe ---------- */
+  $('prevBtn').addEventListener('click', () => shiftMonth(-1, true));
+  $('nextBtn').addEventListener('click', () => shiftMonth(1, true));
 
   $('calGrid').addEventListener('click', (e) => {
+    if (Date.now() < suppressClickUntil) return;
     const cell = e.target.closest('.cell.is-tappable');
     if (cell && cell.dataset.date) openDay(cell.dataset.date);
   });
@@ -1399,28 +2116,74 @@
     openDay(cell.dataset.date);
   });
 
-  $('backBtn').addEventListener('click', () => switchTo('home'));
+  (function enableSwipe(){
+    const panel = $('calendarPanel');
+    let sx = 0, sy = 0, t0 = 0, axis = null;
 
-  /* ---------- gif card ---------- */
+    panel.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 1) { axis = null; return; }
+      const t = e.touches[0];
+      sx = t.clientX; sy = t.clientY; t0 = Date.now();
+      axis = null;
+    }, { passive: true });
+
+    panel.addEventListener('touchmove', (e) => {
+      if (axis || e.touches.length !== 1) return;
+      const t = e.touches[0];
+      const dx = t.clientX - sx;
+      const dy = t.clientY - sy;
+      if (Math.abs(dx) > 10 || Math.abs(dy) > 10){
+        axis = Math.abs(dx) > Math.abs(dy) * 1.2 ? 'h' : 'v';
+      }
+    }, { passive: true });
+
+    panel.addEventListener('touchend', (e) => {
+      if (axis !== 'h') { axis = null; return; }
+      const t = e.changedTouches[0];
+      const dx = t.clientX - sx;
+      const dy = t.clientY - sy;
+      const dt = Date.now() - t0;
+      axis = null;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.2 && dt < 700){
+        shiftMonth(dx > 0 ? -1 : 1, true);
+        suppressClickUntil = Date.now() + 300;
+      }
+    }, { passive: true });
+  })();
+
+  $('backBtn').addEventListener('click', () => {
+    if (mediaRecorder) stopRecording();
+    if (!audio.paused){ audio.pause(); playingId = ''; }
+    switchTo('home');
+  });
+
+  /* ---------- gif per date ---------- */
   $('gifCard').addEventListener('click', () => $('gifInput').click());
 
-  $('gifInput').addEventListener('change', (e) => {
+  $('gifInput').addEventListener('change', async (e) => {
     const file = e.target.files && e.target.files[0];
     e.target.value = '';
     if (!file || !file.type.startsWith('image/')) return;
-    if (file.size > GIF_MAX_BYTES) return;   // keeps local storage healthy
+    if (file.size > GIF_MAX_BYTES) return;
+    if (!currentDayIso) return;
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      state.dayGif = String(reader.result);
-      try {
-        localStorage.setItem(KEY.dayGif, state.dayGif);
-      } catch (err) {
-        /* quota exceeded — keep it for this session only */
-      }
-      renderDayGif();
-    };
-    reader.readAsDataURL(file);
+    const dataUrl = await new Promise((res) => {
+      const r = new FileReader();
+      r.onload  = () => res(String(r.result));
+      r.onerror = () => res(null);
+      r.readAsDataURL(file);
+    });
+    if (!dataUrl) return;
+
+    await setGif(currentDayIso, dataUrl);
+    renderDayGif();
+  });
+
+  $('gifRemove').addEventListener('click', async (e) => {
+    e.stopPropagation();
+    if (!currentDayIso) return;
+    await deleteGif(currentDayIso);
+    renderDayGif();
   });
 
   /* ---------- edit sheet ---------- */
@@ -1447,9 +2210,8 @@
   $('saveEdit').addEventListener('click', () => {
     const val = $('editDate').value;
     if (!val) return;
-
     const parsed = parseISO(val);
-    if (parsed > startOfDay(new Date())) return;   // no future dates
+    if (parsed > startOfDay(new Date())) return;
 
     state.start = val;
     localStorage.setItem(KEY.start, val);
@@ -1458,7 +2220,7 @@
     viewMonth = parsed.getMonth();
 
     closeSheet();
-    renderCalendar();
+    renderCalendar(0);
     renderForecast();
   });
 
@@ -1470,11 +2232,9 @@
   function changeCycle(delta){
     const next = clamp(state.cycle + delta, CYCLE_MIN, CYCLE_MAX);
     if (next === state.cycle) return;
-
     state.cycle = next;
     localStorage.setItem(KEY.cycle, String(next));
-
-    renderCalendar();
+    renderCalendar(0);
     renderForecast();
   }
 
@@ -1485,26 +2245,42 @@
   document.querySelectorAll('.tab').forEach(t => {
     t.addEventListener('click', () => {
       const target = t.dataset.tab;
-      if (target === 'home')     renderCalendar();
+      if (target === 'home')     renderCalendar(0);
       if (target === 'forecast') renderForecast();
       switchTo(target);
     });
   });
 
   /* ---------- init ---------- */
+  function loadState(){
+    state.name   = localStorage.getItem(KEY.name)   || '';
+    state.avatar = localStorage.getItem(KEY.avatar) || '';
+    state.start  = localStorage.getItem(KEY.start)  || '';
+    state.cycle  = clamp(
+      parseInt(localStorage.getItem(KEY.cycle), 10) || 28,
+      CYCLE_MIN, CYCLE_MAX
+    );
+  }
+
   function init(){
     $('startInput').max = toISO(new Date());
     $('editDate').max   = toISO(new Date());
 
-    const validStart = /^\d{4}-\d{2}-\d{2}$/.test(state.start);
+    const hasPassword = !!(localStorage.getItem(KEY.hash) && localStorage.getItem(KEY.salt));
+    const unlocked    = sessionStorage.getItem(SESSION_KEY) === '1';
+    const validStart  = /^\d{4}-\d{2}-\d{2}$/.test(localStorage.getItem(KEY.start) || '');
 
-    if (state.name && validStart){
-      goHome();
+    loadState();
+
+    if (hasPassword && state.name && validStart){
+      if (unlocked) goHome();
+      else          showLockScreen();
       return;
     }
 
-    $('nameInput').value  = state.name;
-    $('startInput').value = validStart ? state.start : '';
+    $('nameInput').value     = state.name;
+    $('startInput').value    = validStart ? state.start : '';
+    $('passwordInput').value = '';
     paintAvatarPicker();
     validateOnboard();
     switchTo('onboard');
