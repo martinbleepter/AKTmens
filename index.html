@@ -8,32 +8,21 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Chewy&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Chewy&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
 <style>
-  /* ============ TOKENS ============ */
   :root{
     --ink:      #422427;
     --white:    #ffffff;
-
-    --ink-06:   rgba(66, 36, 39, .06);
-    --ink-08:   rgba(66, 36, 39, .08);
-    --ink-12:   rgba(66, 36, 39, .12);
-    --ink-25:   rgba(66, 36, 39, .25);
-    --ink-45:   rgba(66, 36, 39, .45);
-    --ink-60:   rgba(66, 36, 39, .60);
-
-    --s-1: 4px;
-    --s-2: 8px;
-    --s-3: 12px;
-    --s-4: 16px;
-    --s-5: 24px;
-    --s-6: 32px;
-    --s-7: 48px;
-
-    --r-md:   22px;
-    --r-lg:   34px;
-    --r-full: 999px;
+    --ink-06:   rgba(66,36,39,.06);
+    --ink-08:   rgba(66,36,39,.08);
+    --ink-12:   rgba(66,36,39,.12);
+    --ink-25:   rgba(66,36,39,.25);
+    --ink-45:   rgba(66,36,39,.45);
+    --ink-60:   rgba(66,36,39,.60);
+    --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px;
+    --s-5: 24px; --s-6: 32px; --s-7: 48px;
+    --r-md: 22px; --r-lg: 34px; --r-full: 999px;
   }
 
   *, *::before, *::after{ box-sizing: border-box; }
@@ -46,7 +35,7 @@
     overflow-x: hidden;
     background: var(--white);
     color: var(--ink);
-    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 16px;
     line-height: 1.4;
     -webkit-font-smoothing: antialiased;
@@ -57,11 +46,9 @@
   button, input{ font: inherit; color: inherit; }
 
   .sr-only{
-    position: absolute;
-    width: 1px; height: 1px;
-    padding: 0; margin: -1px;
-    overflow: hidden; clip: rect(0,0,0,0);
-    white-space: nowrap; border: 0;
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0,0,0,0); white-space: nowrap; border: 0;
   }
 
   .blob{
@@ -109,188 +96,25 @@
     margin: 0 auto;
     gap: var(--s-5);
   }
+  .stack{ display: flex; flex-direction: column; gap: var(--s-3); }
 
-  .stack{
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-3);
-  }
-
-  /* ============ QUESTIONS SCREEN ============ */
-  #screenQuestions .wrap{
-    justify-content: center;
-    justify-content: safe center;
-    gap: var(--s-5);
-  }
-
-  .q-intro{
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-1);
-    text-align: center;
-  }
-  .q-title{
-    margin: 0;
-    font-size: 24px;
-    font-weight: 600;
-    letter-spacing: -.02em;
-    line-height: 1.2;
-  }
-  .q-sub{
-    margin: 0;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--ink-60);
-  }
-
-  .q-card{
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-5);
-    padding: var(--s-5) var(--s-4);
-    will-change: transform, opacity;
-  }
-
-  .q-item{
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-3);
-  }
-  .q-label{
-    margin: 0;
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: -.005em;
-    line-height: 1.35;
-    color: var(--ink);
-  }
-
-  .chips{
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--s-2);
-  }
-  .chip{
-    border: 0;
-    background: var(--ink-08);
-    color: var(--ink);
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 500;
-    padding: var(--s-2) var(--s-4);
-    border-radius: var(--r-full);
-    cursor: pointer;
-    transition: background-color .18s ease, color .18s ease, transform .18s ease;
-  }
-  .chip:active{ transform: scale(.96); }
-  .chip.selected{
-    background: var(--ink);
-    color: var(--white);
-  }
-
-  /* Card + chip entry animation, restarts on every entry */
-  @keyframes cardRise{
-    from{ opacity: 0; transform: translateY(22px) scale(.985); }
-    to  { opacity: 1; transform: none; }
-  }
-  @keyframes itemRise{
-    from{ opacity: 0; transform: translateY(10px); }
-    to  { opacity: 1; transform: none; }
-  }
-  .screen.animating .q-intro  { animation: itemRise .45s cubic-bezier(.2,.7,.3,1) both; }
-  .screen.animating .q-card   { animation: cardRise .55s cubic-bezier(.2,.7,.3,1) both; animation-delay: .08s; }
-  .screen.animating .q-item:nth-child(1){ animation: itemRise .45s cubic-bezier(.2,.7,.3,1) both; animation-delay: .22s; }
-  .screen.animating .q-item:nth-child(2){ animation: itemRise .45s cubic-bezier(.2,.7,.3,1) both; animation-delay: .30s; }
-  .screen.animating .q-item:nth-child(3){ animation: itemRise .45s cubic-bezier(.2,.7,.3,1) both; animation-delay: .38s; }
-  .screen.animating #questionsContinue  { animation: itemRise .45s cubic-bezier(.2,.7,.3,1) both; animation-delay: .46s; }
-
-  /* ============ PAYWALL ============ */
-  #screenPaywall .wrap{
-    justify-content: center;
-    justify-content: safe center;
-    gap: var(--s-5);
-  }
-
-  .pay-intro{
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-1);
-    text-align: center;
-  }
-  .pay-title{
-    margin: 0;
-    font-size: 26px;
-    font-weight: 600;
-    letter-spacing: -.02em;
-    line-height: 1.2;
-  }
-  .pay-sub{
-    margin: 0;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--ink-60);
-  }
-
-  .pay-card{
-    padding: var(--s-5);
-  }
-  .pay-benefits{
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-3);
-  }
-  .pay-benefits li{
-    display: flex;
-    align-items: flex-start;
-    gap: var(--s-3);
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.5;
-    color: var(--ink);
-  }
-  .pay-benefits li::before{
-    content: '';
-    flex: 0 0 auto;
-    width: 18px; height: 18px;
-    margin-top: 1px;
-    border-radius: 50%;
-    background: var(--ink-08);
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M2.5 6.5l2.3 2.3L9.5 4' fill='none' stroke='%23422427' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
-    background-size: 12px 12px;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-
-  .pay-actions{
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-3);
-  }
-
-  /* ============ SIGNUP ============ */
-  #screenSignup .wrap{
+  /* ============ ONBOARDING ============ */
+  #screenOnboard .wrap,
+  #screenLock .wrap{
     justify-content: center;
     justify-content: safe center;
     gap: var(--s-6);
   }
 
   .avatar-block{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--s-3);
-    width: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; gap: var(--s-3); width: 100%;
   }
 
   .avatar-picker{
     position: relative;
-    display: grid;
-    place-items: center;
-    width: 104px;
-    height: 104px;
+    display: grid; place-items: center;
+    width: 104px; height: 104px;
     border-radius: 50%;
     background-color: var(--ink-08);
     background-size: cover;
@@ -301,23 +125,15 @@
   }
   .avatar-picker:active{ transform: scale(.96); }
   .avatar-picker .plus{
-    font-size: 34px;
-    font-weight: 300;
-    line-height: 1;
-    color: var(--ink);
-    opacity: .4;
+    font-size: 34px; font-weight: 300; line-height: 1;
+    color: var(--ink); opacity: .4;
   }
   .avatar-picker.has-photo .plus{ display: none; }
 
   .field{
-    width: 100%;
-    border: 0;
-    outline: 0;
-    font-family: inherit;
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--ink);
-    background: var(--ink-08);
+    width: 100%; border: 0; outline: 0;
+    font-family: inherit; font-size: 16px; font-weight: 500;
+    color: var(--ink); background: var(--ink-08);
     border-radius: var(--r-md);
     padding: var(--s-4) var(--s-5);
     min-height: 56px;
@@ -326,56 +142,32 @@
   .field::placeholder{ color: var(--ink-45); font-weight: 400; }
   .field:focus{ background: var(--ink-12); }
 
-  #nameInput{
-    max-width: 320px;
-    text-align: center;
-  }
+  #nameInput{ max-width: 320px; text-align: center; }
 
   input[type="date"].field{ -webkit-appearance: none; appearance: none; }
-  input[type="date"]::-webkit-calendar-picker-indicator{
-    opacity: .45; cursor: pointer; margin-left: var(--s-1);
-  }
+  input[type="date"]::-webkit-calendar-picker-indicator{ opacity: .45; cursor: pointer; margin-left: var(--s-1); }
   input[type="date"]:invalid::-webkit-datetime-edit{ color: var(--ink-45); }
 
   .onboard-bottom{
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-5);
-    width: 100%;
-    max-width: 320px;
-    margin: 0 auto;
+    display: flex; flex-direction: column; gap: var(--s-5);
+    width: 100%; max-width: 320px; margin: 0 auto;
   }
 
-  .form-group{
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-2);
-  }
+  .form-group{ display: flex; flex-direction: column; gap: var(--s-2); }
 
   .question{
-    margin: 0;
-    font-size: 22px;
-    font-weight: 600;
-    letter-spacing: -.02em;
-    line-height: 1.3;
+    margin: 0; font-size: 22px; font-weight: 600;
+    letter-spacing: -.02em; line-height: 1.3;
   }
 
-  .hint{
-    margin: 0;
-    padding: 0 var(--s-1);
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 1.45;
-    color: var(--ink-45);
+  .hint-text{
+    margin: 0; padding: 0 var(--s-1);
+    font-size: 12px; line-height: 1.45; color: var(--ink-45);
   }
 
   .btn{
-    border: 0;
-    font-family: inherit;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--white);
-    background: var(--ink);
+    border: 0; font-family: inherit; font-size: 16px; font-weight: 600;
+    color: var(--white); background: var(--ink);
     border-radius: var(--r-md);
     padding: var(--s-4) var(--s-5);
     min-height: 56px;
@@ -386,105 +178,199 @@
   .btn:not(:disabled):active{ transform: scale(.985); }
   .btn.ghost{ background: var(--ink-08); color: var(--ink); }
 
-  /* ============ LOCK ============ */
-  #screenLock .wrap{
-    justify-content: center;
-    justify-content: safe center;
-    gap: var(--s-6);
+  /* ============ QUESTIONS ============ */
+  #screenQuestions .wrap{ gap: var(--s-6); padding-top: var(--s-5); }
+
+  .q-progress{
+    display: flex; flex-direction: column; gap: var(--s-2);
+  }
+  .q-progress-label{
+    font-size: 12px; font-weight: 600; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--ink-45);
+  }
+  .q-progress-bar{
+    height: 4px; border-radius: var(--r-full);
+    background: var(--ink-08); overflow: hidden;
+  }
+  .q-progress-fill{
+    height: 100%; width: 33%;
+    background: var(--ink); border-radius: var(--r-full);
+    transition: width .4s cubic-bezier(.2, .7, .3, 1);
   }
 
-  .lock-head{
-    display: flex;
+  .q-stack{ position: relative; flex: 1; }
+
+  .q-card{
+    display: none;
     flex-direction: column;
-    align-items: center;
-    gap: var(--s-3);
+    gap: var(--s-5);
+  }
+  .q-card.active{
+    display: flex;
+    animation: qReveal .65s cubic-bezier(.2, .7, .3, 1) both;
+  }
+  @keyframes qReveal{
+    from{ clip-path: inset(100% 0 0 0); opacity: .4; }
+    to  { clip-path: inset(0 0 0 0); opacity: 1; }
+  }
+
+  .q-title{
+    margin: 0;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -.02em;
+    line-height: 1.25;
+  }
+
+  .q-options{
+    display: flex; flex-direction: column; gap: var(--s-2);
+  }
+  .q-option{
+    border: 0;
+    background: var(--ink-08);
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    padding: var(--s-4) var(--s-5);
+    border-radius: var(--r-md);
+    text-align: left;
+    cursor: pointer;
+    transition: background-color .2s ease, transform .2s ease;
+  }
+  .q-option:active{ transform: scale(.985); background: var(--ink-12); }
+  .q-option.selected{ background: var(--ink); color: var(--white); }
+
+  /* ============ PAYWALL ============ */
+  #screenPaywall .wrap{ gap: var(--s-4); }
+
+  .pay-header{ display: flex; flex-direction: column; gap: var(--s-2); }
+
+  .pay-sub{
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.55;
+    color: var(--ink-60);
+  }
+
+  .pay-frame-wrap{
+    flex: 1;
+    min-height: 380px;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    background: var(--ink-06);
+    position: relative;
+  }
+  .pay-frame-wrap iframe{
+    width: 100%; height: 100%; border: 0; display: block;
+  }
+
+  .pay-actions{ display: flex; flex-direction: column; gap: var(--s-2); }
+
+  .pay-link{
+    display: block;
     text-align: center;
+    padding: var(--s-3);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-60);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* ============ SIGNUP ============ */
+  #screenSignup .wrap{ gap: var(--s-6); padding-top: var(--s-6); }
+
+  .signup-head{ display: flex; flex-direction: column; gap: var(--s-2); }
+
+  .signup-sub{
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.55;
+    color: var(--ink-60);
+  }
+
+  .signup-form{
+    display: flex; flex-direction: column; gap: var(--s-4);
+    width: 100%; max-width: 360px; margin: 0 auto;
+  }
+
+  .signup-label{
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-60);
+    padding: 0 var(--s-1) var(--s-1);
+  }
+
+  /* ============ LOCK ============ */
+  .lock-head{
+    display: flex; flex-direction: column;
+    align-items: center; gap: var(--s-3); text-align: center;
   }
   .avatar-lg{ width: 96px !important; height: 96px !important; }
   .avatar-lg svg{ width: 44px !important; height: 44px !important; }
 
   .lock-sub{
-    margin: 0;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--ink-60);
+    margin: 0; font-size: 14px; font-weight: 400; color: var(--ink-60);
   }
+
   .lock-form{
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-3);
-    width: 100%;
-    max-width: 320px;
-    margin: 0 auto;
+    display: flex; flex-direction: column; gap: var(--s-3);
+    width: 100%; max-width: 320px; margin: 0 auto;
   }
+
   .lock-error{
     margin: 0;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--ink);
+    font-size: 13px; font-weight: 500; color: var(--ink);
     background: var(--ink-08);
     padding: var(--s-2) var(--s-3);
     border-radius: var(--r-md);
   }
   .lock-error[hidden]{ display: none; }
+
   .lock-reset{
     align-self: center;
-    border: 0;
-    background: transparent;
-    color: var(--ink-45);
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 500;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    cursor: pointer;
-    padding: var(--s-2);
+    border: 0; background: transparent;
+    color: var(--ink-45); font-family: inherit;
+    font-size: 13px; font-weight: 500;
+    text-decoration: underline; text-underline-offset: 3px;
+    cursor: pointer; padding: var(--s-2);
   }
 
   /* ============ PROFILE ============ */
   .profile{
-    display: flex;
-    align-items: center;
-    gap: var(--s-3);
+    display: flex; align-items: center; gap: var(--s-3);
     padding-top: var(--s-2);
   }
 
   .avatar{
-    display: grid;
-    place-items: center;
+    display: grid; place-items: center;
     flex: 0 0 auto;
-    width: 56px;
-    height: 56px;
+    width: 56px; height: 56px;
     border-radius: 50%;
     background: var(--ink-08) center / cover no-repeat;
     color: var(--ink);
     overflow: hidden;
+    position: relative;
   }
   .avatar svg{ width: 26px; height: 26px; opacity: .35; }
 
-  .avatar[data-editable]{
+  #screenHome .profile .avatar{
     cursor: pointer;
-    position: relative;
     transition: transform .2s ease;
   }
-  .avatar[data-editable]:active{ transform: scale(.94); }
-  .avatar[data-editable]::after{
+  #screenHome .profile .avatar:active{ transform: scale(.94); }
+  #screenHome .profile .avatar::after{
     content: '';
     position: absolute;
-    right: -1px; bottom: -1px;
-    width: 18px; height: 18px;
+    bottom: -2px; right: -2px;
+    width: 20px; height: 20px;
     border-radius: 50%;
-    background-color: var(--white);
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M8.2 1.8l2 2-6.4 6.4H1.8v-2L8.2 1.8z' fill='none' stroke='%23422427' stroke-width='1.2' stroke-linejoin='round'/></svg>");
-    background-size: 10px 10px;
-    background-position: center;
-    background-repeat: no-repeat;
-    box-shadow: 0 0 0 2px var(--white);
-    pointer-events: none;
-  }
-  .avatar[data-editable]:focus-visible{
-    outline: 0;
-    box-shadow: 0 0 0 2px var(--ink-25);
+    background: var(--ink) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round'><path d='M4 20h4L19 9l-4-4L4 16v4z'/><path d='M14 6l4 4'/></svg>") center/10px no-repeat;
+    border: 2px solid var(--white);
   }
 
   .user-name{
@@ -495,13 +381,29 @@
     line-height: 1.05;
     letter-spacing: .4px;
     word-break: break-word;
+    flex: 1;
   }
+
+  .logout-btn{
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 40px; height: 40px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--ink-08);
+    color: var(--ink);
+    cursor: pointer;
+    transition: background-color .2s ease, transform .2s ease;
+  }
+  .logout-btn:active{ transform: scale(.92); background: var(--ink-12); }
+  .logout-btn svg{ width: 18px; height: 18px; }
 
   /* ============ PANELS ============ */
   .panel{
     border-radius: var(--r-lg);
     padding: var(--s-4);
-    background: rgba(255, 255, 255, .55);
+    background: rgba(255,255,255,.55);
     -webkit-backdrop-filter: blur(26px) saturate(180%);
     backdrop-filter: blur(26px) saturate(180%);
     box-shadow: 0 24px 60px -28px var(--ink-25);
@@ -509,48 +411,32 @@
 
   /* ============ CALENDAR ============ */
   .cal-head{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: flex; align-items: center; justify-content: space-between;
     padding: 0 0 var(--s-3);
   }
-  .month-label{
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: .01em;
-  }
+  .month-label{ font-size: 15px; font-weight: 600; letter-spacing: .01em; }
   .nav{
-    display: grid;
-    place-items: center;
+    display: grid; place-items: center;
     width: 34px; height: 34px;
-    border: 0;
-    border-radius: 50%;
-    background: var(--ink-08);
-    color: var(--ink);
-    font-size: 16px;
-    line-height: 1;
-    cursor: pointer;
+    border: 0; border-radius: 50%;
+    background: var(--ink-08); color: var(--ink);
+    font-size: 16px; line-height: 1; cursor: pointer;
     transition: background-color .2s ease, transform .2s ease;
   }
   .nav:active{ transform: scale(.92); background: var(--ink-12); }
 
   .weekdays{
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    display: grid; grid-template-columns: repeat(7, 1fr);
     padding-bottom: var(--s-2);
   }
   .weekdays span{
-    text-align: center;
-    font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: .09em;
-    text-transform: uppercase;
+    text-align: center; font-size: 10.5px; font-weight: 700;
+    letter-spacing: .09em; text-transform: uppercase;
     color: var(--ink-45);
   }
 
   .grid{
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    display: grid; grid-template-columns: repeat(7, 1fr);
     will-change: transform, opacity;
   }
   .grid.slide-next{ animation: slideNext .3s cubic-bezier(.2,.7,.3,1); }
@@ -566,28 +452,20 @@
 
   .cell{
     position: relative;
-    display: grid;
-    place-items: center;
+    display: grid; place-items: center;
     aspect-ratio: 1 / 1;
-    font-size: 14.5px;
-    font-weight: 500;
-    color: var(--ink);
+    font-size: 14.5px; font-weight: 500; color: var(--ink);
   }
   .cell .num{ position: relative; z-index: 2; transition: opacity .15s ease; }
-
   .cell::before{
-    content: '';
-    position: absolute;
-    z-index: 1;
+    content: ''; position: absolute; z-index: 1;
     top: 4px; bottom: 4px; left: 0; right: 0;
     background: transparent;
   }
-
   .cell[data-state="actual"]{ color: var(--white); }
   .cell[data-state="actual"]::before{ background: var(--ink); }
   .cell[data-state="predicted"]{ color: var(--ink); }
   .cell[data-state="predicted"]::before{ background: var(--ink-12); }
-
   .cell.seg-start::before{
     left: 3px;
     border-top-left-radius: var(--r-full);
@@ -603,48 +481,35 @@
   .cell.today .num::after{
     content: '';
     position: absolute;
-    left: 50%;
-    bottom: -6px;
+    left: 50%; bottom: -6px;
     width: 3px; height: 3px;
     margin-left: -1.5px;
     border-radius: 50%;
     background: currentColor;
     opacity: .7;
   }
-
   .cell.is-tappable{ cursor: pointer; }
   .cell.is-tappable:active .num{ opacity: .55; }
   .cell:focus-visible{
-    outline: 0;
-    border-radius: var(--r-full);
+    outline: 0; border-radius: var(--r-full);
     box-shadow: inset 0 0 0 2px var(--ink-25);
   }
 
-  /* ============ CAPTION / LEGEND ============ */
+  /* ============ CAPTION ============ */
   .caption-row{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--s-3);
-    flex-wrap: wrap;
+    display: flex; align-items: center; justify-content: center;
+    gap: var(--s-3); flex-wrap: wrap;
     padding: 0 var(--s-2);
   }
   .caption{
-    margin: 0;
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 1.5;
-    color: var(--ink-60);
-    text-align: center;
+    margin: 0; font-size: 13px; line-height: 1.5;
+    color: var(--ink-60); text-align: center;
   }
 
   .text-btn{
     border: 0;
-    background: var(--ink-08);
-    color: var(--ink);
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 600;
+    background: var(--ink-08); color: var(--ink);
+    font-family: inherit; font-size: 13px; font-weight: 600;
     padding: var(--s-2) var(--s-3);
     border-radius: var(--r-full);
     cursor: pointer;
@@ -652,108 +517,60 @@
   }
   .text-btn:active{ background: var(--ink-12); }
 
-  .legend-row{
-    display: flex;
-    justify-content: center;
-    gap: var(--s-4);
-  }
+  .legend-row{ display: flex; justify-content: center; gap: var(--s-4); }
   .legend{
-    display: inline-flex;
-    align-items: center;
-    gap: var(--s-2);
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--ink-60);
+    display: inline-flex; align-items: center; gap: var(--s-2);
+    font-size: 12px; font-weight: 500; color: var(--ink-60);
   }
-  .dot{
-    display: inline-block;
-    width: 10px; height: 10px;
-    border-radius: 50%;
-  }
+  .dot{ display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
   .dot.solid{ background: var(--ink); }
   .dot.light{ background: var(--ink-12); }
 
   /* ============ FORECAST ============ */
   .cycle-panel{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: flex; align-items: center; justify-content: space-between;
     gap: var(--s-4);
   }
-  .cycle-label{
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--ink-60);
-  }
+  .cycle-label{ font-size: 14px; font-weight: 600; color: var(--ink-60); }
   .stepper{ display: flex; align-items: center; gap: var(--s-2); }
   .step-btn{
-    display: grid;
-    place-items: center;
+    display: grid; place-items: center;
     width: 34px; height: 34px;
-    border: 0;
-    border-radius: 50%;
-    background: var(--ink-08);
-    color: var(--ink);
-    font-size: 18px;
-    line-height: 1;
-    cursor: pointer;
+    border: 0; border-radius: 50%;
+    background: var(--ink-08); color: var(--ink);
+    font-size: 18px; line-height: 1; cursor: pointer;
     transition: background-color .2s ease, transform .2s ease;
   }
   .step-btn:active{ transform: scale(.92); background: var(--ink-12); }
   .step-value{
-    min-width: 76px;
-    text-align: center;
-    font-size: 14px;
-    font-weight: 600;
+    min-width: 76px; text-align: center;
+    font-size: 14px; font-weight: 600;
   }
 
-  .forecast-panel{
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-1);
-  }
+  .forecast-panel{ display: flex; flex-direction: column; gap: var(--s-1); }
   .forecast-head{
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .09em;
-    text-transform: uppercase;
-    color: var(--ink-45);
+    font-size: 11px; font-weight: 700; letter-spacing: .09em;
+    text-transform: uppercase; color: var(--ink-45);
     padding: 0 var(--s-2) var(--s-1);
   }
-  .forecast-list{
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-1);
-  }
+  .forecast-list{ display: flex; flex-direction: column; gap: var(--s-1); }
   .forecast-row{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--s-3);
-    width: 100%;
-    border: 0;
-    background: transparent;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--s-3); width: 100%;
+    border: 0; background: transparent;
     padding: var(--s-3) var(--s-2);
     border-radius: var(--r-md);
-    text-align: left;
-    cursor: pointer;
+    text-align: left; cursor: pointer;
     transition: background-color .2s ease;
   }
   .forecast-row:active{ background: var(--ink-06); }
-  .forecast-main{
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    min-width: 0;
-  }
+  .forecast-main{ display: flex; flex-direction: column; gap: 2px; min-width: 0; }
   .forecast-month{ font-size: 14px; font-weight: 600; }
-  .forecast-range{ font-size: 13px; font-weight: 500; color: var(--ink-60); }
+  .forecast-range{ font-size: 13px; color: var(--ink-60); }
   .forecast-badge{
     flex: 0 0 auto;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--ink);
-    background: var(--ink-08);
+    font-size: 12px; font-weight: 600;
+    color: var(--ink); background: var(--ink-08);
     padding: var(--s-1) var(--s-2);
     border-radius: var(--r-full);
     white-space: nowrap;
@@ -761,33 +578,20 @@
 
   /* ============ DAY SCREEN ============ */
   .day-top{
-    display: flex;
-    align-items: center;
-    gap: var(--s-3);
+    display: flex; align-items: center; gap: var(--s-3);
     padding-top: var(--s-2);
   }
   .back-btn{
-    display: grid;
-    place-items: center;
+    display: grid; place-items: center;
     flex: 0 0 auto;
     width: 42px; height: 42px;
-    border: 0;
-    border-radius: 50%;
-    background: var(--ink-08);
-    color: var(--ink);
-    font-size: 22px;
-    line-height: 1;
-    cursor: pointer;
+    border: 0; border-radius: 50%;
+    background: var(--ink-08); color: var(--ink);
+    font-size: 22px; line-height: 1; cursor: pointer;
     transition: background-color .2s ease, transform .2s ease;
   }
   .back-btn:active{ transform: scale(.92); background: var(--ink-12); }
-
-  .day-meta{
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    min-width: 0;
-  }
+  .day-meta{ display: flex; flex-direction: column; gap: 2px; min-width: 0; }
   .day-date{ font-size: 16px; font-weight: 600; letter-spacing: -.01em; }
   .day-phase{ font-size: 13px; font-weight: 500; color: var(--ink-60); }
 
@@ -798,8 +602,7 @@
     display: block;
     width: 100%;
     aspect-ratio: 4 / 3;
-    padding: 0;
-    border: 0;
+    padding: 0; border: 0;
     border-radius: var(--r-lg);
     overflow: hidden;
     background: var(--ink);
@@ -812,18 +615,14 @@
   .gif-img[hidden]{ display: none; }
   .gif-fallback{ position: absolute; inset: 0; background: var(--ink); }
   .gif-fallback[hidden]{ display: none; }
-
   .gif-blob{
-    position: absolute;
-    border-radius: 50%;
-    background: var(--white);
-    filter: blur(26px);
+    position: absolute; border-radius: 50%;
+    background: var(--white); filter: blur(26px);
     will-change: transform;
   }
   .g1{ width: 62%; aspect-ratio: 1; left: -12%; top: -22%; opacity: .50; animation: floatA 9s ease-in-out infinite; }
   .g2{ width: 48%; aspect-ratio: 1; right: -10%; bottom: -20%; opacity: .30; animation: floatB 11s ease-in-out infinite; }
   .g3{ width: 30%; aspect-ratio: 1; left: 42%; top: 44%; opacity: .22; animation: floatC 7s ease-in-out infinite; }
-
   @keyframes floatA{
     0%, 100%{ transform: translate3d(0, 0, 0) scale(1); }
     50%     { transform: translate3d(14%, 10%, 0) scale(1.14); }
@@ -836,34 +635,20 @@
     0%, 100%{ transform: translate3d(0, 0, 0) scale(1); opacity: .18; }
     50%     { transform: translate3d(-16%, 12%, 0) scale(1.22); opacity: .30; }
   }
-
   .gif-hint{
-    position: absolute;
-    right: var(--s-3); bottom: var(--s-3);
-    z-index: 3;
-    background: rgba(255, 255, 255, .92);
-    color: var(--ink);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .02em;
-    padding: var(--s-1) var(--s-3);
-    border-radius: var(--r-full);
+    position: absolute; right: var(--s-3); bottom: var(--s-3); z-index: 3;
+    background: rgba(255,255,255,.92); color: var(--ink);
+    font-size: 11px; font-weight: 600; letter-spacing: .02em;
+    padding: var(--s-1) var(--s-3); border-radius: var(--r-full);
     pointer-events: none;
   }
   .gif-remove{
-    position: absolute;
-    top: var(--s-3); right: var(--s-3);
-    z-index: 4;
-    display: grid;
-    place-items: center;
+    position: absolute; top: var(--s-3); right: var(--s-3); z-index: 4;
+    display: grid; place-items: center;
     width: 30px; height: 30px;
-    border: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, .92);
-    color: var(--ink);
-    font-size: 16px;
-    line-height: 1;
-    cursor: pointer;
+    border: 0; border-radius: 50%;
+    background: rgba(255,255,255,.92); color: var(--ink);
+    font-size: 16px; line-height: 1; cursor: pointer;
     transition: transform .2s ease;
   }
   .gif-remove:active{ transform: scale(.9); }
@@ -871,54 +656,34 @@
 
   .advice-panel{ display: flex; flex-direction: column; gap: var(--s-3); }
   .advice-text{
-    margin: 0;
-    font-size: 15px;
-    font-weight: 500;
-    line-height: 1.6;
-    color: var(--ink);
+    margin: 0; font-size: 15px; font-weight: 500;
+    line-height: 1.6; color: var(--ink);
   }
   .advice-meta{ font-size: 12px; font-weight: 500; color: var(--ink-45); }
 
   /* ============ VOICE ============ */
   .voice-panel{ display: flex; flex-direction: column; gap: var(--s-3); }
-  .voice-head{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--s-3);
-  }
+  .voice-head{ display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); }
   .voice-title{ font-size: 14px; font-weight: 600; color: var(--ink); }
   .voice-rec-btn{
-    display: inline-flex;
-    align-items: center;
-    gap: var(--s-2);
-    border: 0;
-    background: var(--ink);
-    color: var(--white);
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 600;
-    padding: var(--s-2) var(--s-4);
-    border-radius: var(--r-full);
-    cursor: pointer;
-    transition: transform .2s ease;
+    display: inline-flex; align-items: center; gap: var(--s-2);
+    border: 0; background: var(--ink); color: var(--white);
+    font-family: inherit; font-size: 13px; font-weight: 600;
+    padding: var(--s-2) var(--s-4); border-radius: var(--r-full);
+    cursor: pointer; transition: transform .2s ease;
   }
   .voice-rec-btn:active{ transform: scale(.96); }
   .voice-rec-btn[hidden]{ display: none; }
   .voice-rec-dot{ width: 8px; height: 8px; border-radius: 50%; background: var(--white); }
 
   .voice-active{
-    display: flex;
-    align-items: center;
-    gap: var(--s-3);
+    display: flex; align-items: center; gap: var(--s-3);
     padding: var(--s-3) var(--s-4);
-    background: var(--ink-08);
-    border-radius: var(--r-md);
+    background: var(--ink-08); border-radius: var(--r-md);
   }
   .voice-active[hidden]{ display: none; }
   .voice-pulse{
-    width: 10px; height: 10px;
-    border-radius: 50%;
+    width: 10px; height: 10px; border-radius: 50%;
     background: var(--ink);
     animation: voicePulse 1.2s ease-in-out infinite;
   }
@@ -927,82 +692,54 @@
     50%     { opacity: .35; transform: scale(.85); }
   }
   .voice-timer{
-    flex: 1;
-    font-size: 14px;
-    font-weight: 600;
-    font-variant-numeric: tabular-nums;
-    color: var(--ink);
+    flex: 1; font-size: 14px; font-weight: 600;
+    font-variant-numeric: tabular-nums; color: var(--ink);
   }
   .voice-stop{
-    border: 0;
-    background: var(--ink);
-    color: var(--white);
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 600;
-    padding: var(--s-2) var(--s-4);
-    border-radius: var(--r-full);
-    cursor: pointer;
+    border: 0; background: var(--ink); color: var(--white);
+    font-family: inherit; font-size: 13px; font-weight: 600;
+    padding: var(--s-2) var(--s-4); border-radius: var(--r-full);
+    cursor: pointer; transition: transform .2s ease;
   }
+  .voice-stop:active{ transform: scale(.96); }
+
   .voice-list{ display: flex; flex-direction: column; gap: var(--s-2); }
   .voice-empty{
-    margin: 0;
-    padding: var(--s-2);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--ink-45);
-    text-align: center;
+    margin: 0; padding: var(--s-2);
+    font-size: 13px; font-weight: 500;
+    color: var(--ink-45); text-align: center;
   }
   .voice-row{
-    display: flex;
-    align-items: center;
-    gap: var(--s-3);
-    padding: var(--s-2);
-    border-radius: var(--r-md);
+    display: flex; align-items: center; gap: var(--s-3);
+    padding: var(--s-2); border-radius: var(--r-md);
   }
   .voice-play{
-    display: grid;
-    place-items: center;
+    display: grid; place-items: center;
     flex: 0 0 auto;
     width: 36px; height: 36px;
-    border: 0;
-    border-radius: 50%;
-    background: var(--ink);
-    color: var(--white);
-    font-size: 12px;
-    line-height: 1;
-    cursor: pointer;
+    border: 0; border-radius: 50%;
+    background: var(--ink); color: var(--white);
+    font-size: 12px; line-height: 1; cursor: pointer;
+    transition: transform .2s ease;
   }
-  .voice-info{
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    min-width: 0;
-  }
+  .voice-play:active{ transform: scale(.92); }
+  .voice-info{ flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
   .voice-time{
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 14px; font-weight: 600;
     font-variant-numeric: tabular-nums;
   }
-  .voice-when{ font-size: 12px; font-weight: 500; color: var(--ink-60); }
+  .voice-when{ font-size: 12px; color: var(--ink-60); }
   .voice-del{
-    flex: 0 0 auto;
-    display: grid;
-    place-items: center;
+    flex: 0 0 auto; display: grid; place-items: center;
     width: 32px; height: 32px;
-    border: 0;
-    background: transparent;
-    color: var(--ink-45);
-    font-size: 20px;
-    line-height: 1;
-    border-radius: 50%;
-    cursor: pointer;
+    border: 0; background: transparent;
+    color: var(--ink-45); font-size: 20px; line-height: 1;
+    border-radius: 50%; cursor: pointer;
     transition: background-color .2s ease;
   }
   .voice-del:active{ background: var(--ink-08); }
 
-  /* Day screen entry animations */
+  /* entry animations */
   @keyframes riseIn{
     from{ transform: translateY(14px); }
     to  { transform: none; }
@@ -1021,15 +758,13 @@
   /* ============ TAB BAR ============ */
   .tabbar{
     position: fixed;
-    left: 50%;
-    bottom: calc(var(--s-4) + env(safe-area-inset-bottom));
+    left: 50%; bottom: calc(var(--s-4) + env(safe-area-inset-bottom));
     transform: translateX(-50%);
     width: min(412px, calc(100% - 2 * var(--s-5)));
-    display: flex;
-    gap: var(--s-1);
+    display: flex; gap: var(--s-1);
     padding: var(--s-1);
     border-radius: var(--r-full);
-    background: rgba(255, 255, 255, .72);
+    background: rgba(255,255,255,.72);
     -webkit-backdrop-filter: blur(26px) saturate(180%);
     backdrop-filter: blur(26px) saturate(180%);
     box-shadow: 0 20px 50px -20px var(--ink-25);
@@ -1037,65 +772,86 @@
   }
   .tab{
     flex: 1;
-    border: 0;
-    background: transparent;
-    color: var(--ink);
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 600;
+    border: 0; background: transparent; color: var(--ink);
+    font-family: inherit; font-size: 14px; font-weight: 600;
     padding: var(--s-3) var(--s-4);
-    border-radius: var(--r-full);
-    cursor: pointer;
+    border-radius: var(--r-full); cursor: pointer;
     transition: background-color .2s ease, color .2s ease;
   }
   .tab.active{ background: var(--ink); color: var(--white); }
 
   /* ============ SHEET ============ */
   .sheet-overlay{
-    position: fixed;
-    inset: 0;
-    z-index: 60;
-    display: grid;
-    align-items: end;
-    justify-items: center;
+    position: fixed; inset: 0; z-index: 60;
+    display: grid; align-items: end; justify-items: center;
     background: var(--ink-25);
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    opacity: 0; visibility: hidden; pointer-events: none;
     transition: opacity .25s ease, visibility .25s;
   }
   .sheet-overlay.is-open{
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
+    opacity: 1; visibility: visible; pointer-events: auto;
   }
   .sheet{
-    width: 100%;
-    max-width: 460px;
+    width: 100%; max-width: 460px;
     background: var(--white);
     border-radius: var(--r-lg) var(--r-lg) 0 0;
     padding:
-      var(--s-5)
-      var(--s-5)
+      var(--s-5) var(--s-5)
       calc(var(--s-5) + env(safe-area-inset-bottom));
-    display: flex;
-    flex-direction: column;
-    gap: var(--s-4);
+    display: flex; flex-direction: column; gap: var(--s-4);
     transform: translateY(12px);
     transition: transform .3s cubic-bezier(.2, .7, .3, 1);
     box-shadow: 0 -20px 60px -20px var(--ink-25);
   }
   .sheet-overlay.is-open .sheet{ transform: none; }
   .sheet-title{
-    margin: 0;
-    font-size: 18px;
-    font-weight: 600;
+    margin: 0; font-size: 18px; font-weight: 600;
     letter-spacing: -.01em;
   }
   .sheet-actions{ display: flex; gap: var(--s-3); }
   .sheet-actions .btn{ flex: 1; }
+
+  /* ============ HINTS ============ */
+  .hint-bubble{
+    position: fixed;
+    background: var(--ink);
+    color: var(--white);
+    padding: var(--s-2) var(--s-3);
+    border-radius: var(--r-md);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.35;
+    max-width: 240px;
+    text-align: center;
+    z-index: 300;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateX(-50%) translateY(6px);
+    transition: opacity .3s ease, transform .3s ease;
+    box-shadow: 0 12px 30px -12px var(--ink-25);
+  }
+  .hint-bubble.show{ opacity: 1; transform: translateX(-50%) translateY(0); }
+  .hint-bubble::before{
+    content: '';
+    position: absolute;
+    top: -6px; left: 50%;
+    transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid var(--ink);
+  }
+
+  .hint-pulse{
+    animation: hintPulse 1.3s ease-in-out infinite !important;
+    position: relative;
+    z-index: 5;
+  }
+  @keyframes hintPulse{
+    0%, 100%{ box-shadow: 0 0 0 0 var(--ink-25); }
+    50%     { box-shadow: 0 0 0 8px transparent; }
+  }
 
   @media (prefers-reduced-motion: reduce){
     *{ animation: none !important; transition: none !important; }
@@ -1108,85 +864,16 @@
   <div class="blob b2"></div>
 
   <main>
-    <!-- QUESTIONS -->
-    <section class="screen active" id="screenQuestions">
-      <div class="wrap">
-        <div class="q-intro">
-          <h1 class="q-title">A few quick things</h1>
-          <p class="q-sub">So Cycle fits you better.</p>
-        </div>
-
-        <div class="panel q-card">
-          <div class="q-item" data-q="age">
-            <h3 class="q-label">How old are you?</h3>
-            <div class="chips">
-              <button class="chip" type="button" data-value="18-24">18–24</button>
-              <button class="chip" type="button" data-value="25-34">25–34</button>
-              <button class="chip" type="button" data-value="35-44">35–44</button>
-              <button class="chip" type="button" data-value="45+">45+</button>
-            </div>
-          </div>
-
-          <div class="q-item" data-q="regularity">
-            <h3 class="q-label">How regular is your cycle?</h3>
-            <div class="chips">
-              <button class="chip" type="button" data-value="regular">Very regular</button>
-              <button class="chip" type="button" data-value="somewhat">Somewhat</button>
-              <button class="chip" type="button" data-value="irregular">Irregular</button>
-              <button class="chip" type="button" data-value="unsure">Not sure</button>
-            </div>
-          </div>
-
-          <div class="q-item" data-q="focus">
-            <h3 class="q-label">What matters most to you?</h3>
-            <div class="chips">
-              <button class="chip" type="button" data-value="period">Period tracking</button>
-              <button class="chip" type="button" data-value="mood">Mood & energy</button>
-              <button class="chip" type="button" data-value="symptoms">Symptoms</button>
-              <button class="chip" type="button" data-value="all">All of it</button>
-            </div>
-          </div>
-        </div>
-
-        <button id="questionsContinue" class="btn" type="button" disabled>Continue</button>
-      </div>
-    </section>
-
-    <!-- PAYWALL -->
-    <section class="screen" id="screenPaywall">
-      <div class="wrap">
-        <div class="pay-intro">
-          <h1 class="pay-title">Unlock Cycle</h1>
-          <p class="pay-sub">One plan. Everything included.</p>
-        </div>
-
-        <div class="panel pay-card">
-          <ul class="pay-benefits">
-            <li>Cycle & phase predictions for months ahead</li>
-            <li>Voice diary on every day</li>
-            <li>Personal daily insights</li>
-            <li>Private — all data stays on your device</li>
-          </ul>
-        </div>
-
-        <div class="pay-actions">
-          <button id="payCheckout" class="btn" type="button">Continue to secure checkout</button>
-          <button id="payContinue" class="btn ghost" type="button" hidden>I've completed payment — sign up</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- SIGNUP -->
-    <section class="screen" id="screenSignup">
-      <form id="signupForm" class="wrap" autocomplete="on" novalidate>
+    <!-- ONBOARDING 1 -->
+    <section class="screen active" id="screenOnboard">
+      <form id="onboardForm" class="wrap" autocomplete="on" novalidate>
         <div class="avatar-block">
           <label class="avatar-picker" id="avatarPicker" for="avatarInput" aria-label="Choose a profile photo">
             <span class="plus">+</span>
             <input id="avatarInput" type="file" accept="image/*" hidden />
           </label>
           <input id="nameInput" class="field" type="text" placeholder="Your name"
-                 name="username" autocomplete="username"
-                 maxlength="24" spellcheck="false" />
+                 name="username" autocomplete="username" maxlength="24" spellcheck="false" />
         </div>
 
         <div class="onboard-bottom">
@@ -1194,14 +881,102 @@
             <h1 class="question">When did your period start?</h1>
             <input id="startInput" class="field" type="date" name="startDate" required />
           </div>
+          <button id="startBtn" class="btn" type="submit" disabled>Continue</button>
+        </div>
+      </form>
+    </section>
 
-          <div class="form-group">
-            <input id="passwordInput" class="field" type="password" name="newPassword"
-                   autocomplete="new-password" placeholder="Password" minlength="4" />
-            <p class="hint">Your browser can save this for next time.</p>
+    <!-- QUESTIONS -->
+    <section class="screen" id="screenQuestions">
+      <div class="wrap">
+        <div class="q-progress">
+          <span class="q-progress-label" id="qProgressLabel">1 of 3</span>
+          <div class="q-progress-bar"><div class="q-progress-fill" id="qProgressFill"></div></div>
+        </div>
+
+        <div class="q-stack">
+          <div class="q-card" data-q="1">
+            <h2 class="q-title">How old are you?</h2>
+            <div class="q-options" data-name="age">
+              <button class="q-option" type="button" data-value="under18">Under 18</button>
+              <button class="q-option" type="button" data-value="18-24">18–24</button>
+              <button class="q-option" type="button" data-value="25-34">25–34</button>
+              <button class="q-option" type="button" data-value="35-44">35–44</button>
+              <button class="q-option" type="button" data-value="45plus">45+</button>
+            </div>
           </div>
 
-          <button id="signupBtn" class="btn" type="submit" disabled>Continue</button>
+          <div class="q-card" data-q="2">
+            <h2 class="q-title">How regular is your cycle?</h2>
+            <div class="q-options" data-name="regularity">
+              <button class="q-option" type="button" data-value="very">Very regular</button>
+              <button class="q-option" type="button" data-value="mostly">Mostly regular</button>
+              <button class="q-option" type="button" data-value="irregular">Irregular</button>
+              <button class="q-option" type="button" data-value="unsure">Not sure</button>
+            </div>
+          </div>
+
+          <div class="q-card" data-q="3">
+            <h2 class="q-title">What would help you most?</h2>
+            <div class="q-options" data-name="goal">
+              <button class="q-option" type="button" data-value="cycle">Know my cycle</button>
+              <button class="q-option" type="button" data-value="mood">Understand my mood</button>
+              <button class="q-option" type="button" data-value="prepared">Feel more prepared</button>
+              <button class="q-option" type="button" data-value="all">All of it</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAYWALL -->
+    <section class="screen" id="screenPaywall">
+      <div class="wrap">
+        <div class="pay-header">
+          <h1 class="question">Unlock your cycle tracker</h1>
+          <p class="pay-sub">Complete your one-time payment to continue. You'll create your account right after.</p>
+        </div>
+
+        <div class="pay-frame-wrap">
+          <iframe id="payFrame"
+                  src="https://whop.com/checkout/plan_3H9jEOSwbIuZZ"
+                  allow="payment *"
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  title="Secure checkout"></iframe>
+        </div>
+
+        <div class="pay-actions">
+          <a class="pay-link" href="https://whop.com/checkout/plan_3H9jEOSwbIuZZ"
+             target="_blank" rel="noopener">Checkout not loading? Open in a new tab</a>
+          <button class="btn" id="paidBtn" type="button">I've completed payment</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIGNUP -->
+    <section class="screen" id="screenSignup">
+      <form id="signupForm" class="wrap" autocomplete="on" novalidate>
+        <div class="signup-head">
+          <h1 class="question">Create your account</h1>
+          <p class="signup-sub">Save your password so you can come back anytime.</p>
+        </div>
+
+        <div class="signup-form">
+          <div class="form-group">
+            <label class="signup-label" for="signupEmail">Email</label>
+            <input id="signupEmail" class="field" type="email" name="email"
+                   autocomplete="email" placeholder="you@example.com" required />
+          </div>
+
+          <div class="form-group">
+            <label class="signup-label" for="signupPassword">Password</label>
+            <input id="signupPassword" class="field" type="password" name="newPassword"
+                   autocomplete="new-password" placeholder="At least 4 characters"
+                   minlength="4" required />
+          </div>
+
+          <button id="signupBtn" class="btn" type="submit" disabled>Create account</button>
         </div>
       </form>
     </section>
@@ -1239,14 +1014,23 @@
     <section class="screen" id="screenHome">
       <div class="wrap">
         <header class="profile">
-          <div class="avatar" data-editable="1" role="button" tabindex="0" aria-label="Change profile photo">
+          <div class="avatar" id="profileAvatar" role="button" tabindex="0" aria-label="Update profile photo">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
                  stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
               <circle cx="12" cy="8.5" r="3.5" />
               <path d="M5 19.5c0-3.2 3.1-5.3 7-5.3s7 2.1 7 5.3" />
             </svg>
           </div>
+          <input id="profileAvatarInput" type="file" accept="image/*" hidden />
           <h2 class="user-name"></h2>
+          <button class="logout-btn" id="logoutBtn" type="button" aria-label="Sign out">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3" />
+              <path d="M10 17l-5-5 5-5" />
+              <path d="M5 12h11" />
+            </svg>
+          </button>
         </header>
 
         <div class="stack">
@@ -1285,7 +1069,7 @@
     <section class="screen" id="screenForecast">
       <div class="wrap">
         <header class="profile">
-          <div class="avatar" data-editable="1" role="button" tabindex="0" aria-label="Change profile photo">
+          <div class="avatar">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
                  stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
               <circle cx="12" cy="8.5" r="3.5" />
@@ -1379,42 +1163,38 @@
     </div>
   </div>
 
-  <!-- GLOBAL avatar picker for post-signup profile changes -->
-  <input id="profileAvatarInput" type="file" accept="image/*" hidden />
-
 <script>
 (function () {
   'use strict';
 
-  /* ---------- config ---------- */
-  const PERIOD_DAYS        = 5;
-  const FORECAST_VISIBLE   = 6;
-  const FORECAST_TOTAL     = 24;
-  const CYCLE_MIN          = 21;
-  const CYCLE_MAX          = 40;
-  const MS                 = 86400000;
-  const GIF_MAX_BYTES      = 3 * 1024 * 1024;
-  const VOICE_MAX_SECONDS  = 180;
-  const WHOP_CHECKOUT_URL  = 'https://whop.com/checkout/plan_3H9jEOSwbIuZZ';
+  /* ===================== CONFIG ===================== */
+  const PERIOD_DAYS       = 5;
+  const FORECAST_VISIBLE  = 6;
+  const FORECAST_TOTAL    = 24;
+  const CYCLE_MIN         = 21;
+  const CYCLE_MAX         = 40;
+  const MS                = 86400000;
+  const GIF_MAX_BYTES     = 3 * 1024 * 1024;
+  const VOICE_MAX_SECONDS = 180;
 
   const KEY = {
-    name:            'cycle.name',
-    avatar:          'cycle.avatar',
-    start:           'cycle.start',
-    cycle:           'cycle.length',
-    salt:            'cycle.salt',
-    hash:            'cycle.hash',
-    questionsDone:   'cycle.questionsDone',
-    awaitingSignup:  'cycle.awaitingSignup',
-    qAge:            'cycle.q.age',
-    qReg:            'cycle.q.regularity',
-    qFocus:          'cycle.q.focus'
+    name:    'cycle.name',
+    avatar:  'cycle.avatar',
+    start:   'cycle.start',
+    cycle:   'cycle.length',
+    salt:    'cycle.salt',
+    hash:    'cycle.hash',
+    answers: 'cycle.answers',
+    paid:    'cycle.paid',
+    email:   'cycle.email'
   };
   const SESSION_KEY = 'cycle.unlocked';
+  const HINT_PREFIX = 'cycle.hint.';
 
-  /* ---------- state ---------- */
+  /* ===================== STATE ===================== */
   const state = {
-    name: '', avatar: '', start: '', cycle: 28
+    name: '', avatar: '', start: '', cycle: 28,
+    answers: { age: null, regularity: null, goal: null }
   };
 
   let viewYear  = new Date().getFullYear();
@@ -1424,10 +1204,11 @@
   let currentGifUrl  = null;
   let suppressClickUntil = 0;
 
-  /* ---------- dom ---------- */
+  /* ===================== DOM ===================== */
   const $ = (id) => document.getElementById(id);
 
   const screens = {
+    onboard:   $('screenOnboard'),
     questions: $('screenQuestions'),
     paywall:   $('screenPaywall'),
     signup:    $('screenSignup'),
@@ -1437,7 +1218,7 @@
     day:       $('screenDay')
   };
 
-  /* ---------- crypto ---------- */
+  /* ===================== CRYPTO ===================== */
   function randomSalt(){
     const arr = new Uint8Array(16);
     crypto.getRandomValues(arr);
@@ -1459,10 +1240,11 @@
     }
     h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
     h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
-    return (h2 >>> 0).toString(16).padStart(8, '0') + (h1 >>> 0).toString(16).padStart(8, '0');
+    return (h2 >>> 0).toString(16).padStart(8, '0') +
+           (h1 >>> 0).toString(16).padStart(8, '0');
   }
 
-  /* ---------- IndexedDB ---------- */
+  /* ===================== INDEXEDDB ===================== */
   const dbPromise = new Promise((resolve, reject) => {
     if (!('indexedDB' in window)) { reject(new Error('no idb')); return; }
     const req = indexedDB.open('cycle-db', 2);
@@ -1477,7 +1259,7 @@
 
   function idbGet(store, key){
     return dbPromise.then(db => new Promise((res, rej) => {
-      const tx = db.transaction(store, 'readonly');
+      const tx  = db.transaction(store, 'readonly');
       const req = tx.objectStore(store).get(key);
       req.onsuccess = () => res(req.result || null);
       req.onerror   = () => rej(req.error);
@@ -1485,7 +1267,7 @@
   }
   function idbPut(store, value, key){
     return dbPromise.then(db => new Promise((res, rej) => {
-      const tx = db.transaction(store, 'readwrite');
+      const tx  = db.transaction(store, 'readwrite');
       const req = tx.objectStore(store).put(value, key);
       req.onsuccess = () => res();
       req.onerror   = () => rej(req.error);
@@ -1493,22 +1275,25 @@
   }
   function idbDel(store, key){
     return dbPromise.then(db => new Promise((res, rej) => {
-      const tx = db.transaction(store, 'readwrite');
+      const tx  = db.transaction(store, 'readwrite');
       const req = tx.objectStore(store).delete(key);
       req.onsuccess = () => res();
       req.onerror   = () => rej(req.error);
     }));
   }
 
-  async function getGif(iso){ try { return await idbGet('gifs', iso); } catch { return null; } }
-  async function setGif(iso, dataUrl){ try { await idbPut('gifs', dataUrl, iso); return true; } catch { return false; } }
-  async function deleteGif(iso){ try { await idbDel('gifs', iso); } catch {} }
+  const getGif     = async (iso)        => { try { return await idbGet('gifs', iso); }   catch { return null; } };
+  const setGif     = async (iso, url)   => { try { await idbPut('gifs', url, iso);       return true; } catch { return false; } };
+  const deleteGif  = async (iso)        => { try { await idbDel('gifs', iso); }          catch {} };
+  const getVoice   = async (iso)        => { try { const a = await idbGet('voice', iso); return Array.isArray(a) ? a : []; } catch { return []; } };
+  const setVoice   = async (iso, arr)   => { try { await idbPut('voice', arr, iso); }    catch {} };
+  const addVoice   = async (iso, rec)   => { const a = await getVoice(iso); a.push(rec); await setVoice(iso, a); };
+  const deleteVoice= async (iso, id)    => { const a = await getVoice(iso); await setVoice(iso, a.filter(r => r.id !== id)); };
 
   function dataUrlToBlobUrl(dataUrl){
     try {
       const comma = dataUrl.indexOf(',');
-      const meta  = dataUrl.substring(5, comma);
-      const mime  = meta.split(';')[0] || 'image/gif';
+      const mime  = dataUrl.substring(5, comma).split(';')[0] || 'image/gif';
       const b64   = dataUrl.substring(comma + 1);
       const bin   = atob(b64);
       const bytes = new Uint8Array(bin.length);
@@ -1517,63 +1302,35 @@
     } catch { return ''; }
   }
 
-  async function getVoice(iso){
-    try { const arr = await idbGet('voice', iso); return Array.isArray(arr) ? arr : []; }
-    catch { return []; }
-  }
-  async function setVoice(iso, arr){ try { await idbPut('voice', arr, iso); } catch {} }
-  async function addVoice(iso, rec){
-    const arr = await getVoice(iso);
-    arr.push(rec);
-    await setVoice(iso, arr);
-  }
-  async function deleteVoice(iso, id){
-    const arr = await getVoice(iso);
-    await setVoice(iso, arr.filter(r => r.id !== id));
-  }
-
-  /* ---------- date helpers ---------- */
+  /* ===================== DATE HELPERS ===================== */
   function clamp(n, min, max){ return Math.min(max, Math.max(min, n)); }
-  function parseISO(str){
-    const [y, m, d] = str.split('-').map(Number);
-    return new Date(y, m - 1, d);
-  }
-  function toISO(d){
-    const m   = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${d.getFullYear()}-${m}-${day}`;
-  }
-  function addDays(date, n){
-    const d = new Date(date);
-    d.setDate(d.getDate() + n);
-    return d;
-  }
+  function parseISO(str){ const [y,m,d] = str.split('-').map(Number); return new Date(y, m-1, d); }
+  function toISO(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+  function addDays(date, n){ const d = new Date(date); d.setDate(d.getDate()+n); return d; }
   function startOfDay(d){ return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
   function sameDay(a, b){
     return a.getFullYear() === b.getFullYear() &&
            a.getMonth()    === b.getMonth()    &&
            a.getDate()     === b.getDate();
   }
-  function daysUntil(target){
-    return Math.round((startOfDay(target) - startOfDay(new Date())) / MS);
-  }
-  function prettyDate(d){ return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }); }
-  function prettyMonth(d){ return d.toLocaleDateString(undefined, { month: 'long', year: 'numeric' }); }
+  function daysUntil(t){ return Math.round((startOfDay(t) - startOfDay(new Date())) / MS); }
+  function prettyDate(d){ return d.toLocaleDateString(undefined, { month:'short', day:'numeric' }); }
+  function prettyMonth(d){ return d.toLocaleDateString(undefined, { month:'long', year:'numeric' }); }
   function fmtSec(sec){
     sec = Math.max(0, Math.floor(sec));
-    return `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`;
+    return `${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')}`;
   }
   function fmtWhen(ts){
     const d = new Date(ts);
-    const time = d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+    const time = d.toLocaleTimeString(undefined, { hour:'2-digit', minute:'2-digit' });
     if (sameDay(d, new Date())) return `Today · ${time}`;
-    return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) + ' · ' + time;
+    return d.toLocaleDateString(undefined, { month:'short', day:'numeric' }) + ' · ' + time;
   }
 
-  /* ---------- prediction ---------- */
+  /* ===================== PREDICTION ===================== */
   function getPredictions(count){
     const start = parseISO(state.start);
-    const out   = [];
+    const out = [];
     for (let i = 1; i <= count; i++){
       const s = addDays(start, i * state.cycle);
       out.push({ start: s, end: addDays(s, PERIOD_DAYS - 1) });
@@ -1591,12 +1348,10 @@
     return spans;
   }
 
-  /* ---------- phases & advice ---------- */
+  /* ===================== PHASES & ADVICE ===================== */
   const PHASE_LABEL = {
-    menstrual:  'Menstrual',
-    follicular: 'Follicular',
-    ovulation:  'Ovulation',
-    luteal:     'Luteal'
+    menstrual: 'Menstrual', follicular: 'Follicular',
+    ovulation: 'Ovulation', luteal: 'Luteal'
   };
   function phaseFor(day, cycleLen){
     if (day <= PERIOD_DAYS) return 'menstrual';
@@ -1606,7 +1361,6 @@
     if (day < ovuStart) return 'follicular';
     return 'luteal';
   }
-
   const ADVICE = {
     menstrual: [
       'Take it slow. Have a warm drink, go for a light walk, and get to bed early.',
@@ -1634,44 +1388,41 @@
     ]
   };
 
-  /* ---------- avatar helpers ---------- */
+  /* ===================== AVATAR ===================== */
   function resizeToSquare(file, size){
     return new Promise((resolve, reject) => {
       const url = URL.createObjectURL(file);
       const img = new Image();
       img.onload = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = canvas.height = size;
-        const ctx = canvas.getContext('2d');
+        const c = document.createElement('canvas');
+        c.width = c.height = size;
+        const ctx = c.getContext('2d');
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, size, size);
         const s = Math.min(img.width, img.height);
-        ctx.drawImage(
-          img,
-          (img.width  - s) / 2, (img.height - s) / 2, s, s,
-          0, 0, size, size
-        );
+        ctx.drawImage(img, (img.width-s)/2, (img.height-s)/2, s, s, 0, 0, size, size);
         URL.revokeObjectURL(url);
-        resolve(canvas.toDataURL('image/jpeg', 0.85));
+        resolve(c.toDataURL('image/jpeg', 0.85));
       };
       img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('load failed')); };
       img.src = url;
     });
   }
 
-  function applyAvatarEverywhere(){
+  function paintAvatarPicker(){
     const picker = $('avatarPicker');
-    if (picker){
-      if (state.avatar){
-        picker.style.backgroundImage = `url("${state.avatar}")`;
-        picker.classList.add('has-photo');
-      } else {
-        picker.style.backgroundImage = '';
-        picker.classList.remove('has-photo');
-      }
+    if (state.avatar){
+      picker.style.backgroundImage = `url("${state.avatar}")`;
+      picker.classList.add('has-photo');
+    } else {
+      picker.style.backgroundImage = '';
+      picker.classList.remove('has-photo');
     }
+  }
 
-    document.querySelectorAll('.avatar').forEach(el => {
+  function paintProfile(){
+    document.querySelectorAll('.user-name').forEach(el => { el.textContent = state.name; });
+    document.querySelectorAll('.avatar:not(#profileAvatar)').forEach(el => {
       const svg = el.querySelector('svg');
       if (state.avatar){
         el.style.backgroundImage = `url("${state.avatar}")`;
@@ -1681,14 +1432,23 @@
         if (svg) svg.style.display = '';
       }
     });
-
-    document.querySelectorAll('.user-name').forEach(el => { el.textContent = state.name; });
+    // Home avatar is special (tap to update)
+    const homeAv = $('profileAvatar');
+    if (homeAv){
+      const svg = homeAv.querySelector('svg');
+      if (state.avatar){
+        homeAv.style.backgroundImage = `url("${state.avatar}")`;
+        if (svg) svg.style.display = 'none';
+      } else {
+        homeAv.style.backgroundImage = '';
+        if (svg) svg.style.display = '';
+      }
+    }
   }
 
-  /* ---------- calendar ---------- */
+  /* ===================== CALENDAR ===================== */
   function renderCalendar(slideDir){
     if (!state.start) return;
-
     const actualStart = parseISO(state.start);
     const actualEnd   = addDays(actualStart, PERIOD_DAYS - 1);
     const preds       = getPredictions(FORECAST_TOTAL);
@@ -1703,7 +1463,6 @@
     const firstWeekday = new Date(viewYear, viewMonth, 1).getDay();
     const daysInMonth  = new Date(viewYear, viewMonth + 1, 0).getDate();
     const totalCells   = Math.ceil((firstWeekday + daysInMonth) / 7) * 7;
-
     const cells = [];
 
     for (let i = 0; i < totalCells; i++){
@@ -1738,10 +1497,8 @@
           cell.setAttribute('tabindex', '0');
           cell.setAttribute('aria-label', `${prettyDate(date)} — open diary`);
         }
-
         if (sameDay(date, today)) cell.classList.add('today');
       }
-
       grid.appendChild(cell);
       cells.push(cell);
     }
@@ -1777,7 +1534,7 @@
     renderCalendar(animate ? delta : 0);
   }
 
-  /* ---------- forecast ---------- */
+  /* ===================== FORECAST ===================== */
   function renderForecast(){
     const list = $('forecastList');
     list.innerHTML = '';
@@ -1785,14 +1542,12 @@
     if (!state.start) return;
 
     const today = startOfDay(new Date());
-
     getPredictions(FORECAST_TOTAL)
       .filter(p => p.end >= today)
       .slice(0, FORECAST_VISIBLE)
       .forEach(p => {
-        const d     = daysUntil(p.start);
+        const d = daysUntil(p.start);
         const badge = d <= 0 ? 'now' : `in ${d} days`;
-
         const row = document.createElement('button');
         row.type = 'button';
         row.className = 'forecast-row';
@@ -1802,36 +1557,29 @@
              <span class="forecast-range">${prettyDate(p.start)} – ${prettyDate(p.end)}</span>
            </span>
            <span class="forecast-badge">${badge}</span>`;
-
         row.addEventListener('click', () => {
-          viewYear  = p.start.getFullYear();
+          viewYear = p.start.getFullYear();
           viewMonth = p.start.getMonth();
           renderCalendar(0);
           switchTo('home');
         });
-
         list.appendChild(row);
       });
   }
 
-  /* ---------- day gif ---------- */
+  /* ===================== DAY ===================== */
   function renderDayGif(){
     const img = $('gifImg');
     const fb  = $('gifFallback');
     const rem = $('gifRemove');
 
-    if (currentGifUrl){
-      URL.revokeObjectURL(currentGifUrl);
-      currentGifUrl = null;
-    }
+    if (currentGifUrl){ URL.revokeObjectURL(currentGifUrl); currentGifUrl = null; }
 
     (async () => {
       const dataUrl = await getGif(currentDayIso);
       if (!dataUrl){
-        img.hidden = true;
-        img.removeAttribute('src');
-        fb.hidden = false;
-        rem.hidden = true;
+        img.hidden = true; img.removeAttribute('src');
+        fb.hidden = false; rem.hidden = true;
         return;
       }
       const blobUrl = dataUrlToBlobUrl(dataUrl);
@@ -1845,31 +1593,55 @@
     })();
   }
 
-  /* ---------- voice ---------- */
+  async function openDay(iso){
+    if (mediaRecorder && recordingForIso !== iso) stopRecording();
+    if (!audio.paused){ audio.pause(); playingId = ''; }
+
+    currentDayIso = iso;
+    const date   = parseISO(iso);
+    const spans  = cycleSpans();
+    const cycle  = spans.find(s => date >= s.start && date <= s.end) || { start: parseISO(state.start) };
+    const cycleDay = Math.round((startOfDay(date) - startOfDay(cycle.start)) / MS) + 1;
+    const phase    = phaseFor(cycleDay, state.cycle);
+
+    $('dayDate').textContent = date.toLocaleDateString(undefined, {
+      weekday: 'long', month: 'long', day: 'numeric'
+    });
+    $('dayPhase').textContent = `Day ${cycleDay} · ${PHASE_LABEL[phase]} phase`;
+
+    const pool = ADVICE[phase];
+    $('adviceText').textContent = pool[(cycleDay + date.getDate()) % pool.length];
+    $('adviceMeta').textContent = `Day ${cycleDay} of your ${state.cycle}-day cycle.`;
+
+    hideRecordingUI();
+    renderDayGif();
+    renderVoiceList();
+    switchTo('day');
+  }
+
+  /* ===================== VOICE ===================== */
   const audio = new Audio();
   audio.preload = 'auto';
   audio.setAttribute('playsinline', '');
 
-  let mediaRecorder    = null;
-  let recordingStream  = null;
-  let recordingChunks  = [];
-  let recordingStart   = 0;
+  let mediaRecorder = null;
+  let recordingStream = null;
+  let recordingChunks = [];
+  let recordingStart = 0;
   let recordingTimerId = null;
   let recordingTimeout = null;
-  let recordingForIso  = '';
-
-  let playingId  = '';
+  let recordingForIso = '';
+  let playingId = '';
   let playingUrl = '';
 
   function pickMime(){
     if (!window.MediaRecorder) return '';
-    const candidates = ['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg;codecs=opus','audio/ogg'];
+    const candidates = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg;codecs=opus', 'audio/ogg'];
     for (const m of candidates){
       try { if (MediaRecorder.isTypeSupported(m)) return m; } catch {}
     }
     return '';
   }
-
   function updateRecordingTimerUI(){
     const elapsed = Math.floor((Date.now() - recordingStart) / 1000);
     const el = $('voiceTimer');
@@ -1886,7 +1658,6 @@
     const el = $('voiceTimer');
     if (el) el.textContent = '0:00 / 3:00';
   }
-
   async function startRecording(){
     if (mediaRecorder) return;
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder){
@@ -1894,13 +1665,11 @@
       return;
     }
     if (!audio.paused){ audio.pause(); playingId = ''; updatePlayButtons(); }
-
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      recordingStream  = stream;
-      recordingForIso  = currentDayIso;
-      recordingChunks  = [];
-
+      recordingStream = stream;
+      recordingForIso = currentDayIso;
+      recordingChunks = [];
       const mime = pickMime();
       mediaRecorder = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream);
 
@@ -1914,53 +1683,38 @@
         const savedIso = recordingForIso;
         const duration = (Date.now() - recordingStart) / 1000;
 
-        if (recordingStream){
-          recordingStream.getTracks().forEach(t => t.stop());
-          recordingStream = null;
-        }
-        mediaRecorder = null;
-        recordingChunks = [];
-
+        if (recordingStream){ recordingStream.getTracks().forEach(t => t.stop()); recordingStream = null; }
+        mediaRecorder = null; recordingChunks = [];
         if (recordingTimerId){ clearInterval(recordingTimerId); recordingTimerId = null; }
         if (recordingTimeout){ clearTimeout(recordingTimeout); recordingTimeout = null; }
-
         hideRecordingUI();
 
         if (chunks.length === 0 || duration < 1 || !savedIso) return;
-
         const blob = new Blob(chunks, { type: chunksMime });
         if (!blob.size) return;
 
         await addVoice(savedIso, {
           id: 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-          blob,
-          mime: blob.type || chunksMime,
+          blob, mime: blob.type || chunksMime,
           duration: Math.min(VOICE_MAX_SECONDS, Math.round(duration)),
           createdAt: Date.now()
         });
-
         if (savedIso === currentDayIso) renderVoiceList();
       });
 
       mediaRecorder.start();
       recordingStart = Date.now();
       showRecordingUI();
-
       recordingTimerId = setInterval(updateRecordingTimerUI, 200);
       recordingTimeout = setTimeout(stopRecording, VOICE_MAX_SECONDS * 1000);
-
     } catch (err){
       console.warn('getUserMedia failed:', err);
-      if (recordingStream){
-        recordingStream.getTracks().forEach(t => t.stop());
-        recordingStream = null;
-      }
+      if (recordingStream){ recordingStream.getTracks().forEach(t => t.stop()); recordingStream = null; }
       mediaRecorder = null;
       hideRecordingUI();
       alert('Could not access the microphone. Check permissions and try again.');
     }
   }
-
   function stopRecording(){
     if (recordingTimerId){ clearInterval(recordingTimerId); recordingTimerId = null; }
     if (recordingTimeout){ clearTimeout(recordingTimeout); recordingTimeout = null; }
@@ -1968,25 +1722,18 @@
       try { mediaRecorder.stop(); } catch {}
     }
   }
-
   function updatePlayButtons(){
     document.querySelectorAll('.voice-play').forEach(btn => {
       const row = btn.closest('.voice-row');
       if (!row) return;
-      btn.textContent = (row.dataset.id === playingId) ? '❚❚' : '▶';
-      btn.setAttribute('aria-label', (row.dataset.id === playingId) ? 'Pause' : 'Play');
+      const id = row.dataset.id;
+      if (id === playingId){ btn.textContent = '❚❚'; btn.setAttribute('aria-label', 'Pause'); }
+      else { btn.textContent = '▶'; btn.setAttribute('aria-label', 'Play'); }
     });
   }
-
   audio.addEventListener('ended', () => { playingId = ''; updatePlayButtons(); });
-
   function playRecording(rec){
-    if (playingId === rec.id){
-      audio.pause();
-      playingId = '';
-      updatePlayButtons();
-      return;
-    }
+    if (playingId === rec.id){ audio.pause(); playingId = ''; updatePlayButtons(); return; }
     if (playingUrl){ URL.revokeObjectURL(playingUrl); playingUrl = ''; }
     try {
       playingUrl = URL.createObjectURL(rec.blob);
@@ -1994,27 +1741,19 @@
       audio.currentTime = 0;
       const p = audio.play();
       if (p && typeof p.then === 'function'){
-        p.then(() => { playingId = rec.id; updatePlayButtons(); })
-         .catch(err => console.warn('play failed:', err));
-      } else {
-        playingId = rec.id;
-        updatePlayButtons();
-      }
+        p.then(() => { playingId = rec.id; updatePlayButtons(); }).catch(err => console.warn('play failed:', err));
+      } else { playingId = rec.id; updatePlayButtons(); }
     } catch (err){ console.warn(err); }
   }
-
   async function renderVoiceList(){
     const list = $('voiceList');
     const recs = await getVoice(currentDayIso);
-
     if (!recs.length){
       list.innerHTML = '<p class="voice-empty">No recordings yet. Tap Record to add one.</p>';
       return;
     }
-
     recs.sort((a, b) => b.createdAt - a.createdAt);
     list.innerHTML = '';
-
     recs.forEach(rec => {
       const row = document.createElement('div');
       row.className = 'voice-row';
@@ -2030,11 +1769,9 @@
       const info = document.createElement('div');
       info.className = 'voice-info';
       const time = document.createElement('span');
-      time.className = 'voice-time';
-      time.textContent = fmtSec(rec.duration);
+      time.className = 'voice-time'; time.textContent = fmtSec(rec.duration);
       const when = document.createElement('span');
-      when.className = 'voice-when';
-      when.textContent = fmtWhen(rec.createdAt);
+      when.className = 'voice-when'; when.textContent = fmtWhen(rec.createdAt);
       info.append(time, when);
 
       const del = document.createElement('button');
@@ -2054,63 +1791,88 @@
     });
   }
 
-  $('voiceRecBtn').addEventListener('click', startRecording);
-  $('voiceStopBtn').addEventListener('click', stopRecording);
+  /* ===================== HINTS ===================== */
+  const HINTS = {
+    onboard: [
+      { id: 'ob-avatar', sel: '#avatarPicker', text: 'Add a photo (optional)' },
+      { id: 'ob-name',   sel: '#nameInput',    text: 'This is how we greet you' },
+      { id: 'ob-date',   sel: '#startInput',   text: 'First day of your last period' }
+    ],
+    home: [
+      { id: 'home-avatar', sel: '#profileAvatar',     text: 'Tap to change your photo' },
+      { id: 'home-cal',    sel: '#calendarPanel',     text: 'Tap any day to open your diary' },
+      { id: 'home-swipe',  sel: '#calendarPanel',     text: 'Swipe to change months' },
+      { id: 'home-tabs',   sel: '#screenHome .tabbar',text: 'Calendar and Forecast' }
+    ],
+    forecast: [
+      { id: 'fc-cycle', sel: '#screenForecast .cycle-panel', text: 'Adjust your average cycle length' }
+    ],
+    day: [
+      { id: 'day-gif',   sel: '#gifCard',    text: 'Tap to add a cover image' },
+      { id: 'day-voice', sel: '#voiceRecBtn',text: 'Record a voice note (up to 3 min)' }
+    ]
+  };
 
-  /* ---------- day ---------- */
-  async function openDay(iso){
-    if (mediaRecorder && recordingForIso !== iso) stopRecording();
-    if (!audio.paused){ audio.pause(); playingId = ''; }
+  function showHintBubble(el, text){
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const bubble = document.createElement('div');
+    bubble.className = 'hint-bubble';
+    bubble.textContent = text;
+    document.body.appendChild(bubble);
 
-    currentDayIso = iso;
+    const left = Math.max(80, Math.min(window.innerWidth - 80, rect.left + rect.width / 2));
+    bubble.style.left = left + 'px';
+    bubble.style.top  = (rect.bottom + 10) + 'px';
 
-    const date  = parseISO(iso);
-    const spans = cycleSpans();
-    const cycle = spans.find(s => date >= s.start && date <= s.end) ||
-                  { start: parseISO(state.start) };
+    requestAnimationFrame(() => bubble.classList.add('show'));
 
-    const cycleDay = Math.round((startOfDay(date) - startOfDay(cycle.start)) / MS) + 1;
-    const phase    = phaseFor(cycleDay, state.cycle);
-
-    $('dayDate').textContent = date.toLocaleDateString(undefined, {
-      weekday: 'long', month: 'long', day: 'numeric'
-    });
-    $('dayPhase').textContent = `Day ${cycleDay} · ${PHASE_LABEL[phase]} phase`;
-
-    const pool = ADVICE[phase];
-    $('adviceText').textContent = pool[(cycleDay + date.getDate()) % pool.length];
-    $('adviceMeta').textContent = `Day ${cycleDay} of your ${state.cycle}-day cycle.`;
-
-    hideRecordingUI();
-    renderDayGif();
-    renderVoiceList();
-    switchTo('day');
+    let cleaned = false;
+    const cleanup = () => {
+      if (cleaned) return; cleaned = true;
+      bubble.classList.remove('show');
+      setTimeout(() => { try { bubble.remove(); } catch {} }, 300);
+      document.removeEventListener('click', cleanup, true);
+      clearTimeout(timer);
+    };
+    document.addEventListener('click', cleanup, true);
+    const timer = setTimeout(cleanup, 4200);
   }
 
-  /* ---------- routing ---------- */
+  function triggerScreenHint(screenName){
+    const list = HINTS[screenName];
+    if (!list) return;
+    const next = list.find(h => !localStorage.getItem(HINT_PREFIX + h.id));
+    if (!next) return;
+    localStorage.setItem(HINT_PREFIX + next.id, '1');
+    setTimeout(() => {
+      const el = document.querySelector(next.sel);
+      showHintBubble(el, next.text);
+    }, 600);
+  }
+
+  /* ===================== ROUTING ===================== */
   function switchTo(which){
     if (which !== 'day'){
       if (mediaRecorder) stopRecording();
       if (!audio.paused){ audio.pause(); playingId = ''; updatePlayButtons(); }
     }
-
     Object.entries(screens).forEach(([k, el]) => el.classList.toggle('active', k === which));
-
     const active = screens[which];
     if (active){
       active.classList.remove('animating');
       void active.offsetWidth;
       active.classList.add('animating');
     }
-
     document.querySelectorAll('.tab').forEach(t => {
       t.classList.toggle('active', t.dataset.tab === which);
     });
     window.scrollTo(0, 0);
+    triggerScreenHint(which);
   }
 
   function goHome(){
-    applyAvatarEverywhere();
+    paintProfile();
     const start = parseISO(state.start);
     viewYear  = start.getFullYear();
     viewMonth = start.getMonth();
@@ -2119,85 +1881,71 @@
     switchTo('home');
   }
 
-  /* ---------- questions ---------- */
-  const qAnswers = {
-    age:        localStorage.getItem(KEY.qAge)   || '',
-    regularity: localStorage.getItem(KEY.qReg)   || '',
-    focus:      localStorage.getItem(KEY.qFocus) || ''
-  };
-
-  function applyQuestionSelection(){
-    document.querySelectorAll('.q-item').forEach(item => {
-      const key = item.dataset.q;
-      const value = qAnswers[key];
-      item.querySelectorAll('.chip').forEach(chip => {
-        chip.classList.toggle('selected', chip.dataset.value === value);
-        chip.setAttribute('aria-pressed', chip.dataset.value === value ? 'true' : 'false');
-      });
-    });
-    const allAnswered = Object.values(qAnswers).every(v => v);
-    $('questionsContinue').disabled = !allAnswered;
+  /* ===================== QUESTIONS ===================== */
+  function paintQuestionProgress(activeIdx){
+    const fill = $('qProgressFill');
+    const label = $('qProgressLabel');
+    if (fill)  fill.style.width = `${(activeIdx / 3) * 100}%`;
+    if (label) label.textContent = `${activeIdx} of 3`;
   }
 
-  document.querySelectorAll('.q-item').forEach(item => {
-    const key = item.dataset.q;
-    item.querySelectorAll('.chip').forEach(chip => {
-      chip.addEventListener('click', () => {
-        qAnswers[key] = chip.dataset.value;
-        applyQuestionSelection();
-      });
-    });
-  });
-
-  $('questionsContinue').addEventListener('click', () => {
-    localStorage.setItem(KEY.qAge,   qAnswers.age);
-    localStorage.setItem(KEY.qReg,   qAnswers.regularity);
-    localStorage.setItem(KEY.qFocus, qAnswers.focus);
-    localStorage.setItem(KEY.questionsDone, '1');
-    showPaywall();
-  });
-
-  /* ---------- paywall ---------- */
-  function showPaywall(){
-    const awaitingSignup = localStorage.getItem(KEY.awaitingSignup) === '1';
-    $('payContinue').hidden = !awaitingSignup;
-    switchTo('paywall');
-  }
-
-  $('payCheckout').addEventListener('click', () => {
-    localStorage.setItem(KEY.awaitingSignup, '1');
-    $('payContinue').hidden = false;
-    window.open(WHOP_CHECKOUT_URL, '_blank', 'noopener');
-  });
-
-  $('payContinue').addEventListener('click', () => {
-    showSignup();
-  });
-
-  // If the user returns to this tab after opening checkout, surface the continue button.
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible'){
-      if (localStorage.getItem(KEY.awaitingSignup) === '1' && screens.paywall.classList.contains('active')){
-        $('payContinue').hidden = false;
-      }
+  function showQuestion(idx){
+    const cards = document.querySelectorAll('#screenQuestions .q-card');
+    cards.forEach(c => c.classList.remove('active'));
+    const card = document.querySelector(`#screenQuestions .q-card[data-q="${idx}"]`);
+    if (card){
+      card.classList.remove('active');
+      void card.offsetWidth;
+      card.classList.add('active');
     }
-  });
-
-  /* ---------- signup ---------- */
-  function showSignup(){
-    $('nameInput').value     = state.name || '';
-    $('startInput').value    = state.start || '';
-    $('passwordInput').value = '';
-    applyAvatarEverywhere();
-    validateSignup();
-    switchTo('signup');
+    paintQuestionProgress(idx);
+    // paint any previously selected option
+    cards.forEach(c => {
+      const name = c.querySelector('.q-options')?.dataset.name;
+      if (!name) return;
+      const val = state.answers[name];
+      c.querySelectorAll('.q-option').forEach(btn => {
+        btn.classList.toggle('selected', btn.dataset.value === val);
+      });
+    });
   }
 
-  function validateSignup(){
+  function startQuestionsFlow(){
+    let idx = 1;
+    if (state.answers.age) idx = 2;
+    if (state.answers.age && state.answers.regularity) idx = 3;
+    showQuestion(idx);
+    switchTo('questions');
+  }
+
+  async function saveAnswer(name, value){
+    state.answers[name] = value;
+    localStorage.setItem(KEY.answers, JSON.stringify(state.answers));
+
+    const cards = [...document.querySelectorAll('#screenQuestions .q-card')];
+    const currentIdx = cards.findIndex(c => c.classList.contains('active')) + 1;
+    if (currentIdx < 3){
+      setTimeout(() => showQuestion(currentIdx + 1), 180);
+    } else {
+      setTimeout(() => switchTo('paywall'), 260);
+    }
+  }
+
+  document.querySelectorAll('#screenQuestions .q-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const name = btn.closest('.q-options')?.dataset.name;
+      if (!name) return;
+      btn.closest('.q-options').querySelectorAll('.q-option').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      saveAnswer(name, btn.dataset.value);
+    });
+  });
+
+  /* ===================== ONBOARDING ===================== */
+  function validateOnboard(){
     const nameOk = $('nameInput').value.trim().length > 0;
     const dateOk = !!$('startInput').value;
-    const passOk = $('passwordInput').value.length >= 4;
-    $('signupBtn').disabled = !(nameOk && dateOk && passOk);
+    $('startBtn').disabled = !(nameOk && dateOk);
   }
 
   $('avatarInput').addEventListener('change', async (e) => {
@@ -2207,47 +1955,71 @@
       const dataUrl = await resizeToSquare(file, 320);
       state.avatar = dataUrl;
       localStorage.setItem(KEY.avatar, dataUrl);
-      applyAvatarEverywhere();
-    } catch (err) { console.warn(err); }
+      paintAvatarPicker();
+    } catch (err){ console.warn(err); }
   });
 
-  $('nameInput').addEventListener('input', validateSignup);
-  $('startInput').addEventListener('input', validateSignup);
-  $('startInput').addEventListener('change', validateSignup);
-  $('passwordInput').addEventListener('input', validateSignup);
+  $('nameInput').addEventListener('input', validateOnboard);
+  $('startInput').addEventListener('input', validateOnboard);
+  $('startInput').addEventListener('change', validateOnboard);
+
+  $('onboardForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    if ($('startBtn').disabled) return;
+
+    const name  = $('nameInput').value.trim();
+    const start = $('startInput').value;
+    const parsed = parseISO(start);
+    if (parsed > startOfDay(new Date())) return;
+
+    localStorage.setItem(KEY.name,  name);
+    localStorage.setItem(KEY.start, start);
+    state.name  = name;
+    state.start = start;
+
+    startQuestionsFlow();
+  });
+
+  /* ===================== PAYWALL ===================== */
+  $('paidBtn').addEventListener('click', () => {
+    localStorage.setItem(KEY.paid, '1');
+    $('signupEmail').value = '';
+    $('signupPassword').value = '';
+    validateSignup();
+    switchTo('signup');
+  });
+
+  /* ===================== SIGNUP ===================== */
+  function validateSignup(){
+    const email = $('signupEmail').value.trim();
+    const pass  = $('signupPassword').value;
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    $('signupBtn').disabled = !(emailOk && pass.length >= 4);
+  }
+  $('signupEmail').addEventListener('input', validateSignup);
+  $('signupPassword').addEventListener('input', validateSignup);
 
   $('signupForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     if ($('signupBtn').disabled) return;
 
-    const name  = $('nameInput').value.trim();
-    const start = $('startInput').value;
-    const pass  = $('passwordInput').value;
-
-    if (parseISO(start) > startOfDay(new Date())) return;
+    const email = $('signupEmail').value.trim();
+    const pass  = $('signupPassword').value;
 
     try {
       const salt = randomSalt();
       const hash = await sha256(salt + pass);
-
-      localStorage.setItem(KEY.name,  name);
-      localStorage.setItem(KEY.start, start);
+      localStorage.setItem(KEY.email, email);
       localStorage.setItem(KEY.salt,  salt);
       localStorage.setItem(KEY.hash,  hash);
-      localStorage.removeItem(KEY.awaitingSignup);
       sessionStorage.setItem(SESSION_KEY, '1');
-
-      state.name  = name;
-      state.start = start;
-
       goHome();
     } catch (err){ console.warn(err); }
   });
 
-  /* ---------- lock ---------- */
+  /* ===================== LOCK ===================== */
   function showLockScreen(){
     $('lockName').textContent = state.name || 'Welcome back';
-
     const avatarEl = $('lockAvatar');
     const svg = avatarEl.querySelector('svg');
     if (state.avatar){
@@ -2257,8 +2029,7 @@
       avatarEl.style.backgroundImage = '';
       if (svg) svg.style.display = '';
     }
-
-    $('lockUsername').value = state.name;
+    $('lockUsername').value = localStorage.getItem(KEY.email) || state.name || '';
     $('lockError').hidden = true;
     $('lockPassword').value = '';
     switchTo('lock');
@@ -2268,11 +2039,9 @@
     e.preventDefault();
     const pw = $('lockPassword').value;
     if (!pw) return;
-
     const salt = localStorage.getItem(KEY.salt) || '';
     const hash = localStorage.getItem(KEY.hash) || '';
     const attempt = await sha256(salt + pw);
-
     if (attempt === hash){
       sessionStorage.setItem(SESSION_KEY, '1');
       $('lockError').hidden = true;
@@ -2287,20 +2056,238 @@
 
   $('resetBtn').addEventListener('click', () => {
     if (!confirm('This erases all saved data on this device. Continue?')) return;
+    wipeAll();
+  });
+
+  /* ===================== LOGOUT ===================== */
+  function wipeAll(){
     try { indexedDB.deleteDatabase('cycle-db'); } catch {}
     localStorage.clear();
     sessionStorage.clear();
     location.reload();
-  });
-
-  /* ---------- profile avatar (updatable anywhere) ---------- */
-  function openProfileAvatarPicker(){
-    $('profileAvatarInput').click();
   }
 
-  document.addEventListener('click', (e) => {
-    const av = e.target.closest('.avatar[data-editable]');
-    if (av) openProfileAvatarPicker();
+  $('logoutBtn').addEventListener('click', () => {
+    if (!confirm('Sign out and clear all data on this device? This frees the app for another user.')) return;
+    wipeAll();
   });
 
-  document
+  /* ===================== PROFILE PIC UPDATE ===================== */
+  $('profileAvatar').addEventListener('click', () => $('profileAvatarInput').click());
+  $('profileAvatar').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); $('profileAvatarInput').click(); }
+  });
+
+  $('profileAvatarInput').addEventListener('change', async (e) => {
+    const file = e.target.files && e.target.files[0];
+    e.target.value = '';
+    if (!file || !file.type.startsWith('image/')) return;
+    try {
+      const dataUrl = await resizeToSquare(file, 320);
+      state.avatar = dataUrl;
+      localStorage.setItem(KEY.avatar, dataUrl);
+      paintProfile();
+    } catch (err){ console.warn(err); }
+  });
+
+  /* ===================== CALENDAR NAV + SWIPE ===================== */
+  $('prevBtn').addEventListener('click', () => shiftMonth(-1, true));
+  $('nextBtn').addEventListener('click', () => shiftMonth(1, true));
+
+  $('calGrid').addEventListener('click', (e) => {
+    if (Date.now() < suppressClickUntil) return;
+    const cell = e.target.closest('.cell.is-tappable');
+    if (cell && cell.dataset.date) openDay(cell.dataset.date);
+  });
+
+  $('calGrid').addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+    const cell = e.target.closest('.cell.is-tappable');
+    if (!cell || !cell.dataset.date) return;
+    e.preventDefault();
+    openDay(cell.dataset.date);
+  });
+
+  (function enableSwipe(){
+    const panel = $('calendarPanel');
+    let sx = 0, sy = 0, t0 = 0, axis = null;
+    panel.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 1){ axis = null; return; }
+      const t = e.touches[0];
+      sx = t.clientX; sy = t.clientY; t0 = Date.now(); axis = null;
+    }, { passive: true });
+    panel.addEventListener('touchmove', (e) => {
+      if (axis || e.touches.length !== 1) return;
+      const t = e.touches[0];
+      const dx = t.clientX - sx, dy = t.clientY - sy;
+      if (Math.abs(dx) > 10 || Math.abs(dy) > 10){
+        axis = Math.abs(dx) > Math.abs(dy) * 1.2 ? 'h' : 'v';
+      }
+    }, { passive: true });
+    panel.addEventListener('touchend', (e) => {
+      if (axis !== 'h'){ axis = null; return; }
+      const t = e.changedTouches[0];
+      const dx = t.clientX - sx, dy = t.clientY - sy, dt = Date.now() - t0;
+      axis = null;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.2 && dt < 700){
+        shiftMonth(dx > 0 ? -1 : 1, true);
+        suppressClickUntil = Date.now() + 300;
+      }
+    }, { passive: true });
+  })();
+
+  $('backBtn').addEventListener('click', () => {
+    if (mediaRecorder) stopRecording();
+    if (!audio.paused){ audio.pause(); playingId = ''; }
+    switchTo('home');
+  });
+
+  /* ===================== GIF PER DATE ===================== */
+  $('gifCard').addEventListener('click', () => $('gifInput').click());
+  $('gifInput').addEventListener('change', async (e) => {
+    const file = e.target.files && e.target.files[0];
+    e.target.value = '';
+    if (!file || !file.type.startsWith('image/')) return;
+    if (file.size > GIF_MAX_BYTES) return;
+    if (!currentDayIso) return;
+    const dataUrl = await new Promise((res) => {
+      const r = new FileReader();
+      r.onload = () => res(String(r.result));
+      r.onerror = () => res(null);
+      r.readAsDataURL(file);
+    });
+    if (!dataUrl) return;
+    await setGif(currentDayIso, dataUrl);
+    renderDayGif();
+  });
+  $('gifRemove').addEventListener('click', async (e) => {
+    e.stopPropagation();
+    if (!currentDayIso) return;
+    await deleteGif(currentDayIso);
+    renderDayGif();
+  });
+
+  /* ===================== EDIT SHEET ===================== */
+  const overlay = $('sheetOverlay');
+  function openSheet(){ $('editDate').value = state.start; overlay.classList.add('is-open'); overlay.setAttribute('aria-hidden', 'false'); }
+  function closeSheet(){ overlay.classList.remove('is-open'); overlay.setAttribute('aria-hidden', 'true'); }
+  $('editBtn').addEventListener('click', openSheet);
+  $('cancelEdit').addEventListener('click', closeSheet);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeSheet(); });
+  $('saveEdit').addEventListener('click', () => {
+    const val = $('editDate').value;
+    if (!val) return;
+    const parsed = parseISO(val);
+    if (parsed > startOfDay(new Date())) return;
+    state.start = val;
+    localStorage.setItem(KEY.start, val);
+    viewYear = parsed.getFullYear();
+    viewMonth = parsed.getMonth();
+    closeSheet();
+    renderCalendar(0);
+    renderForecast();
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
+
+  /* ===================== CYCLE LENGTH ===================== */
+  function changeCycle(delta){
+    const next = clamp(state.cycle + delta, CYCLE_MIN, CYCLE_MAX);
+    if (next === state.cycle) return;
+    state.cycle = next;
+    localStorage.setItem(KEY.cycle, String(next));
+    renderCalendar(0);
+    renderForecast();
+  }
+  $('cycleMinus').addEventListener('click', () => changeCycle(-1));
+  $('cyclePlus').addEventListener('click',  () => changeCycle(1));
+
+  /* ===================== TABS ===================== */
+  document.querySelectorAll('.tab').forEach(t => {
+    t.addEventListener('click', () => {
+      const target = t.dataset.tab;
+      if (target === 'home')     renderCalendar(0);
+      if (target === 'forecast') renderForecast();
+      switchTo(target);
+    });
+  });
+
+  /* ===================== VOICE BUTTONS ===================== */
+  $('voiceRecBtn').addEventListener('click', startRecording);
+  $('voiceStopBtn').addEventListener('click', stopRecording);
+
+  /* ===================== INIT ===================== */
+  function loadState(){
+    state.name   = localStorage.getItem(KEY.name)   || '';
+    state.avatar = localStorage.getItem(KEY.avatar) || '';
+    state.start  = localStorage.getItem(KEY.start)  || '';
+    state.cycle  = clamp(parseInt(localStorage.getItem(KEY.cycle), 10) || 28, CYCLE_MIN, CYCLE_MAX);
+
+    try {
+      const raw = localStorage.getItem(KEY.answers);
+      if (raw){
+        const parsed = JSON.parse(raw);
+        state.answers = {
+          age: parsed.age || null,
+          regularity: parsed.regularity || null,
+          goal: parsed.goal || null
+        };
+      }
+    } catch {}
+  }
+
+  function determineInitialScreen(){
+    const hasName = !!state.name;
+    const hasStart = /^\d{4}-\d{2}-\d{2}$/.test(state.start);
+    const answersComplete = state.answers.age && state.answers.regularity && state.answers.goal;
+    const isPaid = localStorage.getItem(KEY.paid) === '1';
+    const hasAccount = !!(localStorage.getItem(KEY.salt) && localStorage.getItem(KEY.hash));
+    const isUnlocked = sessionStorage.getItem(SESSION_KEY) === '1';
+
+    if (!hasName || !hasStart) return 'onboard';
+    if (!answersComplete)      return 'questions';
+    if (!isPaid)               return 'paywall';
+    if (!hasAccount)           return 'signup';
+    if (!isUnlocked)           return 'lock';
+    return 'home';
+  }
+
+  function init(){
+    $('startInput').max = toISO(new Date());
+    $('editDate').max   = toISO(new Date());
+    loadState();
+
+    const initial = determineInitialScreen();
+
+    if (initial === 'onboard'){
+      $('nameInput').value  = state.name;
+      $('startInput').value = /^\d{4}-\d{2}-\d{2}$/.test(state.start) ? state.start : '';
+      paintAvatarPicker();
+      validateOnboard();
+      switchTo('onboard');
+      return;
+    }
+    if (initial === 'questions'){
+      startQuestionsFlow();
+      return;
+    }
+    if (initial === 'paywall'){
+      switchTo('paywall');
+      return;
+    }
+    if (initial === 'signup'){
+      validateSignup();
+      switchTo('signup');
+      return;
+    }
+    if (initial === 'lock'){
+      showLockScreen();
+      return;
+    }
+    goHome();
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
